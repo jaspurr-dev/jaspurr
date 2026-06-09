@@ -9,6 +9,7 @@
     "type": "module",
     "scripts": {
         "dev": "./scripts/dev.sh",
+        "check": "./scripts/check.sh",
         "build": "tsc -b && vite build",
         "lint": "eslint . --max-warnings 0",
         "format": "prettier . --write",
