@@ -1,10 +1,29 @@
 name: CI
 
 on:
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
+
+env:
+  WORK_DIR_PATH: packages/jaspurr
 
 jobs:
   check:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORK_DIR_PATH }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: ${{ env.WORK_DIR_PATH }}/package.json
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ${{ env.WORK_DIR_PATH }}/.nvmrc
+          cache: pnpm
+          cache-dependency-path: ${{ env.WORK_DIR_PATH }}/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
