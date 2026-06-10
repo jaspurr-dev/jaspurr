@@ -1,2 +1,5 @@
 # build artifacts
 dist
+
+# pnpm
+pnpm-lock.yaml
