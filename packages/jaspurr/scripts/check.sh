@@ -13,3 +13,6 @@ echo "TS compilation ran successfully!"
 echo "Running eslint..."
 pnpm exec eslint . --max-warnings 0
 echo "eslint ran successfully!"
+
+echo "Running tests..."
+pnpm exec vitest run
