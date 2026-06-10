@@ -1,5 +1,5 @@
 import {describe, expect, test} from 'vitest';
-import {promptCompose} from './prompt';
+import {promptCompose} from '../core/prompt/prompt';
 
 describe('Build Prompts', () => {
     const params = [
