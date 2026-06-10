@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd packages/jaspurr
+pnpm run check
