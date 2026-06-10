@@ -6,8 +6,16 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/jaspurr
     steps:
       - uses: actions/checkout@v6
-      - run: ls -a && pwd
-      - run: cd packages/jaspurr
-      - run: ls -a && pwd
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11.0.9
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.15.0"
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
