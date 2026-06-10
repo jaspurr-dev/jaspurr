@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v6
         with:
-          package-json-file: ${{ env.WORK_DIR_PATH }}/package.json
+          package_json_file: ${{ env.WORK_DIR_PATH }}/package.json
       - uses: actions/setup-node@v6
         with:
           node-version-file: ${{ env.WORK_DIR_PATH }}/.nvmrc
