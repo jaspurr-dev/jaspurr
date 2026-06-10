@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - run: cd packages/jaspurr
       - uses: pnpm/action-setup@v6
         with:
           version: 11.0.9
@@ -15,5 +16,4 @@ jobs:
         with:
           node-version: "24.15.0"
           cache: "pnpm"
-      - run: cd packages/jaspurr
       - run: pnpm install --frozen-lockfile
