@@ -13,6 +13,7 @@
         "build": "tsc -b && vite build",
         "lint": "eslint . --max-warnings 0",
         "format": "prettier . --write",
+        "test": "vitest run",
         "preview": "vite preview"
     },
     "dependencies": {
