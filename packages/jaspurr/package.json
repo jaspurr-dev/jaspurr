@@ -10,7 +10,7 @@
     "scripts": {
         "dev": "./scripts/dev.sh",
         "check": "./scripts/check.sh",
-        "build": "tsc -b && vite build",
+        "build": "./scripts/build.sh",
         "lint": "eslint . --max-warnings 0",
         "format": "prettier . --write",
         "test": "vitest run",
