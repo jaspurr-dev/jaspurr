@@ -27,6 +27,7 @@ describe('template core', () => {
     it('expects a template to contain output property when constructed via raw key id', () => {
         const id: TemplateId = 'tech-pm-type-a';
         const t = TEMPLATES[id];
+
         expect(OUTPUTS).toContain(t.output);
     });
 });
