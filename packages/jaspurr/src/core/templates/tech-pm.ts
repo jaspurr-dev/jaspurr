@@ -1,4 +1,4 @@
-import {Persona, type Template} from '@/core/template';
+import {Output, Persona, type Template} from '@/core/template';
 
 export const techPm = {
     id: 'tech-pm-type-a',
@@ -9,5 +9,5 @@ export const techPm = {
         (3) Ask what ideal happy path UX is. (4) Ask what failure UX looks like.  \
         (5) Ask what the current state of the project is.',
     ],
-    output: 'prioritized-list',
+    output: Output.PrioritizedList,
 } satisfies Template;
