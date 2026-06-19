@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
-import {TEMPLATES} from '@/core/templates';
-import {fromTemplate} from '@/core/template';
+import {TEMPLATES, type TemplateId} from '@/core/templates';
+import {fromTemplate, Output, OUTPUTS} from '@/core/template';
 
 describe('template core', () => {
     it('keys every template by own id', () => {
@@ -18,5 +18,15 @@ describe('template core', () => {
 
         expect(c.steps).toHaveLength(t.steps.length - 1);
         expect(t.steps).toHaveLength(len);
+    });
+
+    it('expects exported const object to contain output property key', () => {
+        expect(OUTPUTS).toContain(Output.PrioritizedList);
+    });
+
+    it('expects a template to contain output property when constructed via raw key id', () => {
+        const id: TemplateId = 'tech-pm-type-a';
+        const t = TEMPLATES[id];
+        expect(OUTPUTS).toContain(t.output);
     });
 });

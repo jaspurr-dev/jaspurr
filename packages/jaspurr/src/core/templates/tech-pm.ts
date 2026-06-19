@@ -8,4 +8,5 @@ export const techPm = {
         (3) Ask what ideal happy path UX is. (4) Ask what failure UX looks like.  \
         (5) Ask what the current state of the project is.',
     ],
+    output: 'prioritized-list',
 } satisfies Template;
