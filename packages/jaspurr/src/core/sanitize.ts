@@ -4,5 +4,5 @@ export function sanitize(text: string): string {
         .replace(/\r\n?/g, '\n') // CRLF normalization.
         .replace(/[^\t\n\x20-\x7E]/g, '') // ASCII allowlist.
         .replace(/[ \t]+$/gm, '') // Strip trailing space per line.
-        .trim();
+        .trim(); // Strip leading/trailing white space.
 }
