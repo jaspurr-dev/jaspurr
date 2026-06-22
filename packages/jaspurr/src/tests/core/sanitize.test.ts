@@ -47,6 +47,7 @@ describe('sanitize test suite', () => {
             const sanitized = sanitize(set);
 
             expect(set).toBe(sanitized);
+            expect(sanitized.length).toBe(set.length);
         });
 
         it('disallows ascii control characters except tab and newline', () => {
@@ -73,6 +74,15 @@ describe('sanitize test suite', () => {
             expect(sanitized).toBe('\n\tfoo bar');
         });
 
+        it('preserves newlines, spaces, and tabs', () => {
+            const input = '#heading\n  foo\n\tbar';
+            expect(input.length).toBe(19);
+
+            const sanitized = sanitize(input);
+            expect(sanitized.length).toBe(19);
+            expect(sanitized).toBe(input);
+        });
+
         it('disallows characters outside of the ASCII range', () => {
             const input = 'café';
             const len = input.length;
@@ -92,6 +102,27 @@ describe('sanitize test suite', () => {
             const sanitized = sanitize(input);
             expect(sanitized.length).toBe(2);
             expect(sanitized).toBe('ab');
+        });
+
+        it('sanitizes characters with multiple encodings (NFC vs. NFD) consistently', () => {
+            // Stores the letter + accent as separate code points
+            const nfd = 'cafe\u0301';
+            expect(nfd.length).toBe(5);
+            const sx = sanitize(nfd);
+
+            // Stores the letter + accent as a SINGLE code point
+            const nfc = 'caf\u00E9';
+            expect(nfc.length).toBe(4);
+            expect(nfc).toBe('café');
+            const sy = sanitize(nfc);
+
+            // Both encodings should yield 'caf' after NFC normalization
+            expect(sx).toBe('caf');
+            expect(sy).toBe('caf');
+
+            // Both encodings should be len: 3 after NFC normalization
+            expect(sx.length).toBe(3);
+            expect(sy.length).toBe(3);
         });
     });
 });
