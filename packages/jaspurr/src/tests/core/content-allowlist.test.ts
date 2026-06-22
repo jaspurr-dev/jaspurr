@@ -1,9 +1,13 @@
 import {PERSONA_LABEL, PERSONA_TONE, OUTPUT_LABEL} from '@/core/content';
 import {NOT_ALLOWED} from '@/core/sanitize';
 import {Persona} from '@/core/template';
+import {TEMPLATES} from '@/core/templates';
 import {describe, expect, it} from 'vitest';
 
+const parsedTemplates: string = JSON.stringify(TEMPLATES);
+
 const bundled = [
+    parsedTemplates,
     ...Object.values(PERSONA_LABEL),
     ...Object.values(PERSONA_TONE),
     ...Object.values(OUTPUT_LABEL),
