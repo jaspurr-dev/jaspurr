@@ -43,7 +43,7 @@ describe('sanitize test suite', () => {
 
         it('works with all 95 ascii characters', () => {
             const set =
-                ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+                '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
             const sanitized = sanitize(set);
 
             expect(set).toBe(sanitized);
@@ -70,8 +70,6 @@ describe('sanitize test suite', () => {
             expect(input.length).toBe(39);
 
             const expectedBytes = String.fromCharCode(
-                10, // Newline
-                9, // Tab
                 102, // f
                 111, // o
                 111, // o
@@ -83,9 +81,9 @@ describe('sanitize test suite', () => {
 
             const sanitized = sanitize(input);
 
-            expect(sanitized.length).toBe(len - 1);
             expect(sanitized).toBe(expectedBytes);
-            expect(sanitized).toBe('\n\tfoo\nbar');
+            expect(sanitized.length).toBe(expectedBytes.length);
+            expect(sanitized).toBe('foo\nbar');
         });
 
         it('preserves newlines, spaces, and tabs', () => {
@@ -162,9 +160,17 @@ describe('sanitize test suite', () => {
     hi      \
     ';
             const sanitized = sanitize(input);
-            console.log(sanitized.length);
-            expect(sanitized).toBe('     hi');
-            expect(sanitized.length).toBe(7);
+
+            expect(sanitized).toBe('hi');
+            expect(sanitized.length).toBe(2);
+        });
+
+        it('removes leading + trailing spaces', () => {
+            const input = '\n\t hi \t\n';
+            const sanitized = sanitize(input);
+
+            expect(sanitized).toBe('hi');
+            expect(sanitized.length).toBe(2);
         });
     });
 });

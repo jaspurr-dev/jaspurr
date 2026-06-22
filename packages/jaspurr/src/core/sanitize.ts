@@ -3,5 +3,6 @@ export function sanitize(text: string): string {
         .normalize('NFC') // NFC normalization.
         .replace(/\r\n?/g, '\n') // CRLF normalization.
         .replace(/[^\t\n\x20-\x7E]/g, '') // ASCII allowlist.
-        .replace(/[ \t]+$/gm, ''); // Strip trailing space per line.
+        .replace(/[ \t]+$/gm, '') // Strip trailing space per line.
+        .trim();
 }
