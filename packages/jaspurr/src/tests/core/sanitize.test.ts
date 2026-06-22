@@ -3,9 +3,9 @@ import {sanitize} from '@/core/sanitize';
 
 // See https://en.wikipedia.org/wiki/ASCII for the ASCII character encoding standard.
 
-// Skip the first 30 ASCII characters because they're
+// Skip the first 29 ASCII characters because they're
 // reserved control codes for peripheral devices / signal / data streams.
-// We allow /n and /t.
+// We allow /n and /t and /r.
 const START = 0x20; // 32 - space character
 
 // We allow 95 visible, characters up to 0x7e in Hexadecimal (or 126 in decimal).
@@ -50,28 +50,30 @@ describe('sanitize test suite', () => {
             expect(sanitized.length).toBe(set.length);
         });
 
-        it('disallows ascii control characters except tab and newline', () => {
+        it('disallows ascii control characters except tab and newline and carriage return', () => {
             // Build an array with all of the ASCII control characters
-            // minus /t and /n which we allow.
+            // minus /t and /n and /r which we allow.
             const CONTROL = Array.from({length: START}, (_, i) =>
                 String.fromCharCode(0 + i)
             )
-                .filter((c) => c !== '\t' && c !== '\n')
+                .filter((c) => c !== '\t' && c !== '\n' && c !== '\r')
                 .join('');
-            expect(CONTROL.length).toBe(30);
+            expect(CONTROL.length).toBe(29);
 
             // Escape sequences map to a single character
-            // so this is a 9-character string, not 11.
-            const s = '\n\tfoo bar';
+            // so this is a 10-character string.
+            const s = '\n\tfoo \rbar';
             const len = s.length;
-            expect(len).toBe(9);
+            expect(len).toBe(10);
 
             const input = CONTROL + s;
             expect(input.length).toBe(39);
 
             const sanitized = sanitize(input);
+            console.log(sanitized);
             expect(sanitized.length).toBe(len);
-            expect(sanitized).toBe('\n\tfoo bar');
+
+            expect(sanitized).toBe('\n\tfoo \nbar');
         });
 
         it('preserves newlines, spaces, and tabs', () => {
@@ -123,6 +125,14 @@ describe('sanitize test suite', () => {
             // Both encodings should be len: 3 after NFC normalization
             expect(sx.length).toBe(3);
             expect(sy.length).toBe(3);
+        });
+
+        it('transform carriage return (CR) to newline', () => {
+            expect(sanitize('foo\rbar')).toBe('foo\nbar');
+        });
+
+        it('transforms CRLF (Carriage Return and Line Feed) to newline', () => {
+            expect(sanitize('foo\r\nbar')).toBe('foo\nbar');
         });
     });
 });
