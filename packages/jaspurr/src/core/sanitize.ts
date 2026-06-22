@@ -1,6 +1,7 @@
 export function sanitize(text: string): string {
     return text
-        .normalize('NFC')
-        .replace(/\r\n?/g, '\n')
-        .replace(/[^\t\n\x20-\x7E]/g, '');
+        .normalize('NFC') // NFC normalization.
+        .replace(/\r\n?/g, '\n') // CRLF normalization.
+        .replace(/[^\t\n\x20-\x7E]/g, '') // ASCII allowlist.
+        .replace(/[ \t]+$/gm, ''); // Strip trailing space per line.
 }

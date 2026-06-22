@@ -69,11 +69,23 @@ describe('sanitize test suite', () => {
             const input = CONTROL + s;
             expect(input.length).toBe(39);
 
-            const sanitized = sanitize(input);
-            console.log(sanitized);
-            expect(sanitized.length).toBe(len);
+            const expectedBytes = String.fromCharCode(
+                10, // Newline
+                9, // Tab
+                102, // f
+                111, // o
+                111, // o
+                10, // Newline
+                98, // b
+                97, // a
+                114 // r
+            );
 
-            expect(sanitized).toBe('\n\tfoo \nbar');
+            const sanitized = sanitize(input);
+
+            expect(sanitized.length).toBe(len - 1);
+            expect(sanitized).toBe(expectedBytes);
+            expect(sanitized).toBe('\n\tfoo\nbar');
         });
 
         it('preserves newlines, spaces, and tabs', () => {
@@ -82,6 +94,15 @@ describe('sanitize test suite', () => {
 
             const sanitized = sanitize(input);
             expect(sanitized.length).toBe(19);
+            expect(sanitized).toBe(input);
+        });
+
+        it('preserves newline runs', () => {
+            const input = 'foo        bar';
+            expect(input.length).toBe(14);
+
+            const sanitized = sanitize(input);
+            expect(sanitized.length).toBe(14);
             expect(sanitized).toBe(input);
         });
 
@@ -133,6 +154,17 @@ describe('sanitize test suite', () => {
 
         it('transforms CRLF (Carriage Return and Line Feed) to newline', () => {
             expect(sanitize('foo\r\nbar')).toBe('foo\nbar');
+        });
+
+        it('removes trailing spaces/tabs at EOL', () => {
+            const input =
+                ' \
+    hi      \
+    ';
+            const sanitized = sanitize(input);
+            console.log(sanitized.length);
+            expect(sanitized).toBe('     hi');
+            expect(sanitized.length).toBe(7);
         });
     });
 });
