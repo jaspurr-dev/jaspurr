@@ -12,3 +12,9 @@ export const compositionAtom = atomWithReducer(
 export const outputSelectAtom = atom((get) => get(compositionAtom).output);
 export const stepsSelectAtom = atom((get) => get(compositionAtom).steps);
 export const previewAtom = atom((get) => serialize(get(compositionAtom)));
+
+export const copyAtom = atom(null, async (get) => {
+    const text = get(previewAtom);
+    await navigator.clipboard.writeText(text);
+    return text;
+});
