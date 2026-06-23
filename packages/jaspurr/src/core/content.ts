@@ -10,4 +10,5 @@ export const PERSONA_TONE = {
 
 export const OUTPUT_LABEL = {
     [Output.PrioritizedList]: 'Prioritized task list',
+    [Output.ArchitectureDiagram]: 'Architecture diagram',
 } satisfies Record<Output, string>;

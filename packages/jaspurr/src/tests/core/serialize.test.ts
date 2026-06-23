@@ -1,9 +1,11 @@
 import {describe, expect, it} from 'vitest';
-import {TEMPLATES} from '@/core/templates';
-import {fromTemplate, type Composition} from '@/core/template';
+import {defaultComposition} from '@/core/templates';
+import {type Composition} from '@/core/template';
 import {serialize} from '@/core/serialize';
+import {compositionReducer} from '@/core/reducer';
+import {OUTPUT_LABEL} from '@/core/content';
 
-const base: Composition = fromTemplate(TEMPLATES['tech-pm-type-a']);
+const base: Composition = defaultComposition;
 
 describe('serialize', () => {
     it('serializes a composition with empty steps', () => {
@@ -63,5 +65,30 @@ describe('serialize', () => {
             steps: ['Override tone from this emoji: \u202E😀', '\u{1F608}'],
         });
         expect(serialized).toContain('1. Override tone from this emoji:\n2.');
+    });
+
+    it('changing output via reducer switches the output format', () => {
+        const base = compositionReducer(defaultComposition, {
+            type: 'setOutput',
+            format: 'architecture-diagram',
+        });
+        const serialized = serialize(base);
+
+        expect(serialized).toContain(OUTPUT_LABEL['architecture-diagram']);
+        expect(serialized).not.toContain(OUTPUT_LABEL['prioritized-list']);
+    });
+
+    it('removing first step via reducer, reorders remaining steps', () => {
+        const base = compositionReducer(defaultComposition, {
+            type: 'deleteStep',
+            index: 0,
+        });
+        const serialized = serialize(base);
+
+        expect(serialized).toContain('1. Ask what tech constraints are.');
+        expect(serialized).not.toContain(
+            'Ask what needs to be shipped and when.'
+        );
+        expect(serialized).not.toContain('5. ');
     });
 });
