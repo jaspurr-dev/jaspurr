@@ -1,5 +1,6 @@
 export const Output = {
     PrioritizedList: 'prioritized-list',
+    ArchitectureDiagram: 'architecture-diagram',
 } as const;
 export type Output = (typeof Output)[keyof typeof Output];
 export const OUTPUTS = Object.values(Output);
