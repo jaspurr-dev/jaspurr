@@ -8,7 +8,6 @@ const base: Composition = fromTemplate(TEMPLATES['tech-pm-type-a']);
 describe('serialize', () => {
     it('serializes a composition with empty steps', () => {
         const serialized = serialize({...base, steps: []});
-        console.log(serialized);
         expect(serialized).toMatchInlineSnapshot(`
           "## tech-pm
 
