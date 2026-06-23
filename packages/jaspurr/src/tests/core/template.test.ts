@@ -17,7 +17,7 @@ describe('template core', () => {
     it('is run-time editable without affecting the template source', () => {
         const t = TEMPLATES['tech-pm-type-a'];
         const c = fromTemplate(t);
-        const len = 1;
+        const len = 5;
 
         expect(c.steps).toHaveLength(len);
         c.steps.pop();

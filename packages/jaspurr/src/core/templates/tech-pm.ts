@@ -5,9 +5,11 @@ export const techPm = {
     name: 'Type A - Tech PM',
     persona: Persona.TechPm,
     steps: [
-        'In one question: (1) Ask what needs to be shipped and when. (2) Ask what tech constraints are. \
-        (3) Ask what ideal happy path UX is. (4) Ask what failure UX looks like.  \
-        (5) Ask what the current state of the project is.',
+        'Ask what needs to be shipped and when.',
+        'Ask what tech constraints are.',
+        'Ask what ideal happy path UX is.',
+        'Ask what failure UX looks like.',
+        'Ask what the current state of the project is.',
     ],
     output: Output.PrioritizedList,
 } satisfies Template;
