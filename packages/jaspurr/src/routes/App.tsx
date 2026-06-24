@@ -1,6 +1,9 @@
 import '@styles/App.css';
-import {previewAtom} from '@/state/atoms';
-import {useAtomValue} from 'jotai';
+import {compositionAtom, outputSelectAtom, previewAtom} from '@/state/atoms';
+import {useAtomValue, useSetAtom} from 'jotai';
+import {Dropdown} from '@/components/Dropdown';
+import type {Output} from '@/core/template';
+import {OUTPUT_LABEL} from '@/core/content';
 
 export function App() {
     return (
@@ -51,6 +54,8 @@ function PreviewPane() {
 }
 
 function DetailFields() {
+    const output = useAtomValue(outputSelectAtom);
+    const dispatch = useSetAtom(compositionAtom);
     const steps = [
         'Analyze the requirements.',
         'Identify dependencies.',
@@ -58,7 +63,7 @@ function DetailFields() {
     ];
     return (
         <fieldset>
-            <h2 className="label-caps">Details</h2>
+            <h2 className={'label-caps'}>Details</h2>
 
             <label className="label-normal" htmlFor="persona">
                 Persona:
@@ -78,13 +83,14 @@ function DetailFields() {
                 </ol>
             </fieldset>
 
-            <label className="label-normal" htmlFor="output">
-                Output:
-            </label>
-            <select id="output" className="dropdown">
-                <option value="task-list">Task List</option>
-                <option value="task-list">Poem</option>
-            </select>
+            <Dropdown<Output>
+                label="Output"
+                value={output}
+                options={OUTPUT_LABEL}
+                onChange={(format) => {
+                    dispatch({type: 'setOutput', format});
+                }}
+            />
         </fieldset>
     );
 }
