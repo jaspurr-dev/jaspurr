@@ -1,4 +1,9 @@
 import '@styles/App.css';
+import {compositionAtom, outputSelectAtom, previewAtom} from '@/state/atoms';
+import {useAtomValue, useSetAtom} from 'jotai';
+import {Dropdown} from '@/components/Dropdown';
+import {Persona, type Output} from '@/core/template';
+import {OUTPUT_LABEL, PERSONA_LABEL} from '@/core/content';
 
 export function App() {
     return (
@@ -18,18 +23,22 @@ function HierarchyPane() {
     return (
         <section className="hierarchy pane" aria-label="Template hierarchy">
             <div className="hierarchy__inner">
-                <label className="label-caps" htmlFor="tmpl">
-                    <h2 className="label-caps">Template</h2>
-                </label>
-                <select id="tmpl dropdown" className="dropdown">
-                    <option value="tech-pm-a">Tech PM</option>
-                </select>
+                <Dropdown<Persona>
+                    label="Template"
+                    value={Persona.TechPm}
+                    options={PERSONA_LABEL}
+                    onChange={(template) => {
+                        alert(`${template} not implemented!`);
+                    }}
+                    disabled={true}
+                />
             </div>
         </section>
     );
 }
 
 function PreviewPane() {
+    const preview = useAtomValue(previewAtom);
     return (
         <main className="preview pane" aria-label="Live preview">
             <header className="preview__bar">
@@ -42,12 +51,14 @@ function PreviewPane() {
                     Copy
                 </button>
             </header>
-            <pre className="preview__text">Preview Text</pre>
+            <pre className="preview__text">{preview}</pre>
         </main>
     );
 }
 
 function DetailFields() {
+    const output = useAtomValue(outputSelectAtom);
+    const dispatch = useSetAtom(compositionAtom);
     const steps = [
         'Analyze the requirements.',
         'Identify dependencies.',
@@ -55,14 +66,17 @@ function DetailFields() {
     ];
     return (
         <fieldset>
-            <h2 className="label-caps">Details</h2>
+            <h2 className={'label-caps'}>Details</h2>
 
-            <label className="label-normal" htmlFor="persona">
-                Persona:
-            </label>
-            <select id="persona" className="dropdown">
-                <option value="task-list">Technical PM</option>
-            </select>
+            <Dropdown<Persona>
+                label="Persona"
+                value={Persona.TechPm}
+                options={PERSONA_LABEL}
+                onChange={(persona) => {
+                    alert(`${persona} not implemented!`);
+                }}
+                disabled={true}
+            />
 
             <fieldset>
                 <legend className="label-normal">Steps:</legend>
@@ -75,13 +89,14 @@ function DetailFields() {
                 </ol>
             </fieldset>
 
-            <label className="label-normal" htmlFor="output">
-                Output:
-            </label>
-            <select id="output" className="dropdown">
-                <option value="task-list">Task List</option>
-                <option value="task-list">Poem</option>
-            </select>
+            <Dropdown<Output>
+                label="Output"
+                value={output}
+                options={OUTPUT_LABEL}
+                onChange={(format) => {
+                    dispatch({type: 'setOutput', format});
+                }}
+            />
         </fieldset>
     );
 }
