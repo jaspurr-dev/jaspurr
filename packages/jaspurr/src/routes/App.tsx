@@ -16,22 +16,24 @@ function copy() {
 
 function HierarchyPane() {
     return (
-        <section className="hierarchy-pane" aria-label="Template hierarchy">
-            <label className="label-caps" htmlFor="tmpl">
-                Template
-            </label>
-            <select id="tmpl">
-                <option value="tech-pm-a">Tech PM</option>
-            </select>
+        <section className="hierarchy pane" aria-label="Template hierarchy">
+            <div className="hierarchy__inner">
+                <label className="label-caps" htmlFor="tmpl">
+                    <h2 className="label-caps">Template</h2>
+                </label>
+                <select id="tmpl dropdown" className="dropdown">
+                    <option value="tech-pm-a">Tech PM</option>
+                </select>
+            </div>
         </section>
     );
 }
 
 function PreviewPane() {
     return (
-        <main className="preview-pane" aria-label="Live preview">
-            <header className="preview-bar">
-                <h2 className="label-caps">Live preview</h2>
+        <main className="preview pane" aria-label="Live preview">
+            <header className="preview__bar">
+                <h2 className="label-caps">Live Preview</h2>
                 <button
                     type="button"
                     className="copy-btn"
@@ -40,18 +42,45 @@ function PreviewPane() {
                     Copy
                 </button>
             </header>
-            <pre className="preview-text">Preview Text</pre>
+            <pre className="preview__text">Preview Text</pre>
         </main>
     );
 }
 
 function DetailFields() {
+    const steps = [
+        'Analyze the requirements.',
+        'Identify dependencies.',
+        'Structure tasks weighted by priority.',
+    ];
     return (
         <fieldset>
-            <legend className="label-caps">output</legend>
-            <label htmlFor="output">Output</label>
-            <select id="output">
-                <option value="task-list">Prioritized task list</option>
+            <h2 className="label-caps">Details</h2>
+
+            <label className="label-normal" htmlFor="persona">
+                Persona:
+            </label>
+            <select id="persona" className="dropdown">
+                <option value="task-list">Technical PM</option>
+            </select>
+
+            <fieldset>
+                <legend className="label-normal">Steps:</legend>
+                <ol className="steps">
+                    {steps.map((step, i) => (
+                        <li key={i} className="step">
+                            {step}
+                        </li>
+                    ))}
+                </ol>
+            </fieldset>
+
+            <label className="label-normal" htmlFor="output">
+                Output:
+            </label>
+            <select id="output" className="dropdown">
+                <option value="task-list">Task List</option>
+                <option value="task-list">Poem</option>
             </select>
         </fieldset>
     );
@@ -60,7 +89,7 @@ function DetailFields() {
 function DetailsPane() {
     return (
         <form
-            className="details-pane"
+            className="details pane"
             aria-label="Details"
             onSubmit={(e) => {
                 e.preventDefault();

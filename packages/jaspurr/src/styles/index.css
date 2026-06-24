@@ -1,0 +1,170 @@
+@layer design, layout;
+
+@layer design {
+    :root {
+        --border: #e3e3e6;
+        --bg-subtle: #efe3e5;
+        --gray-6: #6b6b70;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --radius: 6px;
+    }
+}
+
+@layer layout {
+    /* Global overrides */
+    body {
+        margin: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+        margin-block: 0;
+    }
+
+    legend,
+    fieldset {
+        border: 0;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Root App Component */
+    .app {
+        display: grid;
+        grid-template-columns: 100%;
+        /* Stacked panes for one-column layout */
+        grid-template-rows: auto auto 1fr;
+        min-block-size: 100dvh;
+        /* Stacked content is top-aligned */
+        align-items: start;
+    }
+
+    .app > * {
+        /* Shrink edge-case fix */
+        min-inline-size: 0;
+    }
+
+    /* Panes divide the window into workable spaces.
+     * They adjust layout depending on available screen size
+    */
+    .pane {
+        padding-block-start: var(--space-4);
+        padding-block-end: var(--space-4);
+        padding-inline-start: var(--space-4);
+        padding-inline-end: var(--space-4);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .label-caps {
+        padding-inline-end: var(--space-4);
+    }
+
+    .label-normal {
+    }
+
+    /* Shared Components */
+    .dropdown {
+        margin-block-start: var(--space-4);
+        margin-left: var(--space-4);
+        margin-bottom: var(--space-1);
+    }
+
+    /* Hierarchy Pane */
+    .hierarchy {
+        border-block-end: 1px solid var(--border);
+        padding: 0;
+    }
+
+    /* Allow us to add padding to the content inside of hierarchy pane */
+    .hierarchy__inner {
+        padding-inline-start: var(--space-4);
+    }
+
+    /* Preview Pane */
+    .preview {
+        border-block-end: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+
+    .preview__bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .preview__text {
+        white-space: pre-wrap;
+        tab-size: 2;
+        background: var(--bg-subtle);
+        padding: var(--space-4);
+        border-radius: var(--radius);
+    }
+
+    /* Detail Pane */
+
+    .label-detail {
+        display: flex;
+        align-items: center;
+        padding-block-start: var(--space-4);
+        padding-block-end: var(--space-4);
+    }
+
+    .steps {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        padding-block-start: var(--space-4);
+        padding-block-end: var(--space-4);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+        counter-reset: step;
+    }
+
+    .step {
+        counter-increment: step;
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-2);
+        padding: var(--space-1) var(--space-2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+    }
+
+    .step::before {
+        content: counter(step);
+        font-variant-numeric: tabular-nums;
+        color: var(--gray-6);
+        min-inline-size: 1.2em;
+        text-align: end;
+    }
+
+    /* 2-column layout for larger screens */
+    @media (min-width: 600px) {
+        .app {
+            grid-template-columns: minmax(0, 1fr) clamp(340px, 30vw, 440px);
+            grid-template-rows: auto 1fr;
+            grid-template-areas: 'hierarchy hierarchy' 'preview details';
+            block-size: 100dvh;
+            align-items: stretch;
+        }
+        .hierarchy {
+            grid-area: hierarchy;
+        }
+        .preview {
+            grid-area: preview;
+            border-block-end: 0;
+            border-inline-end: 1px solid var(--border);
+        }
+        .details {
+            grid-area: details;
+        }
+    }
+}
