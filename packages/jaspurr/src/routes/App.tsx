@@ -4,6 +4,7 @@ import {useAtomValue, useSetAtom} from 'jotai';
 import {Dropdown} from '@/components/Dropdown';
 import {Persona, type Output} from '@/core/template';
 import {OUTPUT_LABEL, PERSONA_LABEL} from '@/core/content';
+import {CopyButton} from '@/components/CopyButton';
 
 export function App() {
     return (
@@ -13,10 +14,6 @@ export function App() {
             <DetailsPane />
         </div>
     );
-}
-
-function copy() {
-    alert('copy to clipboard not implemented!');
 }
 
 function HierarchyPane() {
@@ -43,13 +40,7 @@ function PreviewPane() {
         <main className="preview pane" aria-label="Live preview">
             <header className="preview__bar">
                 <h2 className="label-caps">Live Preview</h2>
-                <button
-                    type="button"
-                    className="copy-btn"
-                    aria-label="Copy to clipboard"
-                    onClick={copy}>
-                    Copy
-                </button>
+                <CopyButton />
             </header>
             <pre className="preview__text">{preview}</pre>
         </main>
