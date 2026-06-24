@@ -1,4 +1,6 @@
 import '@styles/App.css';
+import {previewAtom} from '@/state/atoms';
+import {useAtomValue} from 'jotai';
 
 export function App() {
     return (
@@ -30,6 +32,7 @@ function HierarchyPane() {
 }
 
 function PreviewPane() {
+    const preview = useAtomValue(previewAtom);
     return (
         <main className="preview pane" aria-label="Live preview">
             <header className="preview__bar">
@@ -42,7 +45,7 @@ function PreviewPane() {
                     Copy
                 </button>
             </header>
-            <pre className="preview__text">Preview Text</pre>
+            <pre className="preview__text">{preview}</pre>
         </main>
     );
 }
