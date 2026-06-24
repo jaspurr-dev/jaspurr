@@ -5,6 +5,8 @@
         --border: #e3e3e6;
         --bg-subtle: #efe3e5;
         --gray-6: #6b6b70;
+        --disabled-background-color: lightgray;
+        --disabled-color: gray;
         --space-1: 4px;
         --space-2: 8px;
         --space-3: 12px;
@@ -74,6 +76,11 @@
         margin-bottom: var(--space-1);
     }
 
+    .dropdown-disabled {
+        background-color: var(--disabled-background-color);
+        color: var(--disabled-color);
+    }
+
     /* Hierarchy Pane */
     .hierarchy {
         border-block-end: 1px solid var(--border);
@@ -136,6 +143,9 @@
         padding: var(--space-1) var(--space-2);
         border: 1px solid var(--border);
         border-radius: var(--radius);
+        /* temporarily disabled until implemented */
+        background-color: var(--disabled-background-color);
+        color: var(--disabled-color);
     }
 
     .step::before {

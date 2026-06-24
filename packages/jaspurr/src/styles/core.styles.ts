@@ -5,4 +5,5 @@ export const labelStyles = {
 
 export const dropdownStyles = {
     base: 'dropdown',
+    disabled: 'dropdown-disabled',
 };

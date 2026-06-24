@@ -2,8 +2,8 @@ import '@styles/App.css';
 import {compositionAtom, outputSelectAtom, previewAtom} from '@/state/atoms';
 import {useAtomValue, useSetAtom} from 'jotai';
 import {Dropdown} from '@/components/Dropdown';
-import type {Output} from '@/core/template';
-import {OUTPUT_LABEL} from '@/core/content';
+import {Persona, type Output} from '@/core/template';
+import {OUTPUT_LABEL, PERSONA_LABEL} from '@/core/content';
 
 export function App() {
     return (
@@ -23,12 +23,15 @@ function HierarchyPane() {
     return (
         <section className="hierarchy pane" aria-label="Template hierarchy">
             <div className="hierarchy__inner">
-                <label className="label-caps" htmlFor="tmpl">
-                    <h2 className="label-caps">Template</h2>
-                </label>
-                <select id="tmpl dropdown" className="dropdown">
-                    <option value="tech-pm-a">Tech PM</option>
-                </select>
+                <Dropdown<Persona>
+                    label="Template"
+                    value={Persona.TechPm}
+                    options={PERSONA_LABEL}
+                    onChange={(template) => {
+                        alert(`${template} not implemented!`);
+                    }}
+                    disabled={true}
+                />
             </div>
         </section>
     );
@@ -65,12 +68,15 @@ function DetailFields() {
         <fieldset>
             <h2 className={'label-caps'}>Details</h2>
 
-            <label className="label-normal" htmlFor="persona">
-                Persona:
-            </label>
-            <select id="persona" className="dropdown">
-                <option value="task-list">Technical PM</option>
-            </select>
+            <Dropdown<Persona>
+                label="Persona"
+                value={Persona.TechPm}
+                options={PERSONA_LABEL}
+                onChange={(persona) => {
+                    alert(`${persona} not implemented!`);
+                }}
+                disabled={true}
+            />
 
             <fieldset>
                 <legend className="label-normal">Steps:</legend>

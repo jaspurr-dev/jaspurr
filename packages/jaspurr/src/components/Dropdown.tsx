@@ -6,6 +6,7 @@ interface Props<T extends string> {
     value: T;
     options: Record<T, string>;
     onChange: (id: T) => void;
+    disabled?: boolean;
 }
 
 export function Dropdown<T extends string>({
@@ -13,12 +14,16 @@ export function Dropdown<T extends string>({
     value,
     options,
     onChange,
+    disabled = false,
 }: Props<T>) {
     return (
         <label className={labelStyles.base}>
             <span>{label}</span>
             <select
-                className={dropdownStyles.base}
+                disabled={disabled}
+                className={
+                    disabled ? dropdownStyles.disabled : dropdownStyles.base
+                }
                 value={value}
                 onChange={(e) => {
                     onChange(e.target.value as T);
