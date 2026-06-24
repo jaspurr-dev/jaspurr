@@ -1,144 +1,100 @@
-import {useState} from 'react';
-import reactLogo from '@assets/react.svg';
-import viteLogo from '@assets/vite.svg';
-import heroImg from '@assets/hero.png';
 import '@styles/App.css';
 
-function App() {
-    const [count, setCount] = useState(0);
-
+export function App() {
     return (
-        <>
-            <section id="center">
-                <div className="hero">
-                    <img
-                        src={heroImg}
-                        className="base"
-                        width="170"
-                        height="179"
-                        alt=""
-                    />
-                    <img
-                        src={reactLogo}
-                        className="framework"
-                        alt="React logo"
-                    />
-                    <img src={viteLogo} className="vite" alt="Vite logo" />
-                </div>
-                <div>
-                    <h1>Get started</h1>
-                    <p>
-                        Edit <code>src/App.tsx</code> and save to test{' '}
-                        <code>HMR</code>
-                    </p>
-                </div>
-                <button
-                    type="button"
-                    className="counter"
-                    onClick={() => {
-                        setCount((count) => count + 1);
-                    }}>
-                    Count is {count}
-                </button>
-            </section>
-
-            <div className="ticks"></div>
-
-            <section id="next-steps">
-                <div id="docs">
-                    <svg
-                        className="icon"
-                        role="presentation"
-                        aria-hidden="true">
-                        <use href="/icons.svg#documentation-icon"></use>
-                    </svg>
-                    <h2>Documentation</h2>
-                    <p>Your questions, answered</p>
-                    <ul>
-                        <li>
-                            <a href="https://vite.dev/" target="_blank">
-                                <img className="logo" src={viteLogo} alt="" />
-                                Explore Vite
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://react.dev/" target="_blank">
-                                <img
-                                    className="button-icon"
-                                    src={reactLogo}
-                                    alt=""
-                                />
-                                Learn more
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div id="social">
-                    <svg
-                        className="icon"
-                        role="presentation"
-                        aria-hidden="true">
-                        <use href="/icons.svg#social-icon"></use>
-                    </svg>
-                    <h2>Connect with us</h2>
-                    <p>Join the Vite community</p>
-                    <ul>
-                        <li>
-                            <a
-                                href="https://github.com/vitejs/vite"
-                                target="_blank">
-                                <svg
-                                    className="button-icon"
-                                    role="presentation"
-                                    aria-hidden="true">
-                                    <use href="/icons.svg#github-icon"></use>
-                                </svg>
-                                GitHub
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://chat.vite.dev/" target="_blank">
-                                <svg
-                                    className="button-icon"
-                                    role="presentation"
-                                    aria-hidden="true">
-                                    <use href="/icons.svg#discord-icon"></use>
-                                </svg>
-                                Discord
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://x.com/vite_js" target="_blank">
-                                <svg
-                                    className="button-icon"
-                                    role="presentation"
-                                    aria-hidden="true">
-                                    <use href="/icons.svg#x-icon"></use>
-                                </svg>
-                                X.com
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="https://bsky.app/profile/vite.dev"
-                                target="_blank">
-                                <svg
-                                    className="button-icon"
-                                    role="presentation"
-                                    aria-hidden="true">
-                                    <use href="/icons.svg#bluesky-icon"></use>
-                                </svg>
-                                Bluesky
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <div className="ticks"></div>
-            <section id="spacer"></section>
-        </>
+        <div className="app">
+            <HierarchyPane />
+            <PreviewPane />
+            <DetailsPane />
+        </div>
     );
 }
 
-export default App;
+function copy() {
+    alert('copy to clipboard not implemented!');
+}
+
+function HierarchyPane() {
+    return (
+        <section className="hierarchy pane" aria-label="Template hierarchy">
+            <div className="hierarchy__inner">
+                <label className="label-caps" htmlFor="tmpl">
+                    <h2 className="label-caps">Template</h2>
+                </label>
+                <select id="tmpl dropdown" className="dropdown">
+                    <option value="tech-pm-a">Tech PM</option>
+                </select>
+            </div>
+        </section>
+    );
+}
+
+function PreviewPane() {
+    return (
+        <main className="preview pane" aria-label="Live preview">
+            <header className="preview__bar">
+                <h2 className="label-caps">Live Preview</h2>
+                <button
+                    type="button"
+                    className="copy-btn"
+                    aria-label="Copy to clipboard"
+                    onClick={copy}>
+                    Copy
+                </button>
+            </header>
+            <pre className="preview__text">Preview Text</pre>
+        </main>
+    );
+}
+
+function DetailFields() {
+    const steps = [
+        'Analyze the requirements.',
+        'Identify dependencies.',
+        'Structure tasks weighted by priority.',
+    ];
+    return (
+        <fieldset>
+            <h2 className="label-caps">Details</h2>
+
+            <label className="label-normal" htmlFor="persona">
+                Persona:
+            </label>
+            <select id="persona" className="dropdown">
+                <option value="task-list">Technical PM</option>
+            </select>
+
+            <fieldset>
+                <legend className="label-normal">Steps:</legend>
+                <ol className="steps">
+                    {steps.map((step, i) => (
+                        <li key={i} className="step">
+                            {step}
+                        </li>
+                    ))}
+                </ol>
+            </fieldset>
+
+            <label className="label-normal" htmlFor="output">
+                Output:
+            </label>
+            <select id="output" className="dropdown">
+                <option value="task-list">Task List</option>
+                <option value="task-list">Poem</option>
+            </select>
+        </fieldset>
+    );
+}
+
+function DetailsPane() {
+    return (
+        <form
+            className="details pane"
+            aria-label="Details"
+            onSubmit={(e) => {
+                e.preventDefault();
+            }}>
+            <DetailFields></DetailFields>
+        </form>
+    );
+}
