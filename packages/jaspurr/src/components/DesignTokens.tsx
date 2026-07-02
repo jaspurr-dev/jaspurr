@@ -1,5 +1,6 @@
 import {DesignLayer, type Color} from '@/styles/core.styles';
 import {Icon, IconGallery} from '@components/icons/Icon';
+import {IconTile} from '@components/icons/IconTile';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -109,6 +110,8 @@ export default function DesignTokens() {
                 <span style={{color: `var(--${DesignLayer.colors.accent}`}}>
                     accent link
                 </span>
+
+                <IconTile name="check"></IconTile>
                 <span
                     className={DesignLayer.classes.badge}
                     role="img"

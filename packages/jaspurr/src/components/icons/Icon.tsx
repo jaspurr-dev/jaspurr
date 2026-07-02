@@ -21,9 +21,9 @@ const PATHS = {
         'M8 9h8M8 13h6M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-1a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3z',
 } as const satisfies Record<string, string>;
 
-type IconName = keyof typeof PATHS;
+export type IconName = keyof typeof PATHS;
 
-interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
+export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
     name: IconName;
     size?: number;
     strokeWidth?: number;
