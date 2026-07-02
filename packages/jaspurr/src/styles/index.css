@@ -118,4 +118,53 @@
         font: 400 13px/1.6 var(--font-mono);
         color: var(--text-secondary);
     } /* raw view */
+
+    .badge {
+        display: inline-grid;
+        place-items: center;
+        flex: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+    }
+    .badge--lg {
+        width: 18px;
+        height: 18px;
+    } /* reading hero */
+
+    .btn-use {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 40px;
+        padding: 0 20px;
+        border: none;
+        border-radius: var(--r-button);
+        background: var(--primary);
+        color: var(--on-primary);
+        cursor: pointer;
+        font: 500 15px/1 var(--font-sans);
+    }
+    .btn-use:hover {
+        background: #ffffff;
+    }
+
+    .icon-gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+        gap: var(--s-2);
+    }
+
+    .icon-outline-box {
+        display: flex;
+        flex-wrap: wrap;
+        flex: column;
+        align-items: center;
+        gap: var(--s-4);
+        padding: var(--s-4);
+        border: 1px solid var(--border);
+        border-radius: var(--r-tile);
+    }
 }
