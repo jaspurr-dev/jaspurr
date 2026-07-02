@@ -1,180 +1,121 @@
-@layer design, layout;
+@layer design;
 
 @layer design {
     :root {
-        --border: #e3e3e6;
-        --bg-subtle: #efe3e5;
-        --gray-6: #6b6b70;
-        --disabled-background-color: lightgray;
-        --disabled-color: gray;
-        --space-1: 4px;
-        --space-2: 8px;
-        --space-3: 12px;
-        --space-4: 16px;
-        --radius: 6px;
-    }
-}
+        color-scheme: dark;
 
-@layer layout {
-    /* Global overrides */
+        /* Surfaces (page is near-black; elements lift by getting lighter) */
+        --bg: #0f0f13; /* app / page background */
+        --card: #141419; /* browse cards */
+        --raised: #1b1b21; /* icon tiles, inputs, chips, bottom sheet */
+        --raised-active: #22222a; /* selected nav item, active chip */
+
+        /* Borders */
+        --border: #23232b; /* default hairline: inputs, cards */
+        --divider: #1e1e24; /* row separators inside lists */
+        --border-focus: #3a3060; /* input focus (violet-tinted) */
+
+        /* Text */
+        --text: #ededef; /* names, primary UI text */
+        --text-strong: #f4f4f6; /* hero title only (brightest) */
+        --text-reading: #e8e8ec; /* long-form step text (softened, not pure white) */
+        --text-secondary: #9a9aa5; /* byline, metadata, inactive nav */
+        --text-muted: #6e6e78; /* numerals, small labels, placeholders */
+        --on-primary: #141414; /* text/icon on the Use button */
+
+        /* Accent + action (the ONLY color in the UI) */
+        --accent: #a78bfa; /* brand mark, verified badge, links, active search */
+        --primary: #ececee; /* Use button fill — highest-contrast element */
+
+        /* Content-icon glyph strokes */
+        --icon: #c9c9d1;
+        --icon-muted: #9a9aa5;
+
+        /* Radius */
+        --r-tile: 8px;
+        --r-tile-lg: 12px;
+        --r-card: 12px;
+        --r-button: 8px;
+        --r-input: 8px;
+        --r-pill: 999px;
+        --r-sheet: 16px;
+
+        /* Spacing — 4px grid */
+        --s-1: 4px;
+        --s-2: 8px;
+        --s-3: 12px;
+        --s-4: 16px;
+        --s-5: 20px;
+        --s-6: 24px;
+        --s-8: 32px;
+
+        /* Type families */
+        --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
     body {
         margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
 
-    h1,
-    h2,
-    h3 {
-        margin-block: 0;
+    .t-title {
+        font: 500 22px/1.3 var(--font-sans);
+        letter-spacing: -0.01em;
+        color: var(--text-strong);
+    }
+    .t-hero {
+        font: 500 20px/1.25 var(--font-sans);
+        letter-spacing: -0.01em;
+        color: var(--text-strong);
+    } /* reading name */
+    .t-name {
+        font: 500 15px/1.3 var(--font-sans);
+        color: var(--text);
+    } /* list-row name */
+    .t-name-sm {
+        font: 500 13px/1.3 var(--font-sans);
+        color: var(--text);
+    } /* card name */
+    .t-section {
+        font: 500 15px/1.3 var(--font-sans);
+        color: var(--text);
+    } /* shelf heading */
+    .t-step {
+        font: 400 15px/1.5 var(--font-sans);
+        color: var(--text-reading);
+    } /* reading step */
+    .t-nav {
+        font: 400 13px/1 var(--font-sans);
+        color: var(--text-secondary);
+    } /* rail label */
+    .t-btn {
+        font: 500 15px/1 var(--font-sans);
+        color: var(--on-primary);
     }
 
-    legend,
-    fieldset {
-        border: 0;
-        padding: 0;
-        margin: 0;
-    }
-
-    /* Root App Component */
-    .app {
-        display: grid;
-        grid-template-columns: 100%;
-        /* Stacked panes for one-column layout */
-        grid-template-rows: auto auto 1fr;
-        min-block-size: 100dvh;
-        /* Stacked content is top-aligned */
-        align-items: start;
-    }
-
-    .app > * {
-        /* Shrink edge-case fix */
-        min-inline-size: 0;
-    }
-
-    /* Panes divide the window into workable spaces.
-     * They adjust layout depending on available screen size
-    */
-    .pane {
-        padding-block-start: var(--space-4);
-        padding-block-end: var(--space-4);
-        padding-inline-start: var(--space-4);
-        padding-inline-end: var(--space-4);
-        overflow-y: auto;
-        overscroll-behavior: contain;
-    }
-
-    .label-caps {
-        padding-inline-end: var(--space-4);
-    }
-
-    .label-normal {
-    }
-
-    /* Shared Components */
-    .dropdown {
-        margin-block-start: var(--space-4);
-        margin-left: var(--space-4);
-        margin-bottom: var(--space-1);
-    }
-
-    .dropdown-disabled {
-        background-color: var(--disabled-background-color);
-        color: var(--disabled-color);
-    }
-
-    /* Hierarchy Pane */
-    .hierarchy {
-        border-block-end: 1px solid var(--border);
-        padding: 0;
-    }
-
-    /* Allow us to add padding to the content inside of hierarchy pane */
-    .hierarchy__inner {
-        padding-inline-start: var(--space-4);
-    }
-
-    /* Preview Pane */
-    .preview {
-        border-block-end: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-4);
-    }
-
-    .preview__bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .preview__text {
-        white-space: pre-wrap;
-        tab-size: 2;
-        background: var(--bg-subtle);
-        padding: var(--space-4);
-        border-radius: var(--radius);
-    }
-
-    /* Detail Pane */
-
-    .label-detail {
-        display: flex;
-        align-items: center;
-        padding-block-start: var(--space-4);
-        padding-block-end: var(--space-4);
-    }
-
-    .steps {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        padding-block-start: var(--space-4);
-        padding-block-end: var(--space-4);
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-1);
-        counter-reset: step;
-    }
-
-    .step {
-        counter-increment: step;
-        display: flex;
-        align-items: baseline;
-        gap: var(--space-2);
-        padding: var(--space-1) var(--space-2);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        /* temporarily disabled until implemented */
-        background-color: var(--disabled-background-color);
-        color: var(--disabled-color);
-    }
-
-    .step::before {
-        content: counter(step);
-        font-variant-numeric: tabular-nums;
-        color: var(--gray-6);
-        min-inline-size: 1.2em;
-        text-align: end;
-    }
-
-    /* 2-column layout for larger screens */
-    @media (min-width: 600px) {
-        .app {
-            grid-template-columns: minmax(0, 1fr) clamp(340px, 30vw, 440px);
-            grid-template-rows: auto 1fr;
-            grid-template-areas: 'hierarchy hierarchy' 'preview details';
-            block-size: 100dvh;
-            align-items: stretch;
-        }
-        .hierarchy {
-            grid-area: hierarchy;
-        }
-        .preview {
-            grid-area: preview;
-            border-block-end: 0;
-            border-inline-end: 1px solid var(--border);
-        }
-        .details {
-            grid-area: details;
-        }
-    }
+    .t-label {
+        font: 400 11px/1.2 var(--font-mono);
+        color: var(--text-muted);
+    } /* "Steps", "Output" */
+    .t-meta {
+        font: 400 12px/1.4 var(--font-mono);
+        color: var(--text-secondary);
+    } /* byline, tag, "Bundled" */
+    .t-numeral {
+        font: 400 14px/1.5 var(--font-mono);
+        color: var(--text-muted);
+    } /* step number */
+    .t-source {
+        font: 400 13px/1.6 var(--font-mono);
+        color: var(--text-secondary);
+    } /* raw view */
 }
