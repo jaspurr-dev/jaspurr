@@ -8,6 +8,7 @@ import {IconButton} from '@components/buttons/IconButton';
 import {Chip} from '@components/buttons/Chip';
 import {SearchField} from '@components/input/SearchField';
 import {NavItem} from '@components/navigation/NavItem';
+import {StepList} from '@components/list/StepList';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -176,6 +177,21 @@ export default function DesignTokens() {
                     <NavItem icon="brush" children={<>Design</>}></NavItem>
                     <NavItem icon="target" children={<>Strategy</>}></NavItem>
                 </div>
+
+                <StepList
+                    steps={[
+                        'Ship + when',
+                        'Constraints',
+                        'Happy path',
+                    ]}></StepList>
+
+                <StepList
+                    variant="preview"
+                    steps={[
+                        'Ship + when',
+                        'Constraints',
+                        'Happy path',
+                    ]}></StepList>
 
                 <span
                     style={{
