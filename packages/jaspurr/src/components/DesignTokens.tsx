@@ -100,6 +100,25 @@ export default function DesignTokens() {
             <div
                 className={DesignLayer.classes.iconOutlineBox}
                 style={{display: 'grid', alignItems: 'center', gap: 16}}>
+                <div className={DesignLayer.classes.section}>Icons</div>
+                <IconTile name="check"></IconTile>
+                <span
+                    className={DesignLayer.classes.badge}
+                    role="img"
+                    aria-label="Verified">
+                    <Icon name="check" size={11} strokeWidth={2} />
+                </span>
+
+                <div className={DesignLayer.classes.section}>Buttons</div>
+
+                <button className={DesignLayer.classes.button}>
+                    <Icon name="play" size={16} strokeWidth={2} /> Default
+                    Button
+                </button>
+
+                <PrimaryButton label="Use"></PrimaryButton>
+                <PrimaryButton label="Disabled Button" disabled></PrimaryButton>
+
                 <span
                     style={{
                         width: 24,
@@ -111,22 +130,6 @@ export default function DesignTokens() {
                 <span style={{color: `var(--${DesignLayer.colors.accent}`}}>
                     accent link
                 </span>
-
-                <IconTile name="check"></IconTile>
-                <span
-                    className={DesignLayer.classes.badge}
-                    role="img"
-                    aria-label="Verified">
-                    <Icon name="check" size={11} strokeWidth={2} />
-                </span>
-
-                <button className={DesignLayer.classes.button}>
-                    <Icon name="play" size={16} strokeWidth={2} /> Default
-                    Button
-                </button>
-
-                <PrimaryButton label="Use"></PrimaryButton>
-                <PrimaryButton label="Disabled Button" disabled></PrimaryButton>
             </div>
 
             <div className={DesignLayer.classes.title}>Icons</div>
