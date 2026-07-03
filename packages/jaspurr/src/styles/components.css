@@ -1,3 +1,19 @@
+.btn-use {
+    align-items: center;
+    gap: var(--s-2);
+    height: var(--sz-primary-action-sm);
+    padding: 0 20px;
+    border: none;
+    border-radius: var(--r-button);
+    background: var(--primary);
+    color: var(--on-primary);
+    cursor: pointer;
+    font: 500 16px/1 var(--font-sans);
+    transition:
+        background-color 120ms ease,
+        transform 100ms ease;
+}
+
 .iconbtn {
     display: grid;
     place-items: center;
@@ -5,6 +21,18 @@
     height: var(--sz-primary-action-sm);
     border: none;
     background: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.btn--chip {
+    height: 30px;
+    padding: 0 14px;
+    border-radius: var(--r-pill);
+    background: transparent;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+    font: 400 13px/1 var(--font-sans);
     color: var(--text-secondary);
     cursor: pointer;
 }

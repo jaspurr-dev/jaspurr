@@ -138,37 +138,16 @@
         height: 18px;
     } /* reading hero */
 
-    .btn-use {
-        align-items: center;
-        gap: 8px;
-        height: 40px;
-        padding: 0 20px;
-        border: none;
-        border-radius: var(--r-button);
-        background: var(--primary);
-        color: var(--on-primary);
-        cursor: pointer;
-        font: 500 16px/1 var(--font-sans);
-        transition:
-            background-color 120ms ease,
-            transform 100ms ease;
-    }
-    .btn-use:not(:disabled):hover {
-        background: var(--primary-active);
-        transform: scale(1.02);
-    }
-
-    .btn-use:not(:disabled):active {
+    .btn:active {
         background: color-mix(in srgb, var(--primary) 78%, black);
-        transform: scale(0.98);
+        transform: scale(1.05);
     }
 
-    .btn-use:focus-visible {
-        outline: 2px solid var(--border-focus);
-        outline-offset: 3px;
+    .btn:hover {
+        opacity: 0.5;
     }
 
-    .btn-use:disabled {
+    .btn:disabled {
         background: var(--raised);
         color: var(--text-muted);
         cursor: not-allowed;

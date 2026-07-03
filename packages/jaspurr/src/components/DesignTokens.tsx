@@ -4,7 +4,8 @@ import {IconTile} from '@components/icons/IconTile';
 import {PrimaryButton} from '@components/buttons/PrimaryButton';
 import {Badge, BadgeIcon} from '@components/icons/Badge';
 import {BrandMark} from '@components/icons/BrandMark';
-import {IconButton} from './buttons/IconButton';
+import {IconButton} from '@components/buttons/IconButton';
+import {Chip} from '@components/buttons/Chip';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -129,6 +130,18 @@ export default function DesignTokens() {
                     <IconButton icon="back" label="back"></IconButton>
                     <IconButton icon="dots" label="options"></IconButton>
                     <IconButton icon="search" label="search"></IconButton>
+                </div>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: 8,
+                        maxWidth: 520,
+                    }}>
+                    <Chip children={<>All</>}></Chip>
+                    <Chip children={<>Code</>}></Chip>
+                    <Chip children={<>Design</>}></Chip>
+                    <Chip children={<>Strategy</>}></Chip>
                 </div>
 
                 <span

@@ -14,7 +14,7 @@ export function PrimaryButton({
     ...rest
 }: PrimaryButtonProps) {
     return (
-        <button className={DesignLayer.classes.buttonUse} {...rest}>
+        <button className={`btn ${DesignLayer.classes.buttonUse}`} {...rest}>
             <Icon name={icon} /> {label}
         </button>
     );
