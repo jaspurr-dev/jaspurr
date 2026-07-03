@@ -15,7 +15,7 @@ export function PrimaryButton({
 }: PrimaryButtonProps) {
     return (
         <button className={DesignLayer.classes.buttonUse} {...rest}>
-            <Icon name={icon} size={16} strokeWidth={2} /> {label}
+            <Icon name={icon} /> {label}
         </button>
     );
 }

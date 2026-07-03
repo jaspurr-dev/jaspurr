@@ -29,7 +29,8 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
     strokeWidth?: number;
 }
 
-export function Icon({name, size = 18, strokeWidth = 1.5, ...rest}: IconProps) {
+// TODO: move size, strokeWidth default params out to styling layer
+export function Icon({name, size = 16, strokeWidth = 2, ...rest}: IconProps) {
     return (
         <svg
             width={size}
