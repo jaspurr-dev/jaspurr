@@ -24,6 +24,7 @@ const colorStyles = {
     onPrimary: 'on-primary',
     accent: 'accent',
     primary: 'primary',
+    primaryActive: 'primary-active',
     icon: 'icon',
     iconMuted: 'icon-muted',
 } as const satisfies Record<string, string>;

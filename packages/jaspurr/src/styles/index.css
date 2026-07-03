@@ -26,6 +26,7 @@
         /* Accent + action (the ONLY color in the UI) */
         --accent: #a78bfa; /* brand mark, verified badge, links, active search */
         --primary: #ececee; /* Use button fill — highest-contrast element */
+        --primary-active: #fff; /* highest brightness */
 
         /* Content-icon glyph strokes */
         --icon: #c9c9d1;
@@ -150,7 +151,7 @@
             transform 100ms ease;
     }
     .btn-use:not(:disabled):hover {
-        background: color-mix(in srgb, var(--primary) 88%, black);
+        background: var(--primary-active);
         transform: scale(1.02);
     }
 
