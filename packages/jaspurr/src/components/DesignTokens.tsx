@@ -1,5 +1,8 @@
 import {DesignLayer, type Color} from '@/styles/core.styles';
 import {Icon, IconGallery} from '@components/icons/Icon';
+import {IconTile} from '@components/icons/IconTile';
+import {PrimaryButton} from '@components/buttons/PrimaryButton';
+import {Badge, BadgeIcon} from './icons/Badge';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -98,6 +101,27 @@ export default function DesignTokens() {
             <div
                 className={DesignLayer.classes.iconOutlineBox}
                 style={{display: 'grid', alignItems: 'center', gap: 16}}>
+                <div className={DesignLayer.classes.section}>Icons</div>
+                <IconTile name="check"></IconTile>
+                <Badge></Badge>
+                <Badge children={<BadgeIcon name="code"></BadgeIcon>}></Badge>
+                <span
+                    className={DesignLayer.classes.badge}
+                    role="img"
+                    aria-label="Verified">
+                    <Icon name="check" size={11} strokeWidth={2} />
+                </span>
+
+                <div className={DesignLayer.classes.section}>Buttons</div>
+
+                <button className={DesignLayer.classes.button}>
+                    <Icon name="play" size={16} strokeWidth={2} /> Default
+                    Button
+                </button>
+
+                <PrimaryButton label="Use"></PrimaryButton>
+                <PrimaryButton label="Disabled Button" disabled></PrimaryButton>
+
                 <span
                     style={{
                         width: 24,
@@ -109,21 +133,6 @@ export default function DesignTokens() {
                 <span style={{color: `var(--${DesignLayer.colors.accent}`}}>
                     accent link
                 </span>
-                <span
-                    className={DesignLayer.classes.badge}
-                    role="img"
-                    aria-label="Verified">
-                    <Icon name="check" size={11} strokeWidth={2} />
-                </span>
-
-                <button className={DesignLayer.classes.button}>
-                    <Icon name="play" size={16} strokeWidth={2} /> Default
-                    Button
-                </button>
-
-                <button className={DesignLayer.classes.buttonUse}>
-                    <Icon name="play" size={16} strokeWidth={2} /> Use
-                </button>
             </div>
 
             <div className={DesignLayer.classes.title}>Icons</div>
