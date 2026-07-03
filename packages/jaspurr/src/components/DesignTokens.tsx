@@ -4,6 +4,7 @@ import {IconTile} from '@components/icons/IconTile';
 import {PrimaryButton} from '@components/buttons/PrimaryButton';
 import {Badge, BadgeIcon} from '@components/icons/Badge';
 import {BrandMark} from '@components/icons/BrandMark';
+import {IconButton} from './buttons/IconButton';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -117,6 +118,17 @@ export default function DesignTokens() {
                     <BrandMark></BrandMark>
                     <BrandMark width={48} height={48}></BrandMark>
                     <BrandMark width={64} height={64}></BrandMark>
+                </div>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: 8,
+                        maxWidth: 520,
+                    }}>
+                    <IconButton icon="back" label="back"></IconButton>
+                    <IconButton icon="dots" label="options"></IconButton>
+                    <IconButton icon="search" label="search"></IconButton>
                 </div>
 
                 <span

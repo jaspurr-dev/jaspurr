@@ -1,0 +1,10 @@
+.iconbtn {
+    display: grid;
+    place-items: center;
+    width: var(--sz-primary-action-sm);
+    height: var(--sz-primary-action-sm);
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+}

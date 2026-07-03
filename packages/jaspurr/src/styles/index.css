@@ -50,6 +50,9 @@
         --s-6: 24px;
         --s-8: 32px;
 
+        /* Sizing */
+        --sz-primary-action-sm: 44px;
+
         /* Type families */
         --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;

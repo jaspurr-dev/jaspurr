@@ -85,6 +85,7 @@ const classes = {
     buttonUse: `${buttonPrefix}-use`,
     iconGalleryGrid: `${iconPrefix}-gallery-grid`,
     iconOutlineBox: `${iconPrefix}-outline-box`,
+    iconButton: `${iconPrefix}btn`,
 } as const satisfies Record<string, string>;
 export type Classes = keyof typeof classes;
 
