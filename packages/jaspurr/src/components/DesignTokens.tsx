@@ -2,6 +2,7 @@ import {DesignLayer, type Color} from '@/styles/core.styles';
 import {Icon, IconGallery} from '@components/icons/Icon';
 import {IconTile} from '@components/icons/IconTile';
 import {PrimaryButton} from '@components/buttons/PrimaryButton';
+import {Badge, BadgeIcon} from './icons/Badge';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -102,6 +103,8 @@ export default function DesignTokens() {
                 style={{display: 'grid', alignItems: 'center', gap: 16}}>
                 <div className={DesignLayer.classes.section}>Icons</div>
                 <IconTile name="check"></IconTile>
+                <Badge></Badge>
+                <Badge children={<BadgeIcon name="code"></BadgeIcon>}></Badge>
                 <span
                     className={DesignLayer.classes.badge}
                     role="img"
