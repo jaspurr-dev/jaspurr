@@ -135,9 +135,8 @@
     } /* reading hero */
 
     .btn-use {
-        display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
         height: 40px;
         padding: 0 20px;
         border: none;
@@ -145,10 +144,30 @@
         background: var(--primary);
         color: var(--on-primary);
         cursor: pointer;
-        font: 500 15px/1 var(--font-sans);
+        font: 500 16px/1 var(--font-sans);
+        transition:
+            background-color 120ms ease,
+            transform 100ms ease;
     }
-    .btn-use:hover {
-        background: #ffffff;
+    .btn-use:not(:disabled):hover {
+        background: color-mix(in srgb, var(--primary) 88%, black);
+        transform: scale(1.02);
+    }
+
+    .btn-use:not(:disabled):active {
+        background: color-mix(in srgb, var(--primary) 78%, black);
+        transform: scale(0.98);
+    }
+
+    .btn-use:focus-visible {
+        outline: 2px solid var(--border-focus);
+        outline-offset: 3px;
+    }
+
+    .btn-use:disabled {
+        background: var(--raised);
+        color: var(--text-muted);
+        cursor: not-allowed;
     }
 
     .icon-gallery-grid {

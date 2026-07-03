@@ -1,6 +1,7 @@
 import {DesignLayer, type Color} from '@/styles/core.styles';
 import {Icon, IconGallery} from '@components/icons/Icon';
 import {IconTile} from '@components/icons/IconTile';
+import {PrimaryButton} from '@components/buttons/PrimaryButton';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -124,9 +125,8 @@ export default function DesignTokens() {
                     Button
                 </button>
 
-                <button className={DesignLayer.classes.buttonUse}>
-                    <Icon name="play" size={16} strokeWidth={2} /> Use
-                </button>
+                <PrimaryButton label="Use"></PrimaryButton>
+                <PrimaryButton label="Disabled Button" disabled></PrimaryButton>
             </div>
 
             <div className={DesignLayer.classes.title}>Icons</div>
