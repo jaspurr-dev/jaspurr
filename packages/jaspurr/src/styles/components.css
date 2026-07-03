@@ -36,3 +36,30 @@
     color: var(--text-secondary);
     cursor: pointer;
 }
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    height: var(--sz-primary-action-sm);
+    padding: 0 var(--s-3);
+    border-radius: var(--r-input);
+    background: var(--raised);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+.search:focus-within {
+    border-color: var(--border-focus);
+    color: var(--accent);
+}
+.search input {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    font: 400 14px/1 var(--font-sans);
+    color: var(--text);
+}
+.search input::placeholder {
+    color: var(--text-muted);
+}

@@ -6,6 +6,7 @@ import {Badge, BadgeIcon} from '@components/icons/Badge';
 import {BrandMark} from '@components/icons/BrandMark';
 import {IconButton} from '@components/buttons/IconButton';
 import {Chip} from '@components/buttons/Chip';
+import {SearchField} from '@components/input/SearchField';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -160,6 +161,8 @@ export default function DesignTokens() {
 
                 <PrimaryButton label="Use"></PrimaryButton>
                 <PrimaryButton label="Disabled Button" disabled></PrimaryButton>
+
+                <SearchField></SearchField>
 
                 <span
                     style={{
