@@ -7,6 +7,7 @@ import {BrandMark} from '@components/icons/BrandMark';
 import {IconButton} from '@components/buttons/IconButton';
 import {Chip} from '@components/buttons/Chip';
 import {SearchField} from '@components/input/SearchField';
+import {NavItem} from '@components/navigation/NavItem';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -163,6 +164,18 @@ export default function DesignTokens() {
                 <PrimaryButton label="Disabled Button" disabled></PrimaryButton>
 
                 <SearchField></SearchField>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: 8,
+                        maxWidth: 520,
+                    }}>
+                    <NavItem icon="home" children={<>Home</>}></NavItem>
+                    <NavItem icon="code" children={<>Code</>}></NavItem>
+                    <NavItem icon="brush" children={<>Design</>}></NavItem>
+                    <NavItem icon="target" children={<>Strategy</>}></NavItem>
+                </div>
 
                 <span
                     style={{
