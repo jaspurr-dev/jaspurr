@@ -1,4 +1,3 @@
-// components/SearchField.tsx — focus styling is handled by :focus-within in CSS
 import type {InputHTMLAttributes} from 'react';
 import {Icon} from '@components/icons/Icon';
 
