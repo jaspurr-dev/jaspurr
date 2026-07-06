@@ -2,18 +2,10 @@
 
 @import url('./tokens/tokens.css');
 @import url('./tokens/semantic.css');
+@import url('./tokens/scaling.css');
 
 @layer tokens {
     :root {
-        /* Radius */
-        --r-tile: 8px;
-        --r-tile-lg: 12px;
-        --r-card: 12px;
-        --r-button: 8px;
-        --r-input: 8px;
-        --r-pill: 999px;
-        --r-sheet: 16px;
-
         /* Spacing — 4px grid */
         --s-1: 4px;
         --s-2: 8px;
@@ -157,6 +149,6 @@
         gap: var(--s-4);
         padding: var(--s-4);
         border: 1px solid var(--border);
-        border-radius: var(--r-tile);
+        border-radius: var(--radius-sm);
     }
 }
