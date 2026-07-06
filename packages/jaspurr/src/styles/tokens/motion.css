@@ -1,0 +1,10 @@
+@layer tokens {
+    :root {
+        /* Transition speeds */
+        --duration-fast: 120ms;
+        --duration-base: 200ms;
+
+        /* Easing Curves */
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+}
