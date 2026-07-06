@@ -1,6 +1,6 @@
-@layer design;
+@layer reset, tokens, base, components;
 
-@layer design {
+@layer tokens {
     :root {
         color-scheme: dark;
 
