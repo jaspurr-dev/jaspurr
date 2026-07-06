@@ -1,4 +1,3 @@
-// components/Chip.tsx — mobile filter
 import type {ButtonHTMLAttributes, ReactNode} from 'react';
 
 interface ChipProps extends ButtonHTMLAttributes<HTMLButtonElement> {
