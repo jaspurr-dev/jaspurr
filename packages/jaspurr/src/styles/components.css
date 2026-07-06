@@ -1,8 +1,8 @@
 .btn-use {
     align-items: center;
-    gap: var(--s-2);
+    gap: var(--space-2);
     height: var(--sz-primary-action-sm);
-    padding-inline: var(--s-2);
+    padding-inline: var(--space-2);
     border: none;
     border-radius: var(--radius-sm);
     background: var(--primary);
@@ -23,7 +23,7 @@
 
 .btn--chip {
     height: var(--sz-primary-action-sm);
-    padding-inline: var(--s-4);
+    padding-inline: var(--space-4);
     border-radius: var(--radius-full);
     background: transparent;
     border: 1px solid var(--border);
@@ -37,9 +37,9 @@
 .search {
     display: flex;
     align-items: center;
-    gap: var(--s-2);
+    gap: var(--space-2);
     height: var(--sz-primary-action-sm);
-    padding-inline: var(--s-3);
+    padding-inline: var(--space-3);
     border-radius: var(--radius-sm);
     background: var(--raised);
     border: 1px solid var(--border);
@@ -64,7 +64,7 @@
     display: flex;
     align-items: center;
     height: var(--sz-primary-action-sm);
-    padding-inline: var(--s-5);
+    padding-inline: var(--space-4);
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: var(--text-secondary);
@@ -81,14 +81,14 @@
 
 .steps {
     list-style: none;
-    margin-inline: var(--zero);
-    padding-inline: var(--zero);
+    margin-inline: var(--size-zero);
+    padding-inline: var(--size-zero);
     display: grid;
-    gap: var(--s-2);
+    gap: var(--space-2);
 }
 .steps li {
     display: grid;
-    grid-template-columns: var(--s-4) 1fr;
+    grid-template-columns: var(--space-4) 1fr;
     align-items: baseline;
     color: var(--text-reading);
 }
@@ -96,9 +96,9 @@
     color: var(--text-muted);
 }
 .steps--preview {
-    gap: var(--s-2);
+    gap: var(--space-2);
 }
 .steps--preview li {
-    grid-template-columns: var(--s-3) 1fr;
+    grid-template-columns: var(--space-3) 1fr;
     color: var(--text-secondary);
 }
