@@ -1,0 +1,36 @@
+/* Semantic Layer to decouple the role (background, card, text, primary)
+from the underlying tokens that define color palette/ramp, spacing, etc.
+*/
+@layer tokens {
+    :root {
+        /* surfaces */
+        --bg: var(--neutral-0);
+        --card: var(--neutral-1);
+        --raised: var(--neutral-2);
+        --raised-active: oklch(from var(--raised) calc(l + 0.05) c h);
+
+        /* borders */
+        --border: var(--neutral-3);
+        --divider: var(--neutral-3);
+        --border-focus: var(--violet);
+
+        /* text */
+        --text: var(--neutral-7);
+        --text-strong: var(--white);
+        --text-reading: var(--neutral-7);
+        --text-secondary: var(--neutral-5);
+        --text-muted: var(--neutral-4);
+        --on-primary: var(--neutral-0);
+
+        /* icons */
+        --icon: var(--neutral-6);
+        --icon-muted: var(--neutral-5);
+
+        /* action */
+        --primary: var(--neutral-7);
+        --primary-active: var(--white);
+
+        /* accent */
+        --accent: var(--violet);
+    }
+}

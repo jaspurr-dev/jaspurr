@@ -1,37 +1,10 @@
 @layer reset, tokens, base, components;
 
+@import url('./tokens/tokens.css');
+@import url('./tokens/semantic.css');
+
 @layer tokens {
     :root {
-        color-scheme: dark;
-
-        /* Surfaces (page is near-black; elements lift by getting lighter) */
-        --bg: #0f0f13; /* app / page background */
-        --card: #141419; /* browse cards */
-        --raised: #1b1b21; /* icon tiles, inputs, chips, bottom sheet */
-        --raised-active: #22222a; /* selected nav item, active chip */
-
-        /* Borders */
-        --border: #23232b; /* default hairline: inputs, cards */
-        --divider: #1e1e24; /* row separators inside lists */
-        --border-focus: #3a3060; /* input focus (violet-tinted) */
-
-        /* Text */
-        --text: #ededef; /* names, primary UI text */
-        --text-strong: #f4f4f6; /* hero title only (brightest) */
-        --text-reading: #e8e8ec; /* long-form step text (softened, not pure white) */
-        --text-secondary: #9a9aa5; /* byline, metadata, inactive nav */
-        --text-muted: #6e6e78; /* numerals, small labels, placeholders */
-        --on-primary: #141414; /* text/icon on the Use button */
-
-        /* Accent + action (the ONLY color in the UI) */
-        --accent: #a78bfa; /* brand mark, verified badge, links, active search */
-        --primary: #ececee; /* Use button fill — highest-contrast element */
-        --primary-active: #fff; /* highest brightness */
-
-        /* Content-icon glyph strokes */
-        --icon: #c9c9d1;
-        --icon-muted: #9a9aa5;
-
         /* Radius */
         --r-tile: 8px;
         --r-tile-lg: 12px;
