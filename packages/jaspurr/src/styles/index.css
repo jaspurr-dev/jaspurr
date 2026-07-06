@@ -3,6 +3,7 @@
 @import url('./tokens/tokens.css');
 @import url('./tokens/semantic.css');
 @import url('./tokens/scaling.css');
+@import url('./tokens/motion.css');
 
 @layer tokens {
     :root {
@@ -27,12 +28,6 @@
         --leading-normal: 1;
         --weight-normal: 400;
         --weight-medium: 500;
-
-        /* Animation */
-        --duration-fast: 120ms;
-        --duration-base: 200ms;
-
-        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * {
