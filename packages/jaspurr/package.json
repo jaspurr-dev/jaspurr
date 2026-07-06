@@ -8,6 +8,7 @@
     },
     "type": "module",
     "scripts": {
+        "branch": "./scripts/create_branch.sh",
         "dev": "./scripts/dev.sh",
         "check": "./scripts/check.sh",
         "build": "./scripts/build.sh",
