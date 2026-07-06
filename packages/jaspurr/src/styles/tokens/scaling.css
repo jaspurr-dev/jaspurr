@@ -1,8 +1,9 @@
 @layer tokens {
     :root {
-        --radius-sm: 8px;
-        --radius-md: 12px;
-        --radius-lg: 16px;
-        --radius-full: 9999px;
+        --radius-sm: 0.5rem; /* 8px */
+        --radius-md: 0.75rem; /* 12px */
+        --radius-lg: 1rem; /* 16px */
+        /* Assumes 16px root font-size */
+        --radius-full: 624.9375rem;
     }
 }
