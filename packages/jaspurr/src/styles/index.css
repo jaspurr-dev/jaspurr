@@ -51,11 +51,23 @@
         --s-8: 32px;
 
         /* Sizing */
+        --zero: 0;
         --sz-primary-action-sm: 44px;
 
         /* Type families */
         --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+        --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+        --leading-normal: 1;
+        --weight-normal: 400;
+        --weight-medium: 500;
+
+        /* Animation */
+        --duration-fast: 120ms;
+        --duration-base: 200ms;
+
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * {
@@ -138,9 +150,14 @@
         height: 18px;
     } /* reading hero */
 
+    .btn {
+        font: inherit;
+        font-weight: var(--weight-medium);
+    }
+
     .btn:active {
-        background: color-mix(in srgb, var(--primary) 78%, black);
-        transform: scale(1.05);
+        transform: scale(1.02);
+        transition: transform var(--duration-fast) var(--ease-out);
     }
 
     .btn:hover {

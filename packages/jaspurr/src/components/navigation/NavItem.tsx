@@ -1,5 +1,6 @@
 import type {AnchorHTMLAttributes, ReactNode} from 'react';
 import {Icon, type IconName} from '@/components/icons/Icon';
+import {DesignLayer} from '@/styles/core.styles';
 
 interface NavItemProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
     icon: IconName;
@@ -8,7 +9,7 @@ interface NavItemProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 
 export function NavItem({icon, children, ...rest}: NavItemProps) {
     return (
-        <a {...rest} className="nav">
+        <a {...rest} className={DesignLayer.classes.navButton}>
             <Icon name={icon} />
             {children}
         </a>
