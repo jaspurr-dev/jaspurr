@@ -1,0 +1,104 @@
+.btn-use {
+    align-items: center;
+    gap: var(--s-2);
+    height: var(--sz-primary-action-sm);
+    padding-inline: var(--s-2);
+    border: none;
+    border-radius: var(--r-button);
+    background: var(--primary);
+    color: var(--on-primary);
+    cursor: pointer;
+}
+
+.iconbtn {
+    display: grid;
+    place-items: center;
+    width: var(--sz-primary-action-sm);
+    height: var(--sz-primary-action-sm);
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.btn--chip {
+    height: var(--sz-primary-action-sm);
+    padding-inline: var(--s-4);
+    border-radius: var(--r-pill);
+    background: transparent;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+    font-weight: var(--weight-normal);
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    height: var(--sz-primary-action-sm);
+    padding-inline: var(--s-3);
+    border-radius: var(--r-input);
+    background: var(--raised);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+.search:focus-within {
+    border-color: var(--border-focus);
+    color: var(--accent);
+}
+.search input {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    color: var(--text);
+}
+.search input::placeholder {
+    color: var(--text-muted);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    height: var(--sz-primary-action-sm);
+    padding-inline: var(--s-5);
+    border-radius: var(--r-button);
+    text-decoration: none;
+    color: var(--text-secondary);
+}
+.nav:hover {
+    background: var(--raised);
+    cursor: pointer;
+}
+.nav:active {
+    background: var(--raised-active);
+    color: var(--text);
+    font-weight: var(--weight-medium);
+}
+
+.steps {
+    list-style: none;
+    margin-inline: var(--zero);
+    padding-inline: var(--zero);
+    display: grid;
+    gap: var(--s-2);
+}
+.steps li {
+    display: grid;
+    grid-template-columns: var(--s-4) 1fr;
+    align-items: baseline;
+    color: var(--text-reading);
+}
+.steps__n {
+    color: var(--text-muted);
+}
+.steps--preview {
+    gap: var(--s-2);
+}
+.steps--preview li {
+    grid-template-columns: var(--s-3) 1fr;
+    color: var(--text-secondary);
+}

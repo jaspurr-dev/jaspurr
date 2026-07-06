@@ -50,9 +50,24 @@
         --s-6: 24px;
         --s-8: 32px;
 
+        /* Sizing */
+        --zero: 0;
+        --sz-primary-action-sm: 44px;
+
         /* Type families */
         --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+        --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+        --leading-normal: 1;
+        --weight-normal: 400;
+        --weight-medium: 500;
+
+        /* Animation */
+        --duration-fast: 120ms;
+        --duration-base: 200ms;
+
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * {
@@ -135,37 +150,21 @@
         height: 18px;
     } /* reading hero */
 
-    .btn-use {
-        align-items: center;
-        gap: 8px;
-        height: 40px;
-        padding: 0 20px;
-        border: none;
-        border-radius: var(--r-button);
-        background: var(--primary);
-        color: var(--on-primary);
-        cursor: pointer;
-        font: 500 16px/1 var(--font-sans);
-        transition:
-            background-color 120ms ease,
-            transform 100ms ease;
+    .btn {
+        font: inherit;
+        font-weight: var(--weight-medium);
     }
-    .btn-use:not(:disabled):hover {
-        background: var(--primary-active);
+
+    .btn:active {
         transform: scale(1.02);
+        transition: transform var(--duration-fast) var(--ease-out);
     }
 
-    .btn-use:not(:disabled):active {
-        background: color-mix(in srgb, var(--primary) 78%, black);
-        transform: scale(0.98);
+    .btn:hover {
+        opacity: 0.5;
     }
 
-    .btn-use:focus-visible {
-        outline: 2px solid var(--border-focus);
-        outline-offset: 3px;
-    }
-
-    .btn-use:disabled {
+    .btn:disabled {
         background: var(--raised);
         color: var(--text-muted);
         cursor: not-allowed;

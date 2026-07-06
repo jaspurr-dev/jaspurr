@@ -2,7 +2,13 @@ import {DesignLayer, type Color} from '@/styles/core.styles';
 import {Icon, IconGallery} from '@components/icons/Icon';
 import {IconTile} from '@components/icons/IconTile';
 import {PrimaryButton} from '@components/buttons/PrimaryButton';
-import {Badge, BadgeIcon} from './icons/Badge';
+import {Badge, BadgeIcon} from '@components/icons/Badge';
+import {BrandMark} from '@components/icons/BrandMark';
+import {IconButton} from '@components/buttons/IconButton';
+import {Chip} from '@components/buttons/Chip';
+import {SearchField} from '@components/input/SearchField';
+import {NavItem} from '@components/navigation/NavItem';
+import {StepList} from '@components/list/StepList';
 
 export default function DesignTokens() {
     const colors = Object.values(DesignLayer.colors) as Color[];
@@ -103,8 +109,44 @@ export default function DesignTokens() {
                 style={{display: 'grid', alignItems: 'center', gap: 16}}>
                 <div className={DesignLayer.classes.section}>Icons</div>
                 <IconTile name="check"></IconTile>
+
                 <Badge></Badge>
                 <Badge children={<BadgeIcon name="code"></BadgeIcon>}></Badge>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: 8,
+                        maxWidth: 520,
+                    }}>
+                    <BrandMark></BrandMark>
+                    <BrandMark width={48} height={48}></BrandMark>
+                    <BrandMark width={64} height={64}></BrandMark>
+                </div>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: 8,
+                        maxWidth: 520,
+                    }}>
+                    <IconButton icon="back" label="back"></IconButton>
+                    <IconButton icon="dots" label="options"></IconButton>
+                    <IconButton icon="search" label="search"></IconButton>
+                </div>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: 8,
+                        maxWidth: 520,
+                    }}>
+                    <Chip children={<>All</>}></Chip>
+                    <Chip children={<>Code</>}></Chip>
+                    <Chip children={<>Design</>}></Chip>
+                    <Chip children={<>Strategy</>}></Chip>
+                </div>
+
                 <span
                     className={DesignLayer.classes.badge}
                     role="img"
@@ -121,6 +163,35 @@ export default function DesignTokens() {
 
                 <PrimaryButton label="Use"></PrimaryButton>
                 <PrimaryButton label="Disabled Button" disabled></PrimaryButton>
+
+                <SearchField></SearchField>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: 8,
+                        maxWidth: 520,
+                    }}>
+                    <NavItem icon="home" children={<>Home</>}></NavItem>
+                    <NavItem icon="code" children={<>Code</>}></NavItem>
+                    <NavItem icon="brush" children={<>Design</>}></NavItem>
+                    <NavItem icon="target" children={<>Strategy</>}></NavItem>
+                </div>
+
+                <StepList
+                    steps={[
+                        'Ship + when',
+                        'Constraints',
+                        'Happy path',
+                    ]}></StepList>
+
+                <StepList
+                    variant="preview"
+                    steps={[
+                        'Ship + when',
+                        'Constraints',
+                        'Happy path',
+                    ]}></StepList>
 
                 <span
                     style={{
