@@ -1,0 +1,20 @@
+@layer tokens {
+    :root {
+        /* We prefer to be rendered in dark mode. */
+        color-scheme: dark;
+
+        /* Minimal Color Palette (OKLCH eased, skews toward dark).
+        /* 8 neutral colors + white + 1 accent = 10 primitives. 
+        */
+        --neutral-0: oklch(0.145 0.016 285);
+        --neutral-1: oklch(0.195 0.016 285);
+        --neutral-2: oklch(0.25 0.015 285);
+        --neutral-3: oklch(0.33 0.014 285);
+        --neutral-4: oklch(0.56 0.012 285);
+        --neutral-5: oklch(0.685 0.01 285);
+        --neutral-6: oklch(0.87 0.005 285);
+        --neutral-7: oklch(0.955 0.003 285);
+        --white: oklch(1 0 0);
+        --violet: oklch(0.723 0.155 293);
+    }
+}
