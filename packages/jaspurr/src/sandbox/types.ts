@@ -1,4 +1,4 @@
-export type Layer = 'component' | 'composite';
+export type Layer = 'primitive' | 'components';
 export interface Story {
     name: string;
     layer: Layer;

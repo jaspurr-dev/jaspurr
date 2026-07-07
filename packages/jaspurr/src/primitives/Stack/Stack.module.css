@@ -1,0 +1,29 @@
+@layer components {
+    .row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .stack {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+
+    [data-gap='2'] {
+        gap: var(--space-2);
+    }
+    [data-gap='3'] {
+        gap: var(--space-3);
+    }
+    [data-gap='4'] {
+        gap: var(--space-4);
+    }
+    [data-align='center'] {
+        align-items: center;
+    }
+    [data-align='stretch'] {
+        align-items: stretch;
+    }
+}

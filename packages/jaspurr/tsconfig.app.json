@@ -38,7 +38,8 @@
             "@assets/*": ["./src/assets/*"],
             "@components/*": ["./src/components/*"],
             "@routes/*": ["./src/routes/*"],
-            "@styles/*": ["./src/styles/*"]
+            "@styles/*": ["./src/styles/*"],
+            "@primitives/*": ["./src/primitives/*"]
         }
     },
     "include": ["src"]
