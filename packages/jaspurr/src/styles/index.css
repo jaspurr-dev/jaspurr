@@ -1,28 +1,19 @@
 @layer reset, tokens, base, components;
 
+/* Tokens */
 @import url('./tokens/tokens.css');
 @import url('./tokens/semantic.css');
 @import url('./tokens/scaling.css');
 @import url('./tokens/motion.css');
 @import url('./tokens/text.css');
 
+/* Base */
+@import url('./base/base.css');
+
 @layer tokens {
     :root {
         /* Sizing */
         --sz-primary-action-sm: 44px;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--text);
-        font-family: var(--font-sans);
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
     }
 
     .t-title {

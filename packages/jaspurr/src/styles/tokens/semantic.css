@@ -4,7 +4,7 @@ from the underlying tokens that define color palette/ramp, spacing, etc.
 @layer tokens {
     :root {
         /* surfaces */
-        --bg: var(--neutral-0);
+        --background: var(--neutral-0);
         --card: var(--neutral-1);
         --raised: var(--neutral-2);
         --raised-active: oklch(from var(--raised) calc(l + 0.05) c h);
