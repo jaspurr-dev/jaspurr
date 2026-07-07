@@ -1,5 +1,8 @@
 @layer reset, tokens, base, components;
 
+/* Reset */
+@import url('./reset/reset.css');
+
 /* Tokens */
 @import url('./tokens/tokens.css');
 @import url('./tokens/semantic.css');
