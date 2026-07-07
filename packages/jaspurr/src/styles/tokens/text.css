@@ -1,0 +1,13 @@
+@layer tokens {
+    :root {
+        /* Fonts */
+        --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+        /* Text */
+        --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+        --leading-normal: 1;
+        --weight-normal: 400;
+        --weight-medium: 500;
+    }
+}
