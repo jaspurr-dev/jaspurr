@@ -1,28 +1,29 @@
 import {cx} from '@/util/cx';
+import styles from './Text.module.css';
 
-type TextProps<T extends React.ElementType = 'p'> = {
-    as?: T;
-    size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
-    tone?: 'primary' | 'secondary' | 'disabled';
-    weight?: 'regular' | 'medium' | 'bold';
-} & Omit<React.ComponentPropsWithRef<T>, 'as'>;
+type TextProps = {
+    as?: React.ElementType;
+    className?: string | undefined;
+    children?: React.ReactNode;
+} & React.HTMLAttributes<HTMLElement>;
 
-export function Text<T extends React.ElementType = 'p'>({
-    as,
-    size = 'base',
-    tone = 'primary',
-    weight,
-    className,
-    ...props
-}: TextProps<T>) {
+export function Text({as, children, className, ...props}: TextProps) {
     const Component = as ?? 'p';
     return (
-        <Component
-            data-size={size}
-            data-tone={tone}
-            data-weight={weight}
-            className={cx('text', className)}
-            {...props}
-        />
+        <Component className={className ?? styles.text} {...props}>
+            {children}
+        </Component>
+    );
+}
+
+export function TextTitle({as, children, ...props}: TextProps) {
+    const Component = as ?? 'h1';
+    return (
+        <Text
+            as={Component}
+            className={cx(styles.text, styles.title)}
+            {...props}>
+            {children}
+        </Text>
     );
 }

@@ -2,8 +2,9 @@ import {useState, type Dispatch, type SetStateAction} from 'react';
 import type {Layer, Story} from './types';
 import {stories} from './registry';
 import s from './Sandbox.module.css';
-import {cx} from '@/util/cx';
 import {Row, Stack, Text} from '@/primitives';
+import {Chip} from '@/components/buttons/Chip';
+import {SearchField} from '@/components/input/SearchField';
 
 interface SidebarProps {
     stories: Story[];
@@ -13,13 +14,13 @@ interface SidebarProps {
     onQuery: Dispatch<SetStateAction<string>>;
 }
 
-function Sidebar({stories, selected, query, onSelect, onQuery}: SidebarProps) {
+function Sidebar({stories, query, onSelect, onQuery}: SidebarProps) {
     const layers: Layer[] = ['primitive'];
     return (
         <nav className={s.sidebar}>
-            <input
+            <SearchField
                 className={s.search}
-                placeholder="Search components"
+                placeholder="Search"
                 value={query}
                 onChange={(e) => {
                     onQuery(e.target.value);
@@ -31,19 +32,15 @@ function Sidebar({stories, selected, query, onSelect, onQuery}: SidebarProps) {
                     <Text>{layer}: No stories found.</Text>
                 ) : (
                     <Stack key={layer}>
-                        <Text>{layer}</Text>
+                        <Text className={s.layerName}>{layer}</Text>
+
                         {group.map((st) => (
-                            <button
+                            <Chip
                                 key={st.name}
-                                className={cx(
-                                    s.item,
-                                    st.name === selected && s.itemActive
-                                )}
                                 onClick={() => {
                                     onSelect(st.name);
-                                }}>
-                                {st.name}
-                            </button>
+                                }}
+                                children={st.name}></Chip>
                         ))}
                     </Stack>
                 );
@@ -84,7 +81,6 @@ export function UISandbox() {
                     stories: visible,
                     onSelect: setSelected,
                     onQuery: setQuery,
-                    selected,
                     query,
                 }}></Sidebar>
             <main className={s.detail}>

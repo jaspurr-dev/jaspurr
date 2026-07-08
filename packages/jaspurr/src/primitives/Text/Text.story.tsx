@@ -1,21 +1,19 @@
 import type {Story} from '@/sandbox/types';
-import {Text} from './Text';
+import {Text, TextTitle} from './Text';
 import {Stack} from '@primitives/Stack/Stack';
+import {OutlineBox} from '../Box/Box';
 
 export const story: Story = {
     name: 'Text',
     layer: 'primitive',
     render: () => (
         <Stack>
-            <Text as="p" size="base">
-                Foo
-            </Text>
-            <Text as="h1" size="base">
-                Bar
-            </Text>
-            <Text as="h3" size="base">
-                World!
-            </Text>
+            <TextTitle>Text</TextTitle>
+            <Text>Renders the various supported text variants.</Text>
+            <OutlineBox>
+                <TextTitle>text-title · Title</TextTitle>
+                <Text>text · default text</Text>
+            </OutlineBox>
         </Stack>
     ),
 };

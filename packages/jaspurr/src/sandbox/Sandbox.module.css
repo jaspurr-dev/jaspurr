@@ -18,6 +18,10 @@
         overflow-y: auto;
     }
 
+    .layerName {
+        padding-inline: var(--size-zero) var(--space-4);
+    }
+
     .search {
         inline-size: 100%;
         font: inherit;
@@ -43,15 +47,6 @@
         cursor: pointer;
     }
 
-    .item:hover {
-        text-decoration: underline;
-        color: var(--primary);
-    }
-
-    .itemActive {
-        background: var(--accent);
-        color: var(--raised);
-    }
     .item:focus-visible {
         outline: 1px solid var(--accent);
         outline-offset: 1px;
