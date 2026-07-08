@@ -1,4 +1,4 @@
-import {DesignLayer, type Color} from '@/styles/core.styles';
+import {DesignLayer} from '@/styles/core.styles';
 import {Icon, IconGallery} from '@components/icons/Icon';
 import {IconTile} from '@components/icons/IconTile';
 import {PrimaryButton} from '@components/buttons/PrimaryButton';
@@ -9,38 +9,15 @@ import {Chip} from '@components/buttons/Chip';
 import {SearchField} from '@components/input/SearchField';
 import {NavItem} from '@components/navigation/NavItem';
 import {StepList} from '@components/list/StepList';
+import {OutlineBox} from '@/primitives';
 
 export default function DesignTokens() {
-    const colors = Object.values(DesignLayer.colors) as Color[];
-
-    const swatch = (bgVarName: string, label: string) => (
-        <div style={{textAlign: 'center'}}>
-            <div
-                style={{
-                    width: 72,
-                    height: 48,
-                    borderRadius: DesignLayer.radius.tile,
-                    background: `var(${bgVarName})`,
-                    border: `1px solid var(${DesignLayer.colors.border})`,
-                }}
-            />
-            <div className={DesignLayer.classes.label} style={{marginTop: 6}}>
-                {label}
-            </div>
-        </div>
-    );
     return (
         <div style={{padding: 24, display: 'grid', gap: 24, maxWidth: 520}}>
-            <div className={DesignLayer.classes.title}>Swatches</div>
-            <div className={DesignLayer.classes.iconOutlineBox}>
-                {colors.map((c) => swatch(`--${c}`, c))}
-            </div>
-
             <div className={DesignLayer.classes.title}>Text</div>
-            {/* Text hierarchy — five distinct greys */}
-            <div
-                className={DesignLayer.classes.iconOutlineBox}
-                style={{display: 'grid', gap: 6}}>
+
+            {/* Text hierarchy */}
+            <OutlineBox style={{gap: 6}}>
                 <div className={DesignLayer.classes.title}>
                     text-title · Title
                 </div>
@@ -75,13 +52,11 @@ export default function DesignTokens() {
                 <div className={DesignLayer.classes.source}>
                     text-source · # this is some text
                 </div>
-            </div>
+            </OutlineBox>
 
             <div className={DesignLayer.classes.title}>Fonts</div>
             {/* Fonts — confirm both families actually loaded */}
-            <div
-                className={DesignLayer.classes.iconOutlineBox}
-                style={{display: 'grid', gap: 4}}>
+            <OutlineBox>
                 <div
                     style={{
                         font: `400 15px var(${DesignLayer.fonts.fontSans})`,
@@ -100,13 +75,11 @@ export default function DesignTokens() {
                     }}>
                     {'UI Mono 400 — 0123 {}'}
                 </div>
-            </div>
+            </OutlineBox>
 
             <div className={DesignLayer.classes.title}>Components</div>
             {/* Accent + the one action */}
-            <div
-                className={DesignLayer.classes.iconOutlineBox}
-                style={{display: 'grid', alignItems: 'center', gap: 16}}>
+            <OutlineBox>
                 <div className={DesignLayer.classes.section}>Icons</div>
                 <IconTile name="check"></IconTile>
 
@@ -204,7 +177,7 @@ export default function DesignTokens() {
                 <span style={{color: `var(--${DesignLayer.colors.accent}`}}>
                     accent link
                 </span>
-            </div>
+            </OutlineBox>
 
             <div className={DesignLayer.classes.title}>Icons</div>
             <div>
