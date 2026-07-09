@@ -3,6 +3,7 @@ import {Output, Persona, type Template} from '@/core/template';
 export const techPm = {
     id: 'tech-pm-type-a',
     name: 'Type A - Tech PM',
+    category: 'strategy',
     persona: Persona.TechPm,
     steps: [
         'Ask what needs to be shipped and when.',
