@@ -11,9 +11,18 @@ export const Persona = {
 export type Persona = (typeof Persona)[keyof typeof Persona];
 export const PERSONAS = Object.values(Persona);
 
+export const Category = {
+    Code: 'code',
+    Design: 'design',
+    Strategy: 'strategy',
+} as const;
+export type Category = (typeof Category)[keyof typeof Category];
+export const CATEGORIES = Object.values(Category);
+
 export interface Template {
     readonly id: string;
     readonly name: string;
+    readonly category: Category;
     readonly persona: Persona;
     readonly steps: readonly string[];
     readonly output: Output;
