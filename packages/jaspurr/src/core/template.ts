@@ -1,4 +1,5 @@
 export const Output = {
+    Text: 'text',
     PrioritizedList: 'prioritized-list',
     ArchitectureDiagram: 'architecture-diagram',
 } as const;
@@ -7,6 +8,7 @@ export const OUTPUTS = Object.values(Output);
 
 export const Persona = {
     TechPm: 'tech-pm',
+    Designer: 'designer',
 } as const;
 export type Persona = (typeof Persona)[keyof typeof Persona];
 export const PERSONAS = Object.values(Persona);
