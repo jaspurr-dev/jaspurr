@@ -16,6 +16,7 @@ import {
     RouteTemplate,
 } from '@/routes';
 import {getTemplate, type TemplateId} from '@/core/templates';
+import {TemplateURLPrefix} from './util/template';
 
 export function templateLoader({params}: LoaderFunctionArgs) {
     const template = getTemplate(params.templateId as TemplateId);
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
             {path: 'sandbox', Component: RouteSandbox},
             {path: 'designtokens', Component: RouteDesignTokens},
             {
-                path: 'templates/:templateId',
+                path: `${TemplateURLPrefix}:templateId`,
                 Component: RouteTemplate,
                 loader: templateLoader,
             },

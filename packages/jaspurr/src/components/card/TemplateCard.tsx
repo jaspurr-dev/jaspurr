@@ -6,6 +6,7 @@ import {StepList} from '@components/list/StepList';
 import {categoryToIconName} from '@/util/icon';
 import {Link} from 'react-router';
 import style from './TemplateCard.module.css';
+import {TemplateURLPrefix} from '@/util/template';
 
 const PREVIEW_STEPS = 3;
 
@@ -21,7 +22,7 @@ export function TemplateCard({template}: TemplateCardProps) {
                 <IconTile name={iconName} />
                 <Link
                     key={template.id}
-                    to={`/${template.id}`}
+                    to={`${TemplateURLPrefix}${template.id}`}
                     className={style.cardLink}>
                     {template.name}
                 </Link>
