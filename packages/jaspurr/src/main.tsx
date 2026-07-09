@@ -1,10 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {createBrowserRouter, RouterProvider} from 'react-router';
+import {
+    createBrowserRouter,
+    RouterProvider,
+    type LoaderFunctionArgs,
+} from 'react-router';
 import {Provider} from 'jotai';
 import '@styles/index.css';
 import '@styles/components.css'; // TODO: this will be removed in the future once CSS components are refactored to co-locate
-import {RouteHome, RouteSandbox, RouteError, RouteDesignTokens} from '@/routes';
+import {
+    RouteHome,
+    RouteSandbox,
+    RouteError,
+    RouteDesignTokens,
+    RouteTemplate,
+} from '@/routes';
+import {getTemplate, type TemplateId} from '@/core/templates';
+
+export function templateLoader({params}: LoaderFunctionArgs) {
+    const template = getTemplate(params.templateId as TemplateId);
+    if (!template) {
+        console.error('template not found!');
+        throw new Error('404 - Template Not Found');
+    }
+    return template;
+}
 
 const router = createBrowserRouter([
     {
@@ -13,6 +33,11 @@ const router = createBrowserRouter([
             {index: true, Component: RouteHome},
             {path: 'sandbox', Component: RouteSandbox},
             {path: 'designtokens', Component: RouteDesignTokens},
+            {
+                path: 'templates/:templateId',
+                Component: RouteTemplate,
+                loader: templateLoader,
+            },
         ],
     },
 ]);
