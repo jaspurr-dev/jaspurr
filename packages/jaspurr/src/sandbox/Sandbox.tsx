@@ -2,7 +2,7 @@ import {useState, type Dispatch, type SetStateAction} from 'react';
 import type {Layer, Story} from './types';
 import {stories} from './registry';
 import s from './Sandbox.module.css';
-import {Row, Stack, Text} from '@/primitives';
+import {Row, Stack, Text, TextTitle} from '@/primitives';
 import {Chip} from '@/components/buttons/Chip';
 import {SearchField} from '@/components/input/SearchField';
 
@@ -15,7 +15,7 @@ interface SidebarProps {
 }
 
 function Sidebar({stories, query, onSelect, onQuery}: SidebarProps) {
-    const layers: Layer[] = ['primitive'];
+    const layers: Layer[] = ['primitive', 'components'];
     return (
         <nav className={s.sidebar}>
             <SearchField
@@ -56,7 +56,7 @@ interface HarnessProps {
 function Harness({story}: HarnessProps) {
     return (
         <Stack gap="4">
-            <Text>Harness: {story.name}</Text>
+            <TextTitle>{story.name}</TextTitle>
 
             <Row>
                 <div className={s.container}>{story.render()}</div>
