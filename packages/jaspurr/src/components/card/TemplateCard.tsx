@@ -1,10 +1,11 @@
 import type {Template} from '@/core/template';
-import {DesignLayer} from '@/styles/core.styles';
-import {Row, Text} from '@/primitives';
+import {Row} from '@/primitives';
 import {Card} from '@components/card/Card';
 import {IconTile} from '@components/icons/IconTile';
 import {StepList} from '@components/list/StepList';
 import {categoryToIconName} from '@/util/icon';
+import {Link} from 'react-router';
+import style from './TemplateCard.module.css';
 
 const PREVIEW_STEPS = 3;
 
@@ -18,9 +19,12 @@ export function TemplateCard({template}: TemplateCardProps) {
         <Card>
             <Row>
                 <IconTile name={iconName} />
-                <Text as="h2" className={DesignLayer.classes.name}>
+                <Link
+                    key={template.id}
+                    to={`/${template.id}`}
+                    className={style.cardLink}>
                     {template.name}
-                </Text>
+                </Link>
             </Row>
             <StepList
                 variant="preview"

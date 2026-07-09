@@ -10,3 +10,6 @@ export const TEMPLATES = {
 export const defaultComposition = fromTemplate(TEMPLATES['tech-pm-type-a']);
 
 export type TemplateId = keyof typeof TEMPLATES;
+
+export const getTemplate = (id: TemplateId): Template | undefined =>
+    TEMPLATES[id];
