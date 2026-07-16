@@ -1,0 +1,26 @@
+@layer components {
+    .screen {
+        width: 100%;
+        max-width: 480px;
+        margin-inline: auto;
+    }
+
+    /* Back control on the left, progress centred, and a matching empty column
+    on the right so the header stays optically centred. */
+    .top {
+        display: grid;
+        grid-template-columns:
+            var(--sz-primary-action-sm)
+            1fr
+            var(--sz-primary-action-sm);
+        align-items: center;
+    }
+
+    .stem {
+        margin: var(--size-zero);
+        text-align: center;
+        font-size: var(--font-size-600);
+        font-weight: var(--font-weight-medium);
+        color: var(--text-strong);
+    }
+}
