@@ -7,7 +7,7 @@ pnpm audit
 pnpm exec prettier . --check
 
 echo "Checking TS compilation..."
-pnpm exec tsc
+pnpm exec tsc -p tsconfig.app.json
 echo "TS compilation ran successfully!"
 
 echo "Running eslint..."

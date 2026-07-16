@@ -7,12 +7,8 @@ export const story: Story = {
     layer: 'primitive',
     render: () => (
         <Stack>
-            <Text as="h2" size="base">
-                Foo
-            </Text>
-            <Text as="h2" size="base">
-                Bar
-            </Text>
+            <Text as="h2">Foo</Text>
+            <Text as="h2">Bar</Text>
             <Text as="h2">World!</Text>
         </Stack>
     ),
