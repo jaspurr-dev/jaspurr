@@ -20,21 +20,33 @@ export interface Question<T> {
     readonly options: Options<T>;
 }
 
-/* Q1 is role-specific: each option maps to one CONSTRAINT line. */
+/* Q1 is role-specific: each option maps to one CONSTRAINT line. Its ids differ
+per role, so the valid task-id union is derived per role (see assemble.ts). */
 export interface TaskOption {
+    readonly id: string;
     readonly label: string;
     readonly constraint: string;
 }
 
+export type EnvironmentId = 'greenfield' | 'mature' | 'legacy' | 'unsure';
+
 /* Q2 is shared: each option maps to a CONTEXT line plus a CONSTRAINT line. */
 export interface EnvironmentOption {
+    readonly id: EnvironmentId;
     readonly label: string;
     readonly context: string;
     readonly constraint: string;
 }
 
+export type OutputId =
+    | 'output-only'
+    | 'output-plus-reasoning'
+    | 'plan-first'
+    | 'walkthrough';
+
 /* Q3 is shared: each option maps to an OUTPUT FORMAT plus a TONE. */
 export interface OutputOption {
+    readonly id: OutputId;
     readonly label: string;
     readonly format: string;
     readonly tone: string;
