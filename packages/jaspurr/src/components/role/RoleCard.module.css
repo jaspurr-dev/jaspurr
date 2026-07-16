@@ -1,0 +1,56 @@
+@layer components {
+    .card {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        width: 100%;
+        height: 100%;
+        padding: var(--space-4);
+        text-align: start;
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--card);
+        color: var(--text);
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        border-color: var(--text-muted);
+    }
+
+    .card:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+
+    .card[aria-pressed='true'] {
+        border-color: var(--accent);
+        background: var(--accent-subtle);
+    }
+
+    .iconTile {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-sm);
+        background: var(--raised);
+        color: var(--accent);
+    }
+
+    .card[aria-pressed='true'] .iconTile {
+        background: var(--accent);
+        color: var(--on-primary);
+    }
+
+    .name {
+        font-weight: var(--font-weight-medium);
+        color: var(--text-strong);
+    }
+
+    .line {
+        font-size: var(--font-size-400);
+        color: var(--text-secondary);
+    }
+}
