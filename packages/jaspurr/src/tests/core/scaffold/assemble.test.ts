@@ -1,5 +1,10 @@
 import {describe, expect, it} from 'vitest';
-import {assemble, toText, type Selection} from '@/core/scaffold/assemble';
+import {
+    assemble,
+    assembleTemplate,
+    toText,
+    type Selection,
+} from '@/core/scaffold/assemble';
 import {RoleId, type OutputId} from '@/core/scaffold/types';
 
 const softwareExample: Selection = {
@@ -97,5 +102,25 @@ describe('toText', () => {
         );
         expect(text).toContain('TASK\ndrop this:');
         expect(text).not.toContain('\u202E');
+    });
+});
+
+describe('assembleTemplate', () => {
+    it('bundles the sections with a chip summary of the chosen answers', () => {
+        const {sections, chips} = assembleTemplate(softwareExample);
+        expect(sections.map((s) => s.heading)).toEqual([
+            'ROLE',
+            'CONTEXT',
+            'TASK',
+            'CONSTRAINTS',
+            'OUTPUT FORMAT',
+            'TONE',
+        ]);
+        expect(chips).toEqual([
+            'Software engineer',
+            'Refactor existing code',
+            'Mature and well-tested',
+            'Just the output',
+        ]);
     });
 });

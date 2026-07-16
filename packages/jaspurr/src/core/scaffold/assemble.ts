@@ -33,6 +33,11 @@ export type Assembled = readonly [
     Section,
 ];
 
+export interface AssembledTemplate {
+    readonly sections: Assembled;
+    readonly chips: readonly string[];
+}
+
 export function assemble(selection: Selection): Assembled {
     const role = getRole(selection.roleId);
     if (!role) {
@@ -61,6 +66,29 @@ export function assemble(selection: Selection): Assembled {
         {heading: 'OUTPUT FORMAT', body: output.format},
         {heading: 'TONE', body: output.tone},
     ];
+}
+
+export function assembleTemplate(selection: Selection): AssembledTemplate {
+    const sections = assemble(selection);
+
+    // assemble() has already validated the selection; re-resolve the chosen
+    // options purely to read their labels for the summary chips.
+    const role = getRole(selection.roleId);
+    const task = role?.question.options.find((o) => o.id === selection.taskId);
+    const environment = ENVIRONMENT_QUESTION.options.find(
+        (o) => o.id === selection.environmentId
+    );
+    const output = OUTPUT_QUESTION.options.find(
+        (o) => o.id === selection.outputId
+    );
+    const chips = [
+        role?.label,
+        task?.label,
+        environment?.label,
+        output?.label,
+    ].filter((label): label is string => label !== undefined);
+
+    return {sections, chips};
 }
 
 export function toText(sections: Assembled): string {
