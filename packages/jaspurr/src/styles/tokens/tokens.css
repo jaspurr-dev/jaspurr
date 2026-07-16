@@ -1,20 +1,39 @@
 @layer tokens {
     :root {
-        /* We prefer to be rendered in dark mode. */
-        color-scheme: dark;
+        /* Supported Color Schemes */
+        color-scheme: light dark;
 
-        /* Minimal Color Palette (OKLCH eased, skews toward dark).
-        /* 8 neutral colors + white + 1 accent = 10 primitives. 
+        /* OKLCH low chroma gray ramp.
+        50 = lightest
+        950 = darkest
         */
-        --neutral-0: oklch(0.145 0.016 285);
-        --neutral-1: oklch(0.195 0.016 285);
-        --neutral-2: oklch(0.25 0.015 285);
-        --neutral-3: oklch(0.33 0.014 285);
-        --neutral-4: oklch(0.56 0.012 285);
-        --neutral-5: oklch(0.685 0.01 285);
-        --neutral-6: oklch(0.87 0.005 285);
-        --neutral-7: oklch(0.955 0.003 285);
         --white: oklch(1 0 0);
-        --violet: oklch(0.723 0.155 293);
+        --gray-50: oklch(0.984 0.002 264);
+        --gray-100: oklch(0.968 0.003 264);
+        --gray-150: oklch(0.946 0.004 264);
+        --gray-200: oklch(0.914 0.005 264);
+        --gray-300: oklch(0.842 0.007 264);
+        --gray-400: oklch(0.708 0.01 264);
+        --gray-500: oklch(0.59 0.013 264);
+        --gray-600: oklch(0.508 0.013 264);
+        --gray-700: oklch(0.42 0.012 264);
+        --gray-800: oklch(0.3 0.01 264);
+        --gray-850: oklch(0.248 0.009 264);
+        --gray-900: oklch(0.205 0.008 264);
+        --gray-950: oklch(0.165 0.007 264);
+        --black: oklch(0.135 0.006 264);
+
+        /* Accent Colors. */
+        --blue-400: oklch(0.72 0.15 256);
+        --blue-500: oklch(0.62 0.19 256);
+        --blue-600: oklch(0.55 0.2 256);
+    }
+
+    :root[data-theme='light'] {
+        color-scheme: light;
+    }
+
+    :root[data-theme='dark'] {
+        color-scheme: dark;
     }
 }
