@@ -37,6 +37,7 @@ export type FlowAction =
     | {type: 'setTopic'; topic: string}
     | {type: 'finish'}
     | {type: 'changeAnswers'}
+    | {type: 'back'}
     | {type: 'reset'};
 
 const EMPTY_DRAFT: Draft = {
@@ -45,6 +46,17 @@ const EMPTY_DRAFT: Draft = {
     environmentId: null,
     outputId: null,
     topic: '',
+};
+
+/* Each step's predecessor, for the back button. Answers are kept, so going back
+just re-shows a step with its previous pick still selected. */
+const PREVIOUS_STEP: Record<FlowStep, FlowStep> = {
+    role: 'role',
+    task: 'role',
+    environment: 'task',
+    output: 'environment',
+    topic: 'output',
+    result: 'topic',
 };
 
 export const INITIAL_FLOW: FlowState = {step: 'role', draft: EMPTY_DRAFT};
@@ -88,6 +100,8 @@ export function flowReducer(state: FlowState, action: FlowAction): FlowState {
             // Back into the flow with the draft intact, so answers can be
             // re-tapped without starting over.
             return {...state, step: 'role'};
+        case 'back':
+            return {...state, step: PREVIOUS_STEP[state.step]};
         case 'reset':
             return INITIAL_FLOW;
     }

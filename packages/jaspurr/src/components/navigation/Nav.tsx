@@ -4,8 +4,8 @@ import {ThemeToggle} from '@components/theme/ThemeToggle';
 import style from './Nav.module.css';
 
 /* App shell top bar: wordmark home link, section links, theme toggle, and the
-primary "Get started" call to action. The section links target landing anchors;
-"Get started" points home until the tool-flow route lands. */
+primary "Get started" call to action into the tool flow. The section links
+target landing anchors. */
 export function Nav() {
     return (
         <nav className={style.nav}>
@@ -21,7 +21,7 @@ export function Nav() {
                     How it works
                 </a>
                 <ThemeToggle />
-                <Link to="/" className={style.cta}>
+                <Link to="/build" className={style.cta}>
                     Get started
                 </Link>
             </div>

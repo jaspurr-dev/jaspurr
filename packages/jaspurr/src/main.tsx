@@ -15,6 +15,7 @@ import {
     RouteDesignTokens,
     RouteTemplate,
     RouteLayout,
+    RouteBuild,
 } from '@/routes';
 import {ThemeManager} from '@components/theme/ThemeManager';
 import {getTemplate, type TemplateId} from '@/core/templates';
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
         ErrorBoundary: RouteError,
         children: [
             {index: true, Component: RouteHome},
+            {path: 'build', Component: RouteBuild},
             {path: 'sandbox', Component: RouteSandbox},
             {path: 'designtokens', Component: RouteDesignTokens},
             {

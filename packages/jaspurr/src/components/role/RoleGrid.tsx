@@ -4,7 +4,7 @@ import {RoleCard} from './RoleCard';
 import style from './RoleGrid.module.css';
 
 interface RoleGridProps {
-    selectedId?: RoleId;
+    selectedId?: RoleId | null;
     onSelect?: (id: RoleId) => void;
 }
 

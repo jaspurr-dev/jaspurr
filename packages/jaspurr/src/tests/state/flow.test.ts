@@ -123,4 +123,26 @@ describe('flow machine', () => {
             topic: '',
         });
     });
+
+    it('back steps to the previous question, keeping answers', () => {
+        const store = createStore();
+        store.set(flowAtom, {
+            type: 'pickRole',
+            roleId: RoleId.SoftwareEngineer,
+        });
+        store.set(flowAtom, {type: 'pickTask', taskId: 'refactor'});
+        expect(store.get(stepAtom)).toBe('environment');
+        store.set(flowAtom, {type: 'back'});
+        expect(store.get(stepAtom)).toBe('task');
+        expect(store.get(draftAtom).taskId).toBe('refactor');
+        store.set(flowAtom, {type: 'back'});
+        expect(store.get(stepAtom)).toBe('role');
+        expect(store.get(draftAtom).roleId).toBe(RoleId.SoftwareEngineer);
+    });
+
+    it('back from the first step is a no-op', () => {
+        const store = createStore();
+        store.set(flowAtom, {type: 'back'});
+        expect(store.get(stepAtom)).toBe('role');
+    });
 });
