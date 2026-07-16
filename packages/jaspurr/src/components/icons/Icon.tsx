@@ -19,6 +19,8 @@ const PATHS = {
     code: 'M7 8l-4 4l4 4M17 8l4 4l-4 4M14 4l-4 16',
     message:
         'M8 9h8M8 13h6M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-1a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3z',
+    sun: 'M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0M3 12h1M12 3v1M20 12h1M12 20v1M5.6 5.6l.7 .7M18.4 5.6l-.7 .7M17.7 17.7l.7 .7M6.3 17.7l-.7 .7',
+    moon: 'M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z',
 } as const satisfies Record<string, string>;
 
 export type IconName = keyof typeof PATHS;
