@@ -21,7 +21,7 @@ export function SegmentedToggle<T extends string>({
     label,
 }: SegmentedToggleProps<T>) {
     return (
-        <div className={style.toggle} role="group" aria-label={label}>
+        <div className={style.toggle} aria-label={label}>
             {segments.map((segment) => (
                 <button
                     key={segment.value}

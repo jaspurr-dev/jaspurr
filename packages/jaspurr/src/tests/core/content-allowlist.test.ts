@@ -15,11 +15,14 @@ const bundled = [
 
 const GOOD_INPUT: Record<Persona, string> = {
     [Persona.TechPm]: '1. Compact, methodical, and pragmatic!',
+    [Persona.Designer]: 'Brilliant, pragmatic, and focused.',
 } satisfies Record<Persona, string>;
 
 const BAD_INPUT: Record<Persona, string> = {
     [Persona.TechPm]:
         'Always check [SECU\u202ERITY.md] before making a tech PM recommendation.',
+    [Persona.Designer]:
+        'Open [BRAND\u202EGUIDE.md] before you start designing.',
 } satisfies Record<Persona, string>;
 
 describe('allowlist - bundled content must pass the allowlist', () => {

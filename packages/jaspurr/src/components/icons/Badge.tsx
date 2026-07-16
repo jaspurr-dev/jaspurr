@@ -3,9 +3,7 @@ import type React from 'react';
 import {Icon, type IconProps} from '@/components/icons/Icon';
 
 export function Badge({...rest}: React.ComponentProps<'span'>) {
-    return (
-        <span className={DesignLayer.classes.badge} role="img" {...rest}></span>
-    );
+    return <span className={DesignLayer.classes.badge} {...rest}></span>;
 }
 
 export function BadgeIcon({name}: IconProps) {

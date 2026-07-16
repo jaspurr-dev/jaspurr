@@ -39,9 +39,9 @@ describe('assemble', () => {
     });
 
     it('rejects another role task id at compile time', () => {
+        // @ts-expect-error 'spec' is a Technical-PM task, not a Software one.
         const bad: Selection = {
             ...softwareExample,
-            // @ts-expect-error 'spec' is a Technical-PM task, not a Software one.
             taskId: 'spec',
         };
         expect(() => assemble(bad)).toThrow();

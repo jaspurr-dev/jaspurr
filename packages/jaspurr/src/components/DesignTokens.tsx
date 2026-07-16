@@ -122,7 +122,6 @@ export default function DesignTokens() {
 
                 <span
                     className={DesignLayer.classes.badge}
-                    role="img"
                     aria-label="Verified">
                     <Icon name="check" size={11} strokeWidth={2} />
                 </span>

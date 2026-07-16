@@ -17,10 +17,10 @@ const ROLE_ICON: Record<RoleId, IconName> = {
     [RoleId.EngManager]: 'users',
 };
 
-interface RoleCardProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type RoleCardProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'role'> & {
     role: Role;
     selected?: boolean;
-}
+};
 
 /* A role choice in the flow's first step: icon, name, one-liner. One tap
 advances; the accent selected state marks the current pick when reviewing. */
