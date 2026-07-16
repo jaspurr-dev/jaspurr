@@ -1,0 +1,64 @@
+@layer components {
+    .exhibit {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+        padding: var(--space-4);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--card);
+        font-family: var(--font-mono);
+        font-size: var(--font-size-300);
+        line-height: var(--leading-500);
+    }
+
+    .section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+    }
+
+    /* The highlight bleeds into the exhibit padding while keeping its content
+    aligned with the other sections. */
+    .task {
+        margin-inline: calc(-1 * var(--space-2));
+        padding: var(--space-2);
+        border-radius: var(--radius-sm);
+        background: var(--task-highlight);
+    }
+
+    .headingRow {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+    }
+
+    .heading {
+        color: var(--text-muted);
+        letter-spacing: 0.04em;
+    }
+
+    .task .heading {
+        color: var(--accent);
+    }
+
+    .tag {
+        padding: 0 var(--space-2);
+        border-radius: var(--radius-full);
+        background: var(--accent);
+        color: var(--on-primary);
+        font-family: var(--font-sans);
+        font-size: var(--font-size-100);
+    }
+
+    .body {
+        margin: var(--size-zero);
+        white-space: pre-wrap;
+        font: inherit;
+        color: var(--text-reading);
+    }
+
+    .task .body {
+        color: var(--text-strong);
+    }
+}
