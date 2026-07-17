@@ -20,6 +20,9 @@ export function Nav() {
                 <a href="#how-it-works" className={style.link}>
                     How it works
                 </a>
+                <Link to="/library" className={style.link}>
+                    Library
+                </Link>
                 <ThemeToggle />
                 <Link to="/build" className={style.cta}>
                     Get started

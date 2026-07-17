@@ -1,0 +1,158 @@
+@layer components {
+    .screen {
+        width: 100%;
+        max-width: 640px;
+        margin-inline: auto;
+        padding: var(--space-4);
+    }
+
+    .title {
+        margin: var(--size-zero);
+        font-size: var(--font-size-700);
+        font-weight: var(--font-weight-medium);
+        color: var(--text-strong);
+    }
+
+    .note {
+        margin: var(--size-zero);
+        color: var(--text-muted);
+    }
+
+    .toolbar {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: var(--sz-primary-action-sm);
+        padding-inline: var(--space-4);
+        border: var(--border-width) solid transparent;
+        border-radius: var(--radius-sm);
+        font: inherit;
+        font-weight: var(--font-weight-medium);
+        cursor: pointer;
+    }
+
+    .primary {
+        background: var(--primary);
+        color: var(--on-primary);
+    }
+
+    .action:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        margin: var(--size-zero);
+        padding: var(--size-zero);
+        list-style: none;
+    }
+
+    .row {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        padding: var(--space-3);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-sm);
+        background: var(--card);
+    }
+
+    .iconTile {
+        flex: none;
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-sm);
+        background: var(--raised);
+        color: var(--accent);
+    }
+
+    .meta {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+        min-width: 0;
+        flex: 1;
+    }
+
+    .itemTitle {
+        overflow: hidden;
+        font-weight: var(--font-weight-medium);
+        color: var(--text-strong);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .subtitle {
+        overflow: hidden;
+        font-size: var(--font-size-300);
+        color: var(--text-muted);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .rowActions {
+        display: flex;
+        flex: none;
+        gap: var(--space-2);
+    }
+
+    .rowButton {
+        padding: var(--space-2) var(--space-3);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-sm);
+        background: transparent;
+        color: var(--text-strong);
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .rowButton:hover {
+        background: var(--raised);
+    }
+
+    .rowButton:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+
+    .empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-3);
+        padding-block: var(--space-4);
+        text-align: center;
+    }
+
+    .emptyLine {
+        margin: var(--size-zero);
+        color: var(--text-secondary);
+    }
+
+    .cta {
+        display: inline-flex;
+        align-items: center;
+        height: var(--sz-primary-action-sm);
+        padding-inline: var(--space-4);
+        border-radius: var(--radius-sm);
+        background: var(--primary);
+        color: var(--on-primary);
+        font-weight: var(--font-weight-medium);
+        text-decoration: none;
+    }
+
+    .cta:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+}
