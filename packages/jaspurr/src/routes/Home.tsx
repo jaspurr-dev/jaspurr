@@ -1,19 +1,7 @@
-import {TextTitle} from '@/primitives';
-import style from './Home.module.css';
-import {TEMPLATES} from '@/core/templates';
-import {TemplateCard} from '@/components/card/TemplateCard';
+import {Hero} from '@components/landing/Hero';
 
+/* The landing page. The hero is the first and, for now, only section; the role
+grid and how-it-works sections land in later PRs. */
 export function RouteHome() {
-    const templates = Object.values(TEMPLATES);
-    return (
-        <div className={style.home}>
-            {/* TODO: Placeholder header space */}
-            <header className={style.header}>
-                <TextTitle>Header</TextTitle>
-            </header>
-            {templates.map((t) => (
-                <TemplateCard key={t.id} template={t}></TemplateCard>
-            ))}
-        </div>
-    );
+    return <Hero />;
 }
