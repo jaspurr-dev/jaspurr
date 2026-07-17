@@ -1,4 +1,6 @@
 import {BeforeAfter} from '@/components/landing/BeforeAfter';
+import {HowItWorks} from '@/components/landing/HowItWorks';
+import {RolesSection} from '@/components/landing/RolesSection';
 import {Hero} from '@components/landing/Hero';
 
 /* The landing page. The role
@@ -7,7 +9,9 @@ export function RouteHome() {
     return (
         <>
             <Hero />
-            <BeforeAfter></BeforeAfter>
+            <BeforeAfter />
+            <RolesSection />
+            <HowItWorks />
         </>
     );
 }

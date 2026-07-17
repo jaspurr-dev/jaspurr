@@ -1,0 +1,90 @@
+@layer components {
+    .section {
+        display: flex;
+        max-width: 960px;
+        flex-direction: column;
+        gap: var(--space-4);
+        margin-inline: auto;
+        padding-block: clamp(2rem, 6vh, 4rem);
+        padding-inline: var(--space-4);
+    }
+
+    .intro {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        text-align: center;
+    }
+
+    .heading {
+        margin: var(--size-zero);
+        font-size: clamp(1.5rem, 3vw + 0.5rem, 2.25rem);
+        font-weight: var(--font-weight-medium);
+        line-height: var(--leading-200);
+        letter-spacing: var(--tracking-tight);
+        color: var(--text-strong);
+        text-wrap: balance;
+    }
+
+    .subhead {
+        margin: var(--size-zero);
+        color: var(--text-secondary);
+        text-wrap: balance;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: var(--space-3);
+        margin: var(--size-zero);
+        padding: var(--size-zero);
+        list-style: none;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        height: 100%;
+        padding: var(--space-4);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--card);
+    }
+
+    .card.selected {
+        border-color: var(--accent);
+        background: var(--accent-subtle);
+    }
+
+    .iconTile {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-sm);
+        background: var(--raised);
+        color: var(--accent);
+    }
+
+    .card.selected .iconTile {
+        background: var(--accent);
+        color: var(--on-primary);
+    }
+
+    .name {
+        font-weight: var(--font-weight-medium);
+        color: var(--text-strong);
+    }
+
+    .line {
+        font-size: var(--font-size-400);
+        color: var(--text-secondary);
+    }
+
+    .cta {
+        display: flex;
+        justify-content: center;
+        margin-top: var(--space-2);
+    }
+}
