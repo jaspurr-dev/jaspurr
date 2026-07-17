@@ -1,0 +1,110 @@
+@layer components {
+    .section {
+        display: flex;
+        max-width: 960px;
+        flex-direction: column;
+        gap: var(--space-4);
+        margin-inline: auto;
+        padding-block: clamp(2rem, 6vh, 4rem);
+        padding-inline: var(--space-4);
+    }
+
+    .intro {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        text-align: center;
+    }
+
+    .heading {
+        margin: var(--size-zero);
+        font-size: clamp(1.5rem, 3vw + 0.5rem, 2.25rem);
+        font-weight: var(--font-weight-medium);
+        line-height: var(--leading-200);
+        letter-spacing: var(--tracking-tight);
+        color: var(--text-strong);
+        text-wrap: balance;
+    }
+
+    .subhead {
+        margin: var(--size-zero);
+        color: var(--text-secondary);
+        text-wrap: balance;
+    }
+
+    .mobileToggle {
+        display: none;
+        justify-content: center;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4);
+        align-items: start;
+    }
+
+    .panel {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        min-width: 0;
+    }
+
+    .panelLabel {
+        font-size: var(--font-size-400);
+        font-weight: var(--font-weight-medium);
+        color: var(--text-muted);
+    }
+
+    .weak {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        padding: var(--space-4);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--card);
+    }
+
+    .weakBody {
+        margin: var(--size-zero);
+        white-space: pre-wrap;
+        font-family: var(--font-mono);
+        font-size: var(--font-size-300);
+        line-height: var(--leading-500);
+        color: var(--text-reading);
+    }
+
+    .weakNote {
+        margin: var(--size-zero);
+        color: var(--text-muted);
+        font-size: var(--font-size-300);
+    }
+
+    @media (max-width: 640px) {
+        .mobileToggle {
+            display: flex;
+        }
+
+        .grid {
+            grid-template-columns: 1fr;
+        }
+
+        .panelLabel {
+            display: none;
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .grid[data-active='before'] .panel[data-view='before'] {
+            display: flex;
+        }
+
+        .grid[data-active='after'] .panel[data-view='after'] {
+            display: flex;
+        }
+    }
+}
