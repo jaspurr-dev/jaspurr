@@ -1,0 +1,89 @@
+@layer components {
+    .screen {
+        width: 100%;
+        max-width: 480px;
+        margin-inline: auto;
+    }
+
+    .top {
+        display: grid;
+        grid-template-columns:
+            var(--sz-primary-action-sm)
+            1fr
+            var(--sz-primary-action-sm);
+        align-items: center;
+    }
+
+    .stem {
+        margin: var(--size-zero);
+        text-align: center;
+        font-size: var(--font-size-600);
+        font-weight: var(--font-weight-medium);
+        color: var(--text-strong);
+    }
+
+    .hint {
+        margin: var(--size-zero);
+        text-align: center;
+        color: var(--text-muted);
+    }
+
+    .input {
+        width: 100%;
+        height: var(--sz-primary-action-sm);
+        padding-inline: var(--space-4);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-sm);
+        background: var(--raised);
+        color: var(--text);
+        font: inherit;
+    }
+
+    .input::placeholder {
+        color: var(--text-muted);
+    }
+
+    .input:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+        border-color: var(--accent);
+    }
+
+    .chips {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-2);
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+    }
+
+    .build {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        height: var(--sz-primary-action-sm);
+        padding-inline: var(--space-4);
+        border: none;
+        border-radius: var(--radius-sm);
+        background: var(--primary);
+        color: var(--on-primary);
+        font: inherit;
+        font-weight: var(--font-weight-medium);
+        cursor: pointer;
+    }
+
+    .build:disabled {
+        background: var(--raised);
+        color: var(--text-muted);
+        cursor: not-allowed;
+    }
+
+    .build:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+}
