@@ -16,9 +16,4 @@
         font-weight: var(--font-weight-medium);
         color: var(--text-strong);
     }
-
-    .placeholder {
-        text-align: center;
-        color: var(--text-secondary);
-    }
 }

@@ -1,0 +1,46 @@
+@layer components {
+    .screen {
+        width: 100%;
+        max-width: 560px;
+        margin-inline: auto;
+    }
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: var(--sz-primary-action-sm);
+        padding-inline: var(--space-4);
+        border: var(--border-width) solid transparent;
+        border-radius: var(--radius-sm);
+        font: inherit;
+        font-weight: var(--font-weight-medium);
+        cursor: pointer;
+    }
+
+    .primary {
+        background: var(--primary);
+        color: var(--on-primary);
+    }
+
+    .secondary {
+        background: transparent;
+        border-color: var(--border);
+        color: var(--text-strong);
+    }
+
+    .secondary:hover {
+        background: var(--raised);
+    }
+
+    .action:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+}
