@@ -2,18 +2,21 @@ import type {ReactNode} from 'react';
 import {useAtomValue, useSetAtom} from 'jotai';
 import {draftAtom, flowAtom, stepAtom} from '@/state/flow';
 import {getRole} from '@/core/scaffold/roles';
-import {ENVIRONMENT_QUESTION} from '@/core/scaffold/questions';
+import {ENVIRONMENT_QUESTION, OUTPUT_QUESTION} from '@/core/scaffold/questions';
 import {RoleGrid} from '@components/role/RoleGrid';
 import {QuestionScreen} from '@components/flow/QuestionScreen';
+import {TopicScreen} from '@/components/flow/TopicScreen';
 import {Text} from '@/primitives';
 import style from './Build.module.css';
 
-/* The tool flow. Steps 1-3 (role, then the first two questions) are wired here;
-the later steps land in a follow-up. */
+/* The tool flow, role through the free-text line. The result screen is the one
+step still to come. */
 export function RouteBuild() {
     const step = useAtomValue(stepAtom);
     const draft = useAtomValue(draftAtom);
     const dispatch = useSetAtom(flowAtom);
+
+    const role = draft.roleId ? getRole(draft.roleId) : undefined;
 
     const content = ((): ReactNode => {
         switch (step) {
@@ -32,7 +35,6 @@ export function RouteBuild() {
                     </div>
                 );
             case 'task': {
-                const role = draft.roleId ? getRole(draft.roleId) : undefined;
                 if (!role) return null;
                 return (
                     <QuestionScreen
@@ -65,11 +67,42 @@ export function RouteBuild() {
                     />
                 );
             case 'output':
+                return (
+                    <QuestionScreen
+                        stem={OUTPUT_QUESTION.stem}
+                        options={OUTPUT_QUESTION.options}
+                        questionNumber={3}
+                        selectedId={draft.outputId}
+                        onSelect={(outputId) => {
+                            dispatch({type: 'pickOutput', outputId});
+                        }}
+                        onBack={() => {
+                            dispatch({type: 'back'});
+                        }}
+                    />
+                );
             case 'topic':
+                if (!role) return null;
+                return (
+                    <TopicScreen
+                        examples={role.examples}
+                        topic={draft.topic}
+                        questionNumber={4}
+                        onTopic={(topic) => {
+                            dispatch({type: 'setTopic', topic});
+                        }}
+                        onSubmit={() => {
+                            dispatch({type: 'finish'});
+                        }}
+                        onBack={() => {
+                            dispatch({type: 'back'});
+                        }}
+                    />
+                );
             case 'result':
                 return (
                     <Text className={style.placeholder}>
-                        The rest of the flow is coming soon.
+                        Template is coming together. Result screen is next.
                     </Text>
                 );
         }
