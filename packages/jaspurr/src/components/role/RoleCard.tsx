@@ -1,21 +1,9 @@
 import type {ButtonHTMLAttributes} from 'react';
-import {Icon, type IconName} from '@components/icons/Icon';
-import {RoleId, type Role} from '@/core/scaffold/types';
+import {Icon} from '@components/icons/Icon';
+import {type Role} from '@/core/scaffold/types';
+import {ROLE_ICON} from './roleIcon';
 import {cx} from '@/util/cx';
 import style from './RoleCard.module.css';
-
-/* Each role's card glyph. Four roles reuse existing icons; the rest were added
-to Icon PATHS in this PR. */
-const ROLE_ICON: Record<RoleId, IconName> = {
-    [RoleId.SoftwareEngineer]: 'code',
-    [RoleId.TechnicalPm]: 'target',
-    [RoleId.ProductDesigner]: 'brush',
-    [RoleId.DataAnalyst]: 'chartBar',
-    [RoleId.DevopsSre]: 'server',
-    [RoleId.QaEngineer]: 'listCheck',
-    [RoleId.SecurityEngineer]: 'shield',
-    [RoleId.EngManager]: 'users',
-};
 
 type RoleCardProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'role'> & {
     role: Role;
