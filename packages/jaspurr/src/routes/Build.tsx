@@ -1,20 +1,30 @@
 import type {ReactNode} from 'react';
 import {useAtomValue, useSetAtom} from 'jotai';
-import {draftAtom, flowAtom, stepAtom} from '@/state/flow';
+import {
+    assembledAtom,
+    draftAtom,
+    flowAtom,
+    selectionAtom,
+    stepAtom,
+} from '@/state/flow';
+import {saveTemplateAtom} from '@/state/library';
 import {getRole} from '@/core/scaffold/roles';
 import {ENVIRONMENT_QUESTION, OUTPUT_QUESTION} from '@/core/scaffold/questions';
 import {RoleGrid} from '@components/role/RoleGrid';
 import {QuestionScreen} from '@components/flow/QuestionScreen';
 import {TopicScreen} from '@/components/flow/TopicScreen';
+import {ResultScreen} from '@/components/flow/ResultScreen';
 import {Text} from '@/primitives';
 import style from './Build.module.css';
 
-/* The tool flow, role through the free-text line. The result screen is the one
-step still to come. */
+/* The tool flow to the final assembled result. */
 export function RouteBuild() {
     const step = useAtomValue(stepAtom);
     const draft = useAtomValue(draftAtom);
     const dispatch = useSetAtom(flowAtom);
+    const assembled = useAtomValue(assembledAtom);
+    const selection = useAtomValue(selectionAtom);
+    const save = useSetAtom(saveTemplateAtom);
 
     const role = draft.roleId ? getRole(draft.roleId) : undefined;
 
@@ -100,10 +110,18 @@ export function RouteBuild() {
                     />
                 );
             case 'result':
+                if (!assembled || !selection) return null;
                 return (
-                    <Text className={style.placeholder}>
-                        Template is coming together. Result screen is next.
-                    </Text>
+                    <ResultScreen
+                        sections={assembled.sections}
+                        chips={assembled.chips}
+                        onSave={() => {
+                            save(selection);
+                        }}
+                        onChangeAnswers={() => {
+                            dispatch({type: 'changeAnswers'});
+                        }}
+                    />
                 );
         }
     })();
