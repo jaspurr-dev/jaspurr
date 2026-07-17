@@ -4,7 +4,7 @@ import {Stack} from '@/primitives';
 
 const SEGMENTS = [
     {value: 'before', label: 'Weak prompt'},
-    {value: 'after', label: 'With Scaffold'},
+    {value: 'after', label: 'With Jaspurr'},
 ] as const;
 
 const noop = () => undefined;

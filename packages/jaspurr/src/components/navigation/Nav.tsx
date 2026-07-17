@@ -9,9 +9,9 @@ target landing anchors. */
 export function Nav() {
     return (
         <nav className={style.nav}>
-            <Link to="/" className={style.brand} aria-label="Scaffold home">
+            <Link to="/" className={style.brand} aria-label="Jaspurr home">
                 <BrandMark />
-                <span className={style.wordmark}>Scaffold</span>
+                <span className={style.wordmark}>Jaspurr</span>
             </Link>
             <div className={style.actions}>
                 <a href="#roles" className={style.link}>
