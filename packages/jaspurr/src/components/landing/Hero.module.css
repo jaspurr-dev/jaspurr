@@ -1,0 +1,74 @@
+@layer components {
+    .hero {
+        display: flex;
+        max-width: 720px;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-4);
+        margin-inline: auto;
+        padding-block: clamp(3rem, 10vh, 6rem);
+        padding-inline: var(--space-4);
+        text-align: center;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: var(--space-1) var(--space-3);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-full);
+        background: var(--raised);
+        color: var(--text-secondary);
+        font-size: var(--font-size-300);
+    }
+
+    .headline {
+        max-width: 18ch;
+        margin: var(--size-zero);
+        font-size: clamp(2rem, 5vw + 1rem, 3.25rem);
+        font-weight: var(--font-weight-medium);
+        line-height: var(--leading-200);
+        letter-spacing: var(--tracking-tight);
+        color: var(--text-strong);
+        text-wrap: balance;
+    }
+
+    .subhead {
+        max-width: 46ch;
+        margin: var(--size-zero);
+        font-size: var(--font-size-600);
+        line-height: var(--leading-500);
+        color: var(--text-secondary);
+        text-wrap: balance;
+    }
+
+    .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: var(--sz-primary-action-sm);
+        margin-top: var(--space-2);
+        padding-inline: 1.5rem;
+        border-radius: var(--radius-sm);
+        background: var(--primary);
+        color: var(--on-primary);
+        font-size: var(--font-size-500);
+        font-weight: var(--font-weight-medium);
+        text-decoration: none;
+    }
+
+    .cta:hover {
+        background: color-mix(in oklab, var(--primary), black 8%);
+    }
+
+    .cta:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+
+    .trust {
+        margin: var(--size-zero);
+        color: var(--text-muted);
+        font-size: var(--font-size-300);
+    }
+}
