@@ -1,0 +1,150 @@
+@layer components {
+    .section {
+        display: flex;
+        max-width: 960px;
+        flex-direction: column;
+        gap: var(--space-4);
+        margin-inline: auto;
+        padding-block: clamp(2rem, 6vh, 4rem);
+        padding-inline: var(--space-4);
+    }
+
+    .intro {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        text-align: center;
+    }
+
+    .heading {
+        margin: var(--size-zero);
+        font-size: clamp(1.5rem, 3vw + 0.5rem, 2.25rem);
+        font-weight: var(--font-weight-medium);
+        line-height: var(--leading-200);
+        letter-spacing: var(--tracking-tight);
+        color: var(--text-strong);
+        text-wrap: balance;
+    }
+
+    .subhead {
+        margin: var(--size-zero);
+        color: var(--text-secondary);
+        text-wrap: balance;
+    }
+
+    .steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: var(--space-4);
+        margin: var(--size-zero);
+        padding: var(--size-zero);
+        list-style: none;
+        padding-block: clamp(2rem, 6vh, 4rem);
+        padding-inline: var(--space-4);
+    }
+
+    .step {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-3);
+    }
+
+    .stepNumber {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: var(--radius-full);
+        background: var(--accent);
+        color: var(--on-primary);
+        font-size: var(--font-size-400);
+        font-weight: var(--font-weight-medium);
+    }
+
+    .stepText {
+        color: var(--text-secondary);
+        line-height: var(--leading-500);
+    }
+
+    .samples {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: var(--space-4);
+    }
+
+    .sample {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        padding: var(--space-4);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--card);
+    }
+
+    .sampleLabel {
+        font-size: var(--font-size-300);
+        font-weight: var(--font-weight-medium);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    .mockStem {
+        font-size: var(--font-size-600);
+        font-weight: var(--font-weight-medium);
+        color: var(--text-strong);
+    }
+
+    .mockOptions {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .mockOption {
+        padding: var(--space-3);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--raised);
+        color: var(--text);
+        font-size: var(--font-size-400);
+    }
+
+    .mockOptionSelected {
+        border-color: var(--accent);
+        background: var(--accent-subtle);
+        color: var(--text-strong);
+    }
+
+    .mockInput {
+        padding: var(--space-3) var(--space-4);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-sm);
+        background: var(--raised);
+        color: var(--text-secondary);
+        font-size: var(--font-size-400);
+    }
+
+    .mockChips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+
+    .mockChip {
+        padding: var(--space-1) var(--space-3);
+        border: var(--border-width) solid var(--border);
+        border-radius: var(--radius-full);
+        background: var(--raised);
+        color: var(--text-secondary);
+        font-size: var(--font-size-300);
+    }
+
+    .cta {
+        display: flex;
+        justify-content: center;
+        margin-top: var(--space-2);
+    }
+}

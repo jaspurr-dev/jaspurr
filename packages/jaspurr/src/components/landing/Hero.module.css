@@ -42,30 +42,6 @@
         text-wrap: balance;
     }
 
-    .cta {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        height: var(--sz-primary-action-sm);
-        margin-top: var(--space-2);
-        padding-inline: 1.5rem;
-        border-radius: var(--radius-sm);
-        background: var(--primary);
-        color: var(--on-primary);
-        font-size: var(--font-size-500);
-        font-weight: var(--font-weight-medium);
-        text-decoration: none;
-    }
-
-    .cta:hover {
-        background: color-mix(in oklab, var(--primary), black 8%);
-    }
-
-    .cta:focus-visible {
-        outline: 2px solid var(--ring);
-        outline-offset: 2px;
-    }
-
     .trust {
         margin: var(--size-zero);
         color: var(--text-muted);
