@@ -18,7 +18,6 @@ import {
     RouteBuild,
     RouteLibrary,
 } from '@/routes';
-import {ThemeManager} from '@components/theme/ThemeManager';
 import {getTemplate, type TemplateId} from '@/core/templates';
 import {TemplateURLPrefix} from './util/template';
 
@@ -56,7 +55,6 @@ if (!root) throw new Error('Root element not found in the DOM');
 ReactDOM.createRoot(root).render(
     <React.StrictMode>
         <Provider>
-            <ThemeManager />
             <RouterProvider router={router} />
         </Provider>
     </React.StrictMode>
