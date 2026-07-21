@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Checking dependencies for vulnerabilities..."
+# TODO: refactoring this with pnpm workspace / GH actions separate step
+# until then, disabled.
+# echo "Checking dependencies for vulnerabilities..."
 # pnpm audit
 
 pnpm exec prettier . --check
