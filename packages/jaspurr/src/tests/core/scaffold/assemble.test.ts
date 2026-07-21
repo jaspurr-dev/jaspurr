@@ -10,6 +10,7 @@ import {
     EXAMPLE_COMPANY_ID,
     EXAMPLE_SELECTION,
     EXAMPLE_FRONTEND_SELECTION,
+    EXAMPLE_GAME_SELECTION,
 } from '@/core/scaffold/roles';
 
 const designer = EXAMPLE_SELECTION;
@@ -111,5 +112,32 @@ describe('frontend engineer', () => {
             'Standard SPA',
             'Inline diff',
         ]);
+    });
+
+    describe('game designer', () => {
+        const game = EXAMPLE_GAME_SELECTION;
+
+        it('fills the free-text company into the ex-{company} role line', () => {
+            expect(bodyOf(game, 'ROLE')).toContain(
+                'ex-Foobar expert game designer'
+            );
+        });
+
+        it('composes targeting, team, and timeline into one target line', () => {
+            expect(bodyOf(game, 'TARGET')).toBe(
+                'The user wants to target Roguelike deckbuilder, PC, $20. ' +
+                    'They are a small team of 2 to 5 working to a ship timeline of ' +
+                    '6 to 12 months.'
+            );
+        });
+
+        it('chips only the three select answers', () => {
+            expect(assembleTemplate(game).chips).toEqual([
+                'Game designer',
+                '6-12 months',
+                '2-5',
+                '30s breakdown',
+            ]);
+        });
     });
 });
