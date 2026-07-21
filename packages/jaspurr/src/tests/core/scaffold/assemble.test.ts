@@ -6,7 +6,11 @@ import {
     type Selection,
 } from '@/core/scaffold/assemble';
 import {RoleId} from '@/core/scaffold/types';
-import {EXAMPLE_COMPANY_ID, EXAMPLE_SELECTION} from '@/core/scaffold/roles';
+import {
+    EXAMPLE_COMPANY_ID,
+    EXAMPLE_SELECTION,
+    EXAMPLE_FRONTEND_SELECTION,
+} from '@/core/scaffold/roles';
 
 const designer = EXAMPLE_SELECTION;
 
@@ -80,6 +84,32 @@ describe('assembleTemplate', () => {
             'Visual designer',
             'Existing project',
             'Refresh an existing UI',
+        ]);
+    });
+});
+
+describe('frontend engineer', () => {
+    const frontend = EXAMPLE_FRONTEND_SELECTION;
+
+    it('prefixes the task body with the labeled task type', () => {
+        expect(bodyOf(frontend, 'TASK')).toBe(
+            '[Feature] Add a settings screen with a dark-mode toggle'
+        );
+    });
+
+    it('resolves the stack and output select answers into their sections', () => {
+        expect(bodyOf(frontend, 'DEPENDENCIES')).toContain(
+            'React, React Router, TypeScript, Vite, and Vitest'
+        );
+        expect(bodyOf(frontend, 'OUTPUT')).toContain('inline code diff');
+    });
+
+    it('chips the select answers but not the free-text task', () => {
+        expect(assembleTemplate(frontend).chips).toEqual([
+            'Frontend engineer',
+            'Feature',
+            'Standard SPA',
+            'Inline diff',
         ]);
     });
 });

@@ -50,10 +50,35 @@ describe('flow machine', () => {
         const store = createStore();
         store.set(flowAtom, {
             type: 'pickRole',
-            roleId: RoleId.FrontendEngineer,
+            roleId: RoleId.GameDesigner,
         });
         expect(store.get(stepAtom)).toBe('role');
         expect(store.get(roleIdAtom)).toBeNull();
+    });
+
+    it('walks the frontend role: select, text, then two selects', () => {
+        const store = createStore();
+        store.set(flowAtom, {
+            type: 'pickRole',
+            roleId: RoleId.FrontendEngineer,
+        });
+        expect(store.get(positionAtom)).toEqual({number: 1, total: 4});
+        // A leading select auto-advances to the free-text task.
+        expect(store.get(currentQuestionAtom)?.kind).toBe('select');
+        store.set(flowAtom, {type: 'answer', value: 'feature'});
+        expect(store.get(positionAtom).number).toBe(2);
+        expect(store.get(currentQuestionAtom)?.kind).toBe('text');
+        store.set(flowAtom, {type: 'setText', value: 'Add a settings screen'});
+        store.set(flowAtom, {type: 'next'});
+        store.set(flowAtom, {type: 'answer', value: 'spa'});
+        store.set(flowAtom, {type: 'answer', value: 'diff'});
+        expect(store.get(stepAtom)).toBe('result');
+        expect(store.get(assembledAtom)?.chips).toEqual([
+            'Frontend engineer',
+            'Feature',
+            'Standard SPA',
+            'Inline diff',
+        ]);
     });
 
     it('exposes no selection until every question is answered', () => {

@@ -130,7 +130,7 @@ describe('isValidSelection', () => {
 
     it('rejects a coming-soon role with no questions', () => {
         expect(
-            isValidSelection({roleId: RoleId.FrontendEngineer, answers: {}})
+            isValidSelection({roleId: RoleId.GameDesigner, answers: {}})
         ).toBe(false);
     });
 
