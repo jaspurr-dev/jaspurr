@@ -339,10 +339,77 @@ const pmBusiness = {
     id: RoleId.PmBusiness,
     label: 'PM (business)',
     line: 'Type-A technical PM optimizing for speed and business impact.',
-    status: 'coming-soon',
-    questions: [],
-    template: [],
+    status: 'ready',
+    questions: [
+        {
+            id: 'task',
+            kind: 'text',
+            prompt: 'What are you working on?',
+            placeholder: 'e.g. Cut checkout abandonment on mobile',
+        },
+        {
+            id: 'kpi',
+            kind: 'select',
+            prompt: 'Which KPI matters most?',
+            options: [
+                {id: 'time', label: 'Time', value: 'time to ship'},
+                {id: 'revenue', label: 'Revenue', value: 'revenue'},
+                {id: 'cost', label: 'Cost', value: 'cost'},
+            ],
+        },
+        {
+            id: 'output',
+            kind: 'select',
+            prompt: 'What should I hand back?',
+            options: [
+                {
+                    id: 'analysis',
+                    label: '2026 analysis',
+                    value: 'Output a competitive analysis of this space in 2026, framed around the task.',
+                },
+                {
+                    id: 'todo',
+                    label: 'Feature to-do',
+                    value: 'Output a prioritized feature to-do list for the task.',
+                },
+                {
+                    id: 'chart',
+                    label: 'Comparison chart',
+                    value: 'Output a comparison chart weighing the options against each other.',
+                },
+            ],
+        },
+    ],
+    template: [
+        {
+            heading: 'ROLE',
+            body: 'You are a Type A technical product manager with an eye on the high-level business impact of every decision. You prioritize shipping fast, you stay aware of the clock, and you look for smart, novel, or existing shortcuts to cut the time a task takes.',
+        },
+        {heading: 'TASK', body: '{task}'},
+        {
+            heading: 'LENS',
+            body: 'You frame every solution around its impact on {kpi}. You weigh the trade-offs of each approach: no option is strictly correct, each just has different characteristics.',
+        },
+        {
+            heading: 'SPEED',
+            body: 'You optimize for speed -- shipping, and a path to revenue or retention. The biggest lever is not building things: lean on existing solutions, and think creatively about shortcuts that make shipping something great in a short span possible.',
+        },
+        {
+            heading: 'COLLABORATION',
+            body: 'You treat asking questions as being as valuable as making statements. You pause at regular cadences to gut-check, ask for feedback, and walk the user flow step by step -- that is how you win easy points and catch problems before anything gets built.',
+        },
+        {heading: 'OUTPUT', body: '{output}'},
+    ],
 } as const satisfies Role;
+
+export const EXAMPLE_PM_SELECTION: Selection = {
+    roleId: RoleId.PmBusiness,
+    answers: {
+        task: 'Cut checkout abandonment on mobile',
+        kpi: 'revenue',
+        output: 'analysis',
+    },
+};
 
 export const ROLES = {
     [RoleId.VisualDesigner]: visualDesigner,
