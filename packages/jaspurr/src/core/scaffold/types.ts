@@ -1,61 +1,65 @@
 export const RoleId = {
-    SoftwareEngineer: 'software-engineer',
-    TechnicalPm: 'technical-pm',
-    ProductDesigner: 'product-designer',
-    DataAnalyst: 'data-analyst',
-    DevopsSre: 'devops-sre',
-    QaEngineer: 'qa-engineer',
-    SecurityEngineer: 'security-engineer',
-    EngManager: 'eng-manager',
+    VisualDesigner: 'visual-designer',
+    FrontendEngineer: 'frontend-engineer',
+    GameDesigner: 'game-designer',
+    PmBusiness: 'pm-business',
 } as const;
 export type RoleId = (typeof RoleId)[keyof typeof RoleId];
 export const ROLE_IDS = Object.values(RoleId);
 
-/* Every question offers exactly four options; the tuple enforces it at compile
-time so a miscounted list fails tsc rather than a test. */
-export type Options<T> = readonly [T, T, T, T];
+/* Each role owns its own ordered list of questions -- the count and the mix of
+kinds differ per role -- so the schema below describes a single question rather
+than a fixed set. A question's id keys both the collected answer and the {id}
+placeholder it fills in the role's template. */
+export type QuestionKind = 'select' | 'text';
 
-export interface Question<T> {
-    readonly stem: string;
-    readonly options: Options<T>;
-}
-
-/* Q1 is role-specific: each option maps to one CONSTRAINT line. Its ids differ
-per role, so the valid task-id union is derived per role (see assemble.ts). */
-export interface TaskOption {
+/* One choice in a select question. `label` is shown to the user; `value` is the
+sentence substituted into the template. */
+export interface SelectOption {
     readonly id: string;
     readonly label: string;
-    readonly constraint: string;
+    readonly value: string;
 }
 
-export type EnvironmentId = 'greenfield' | 'mature' | 'legacy' | 'unsure';
-
-/* Q2 is shared: each option maps to a CONTEXT line plus a CONSTRAINT line. */
-export interface EnvironmentOption {
-    readonly id: EnvironmentId;
-    readonly label: string;
-    readonly context: string;
-    readonly constraint: string;
+interface QuestionBase {
+    readonly id: string;
+    readonly kind: QuestionKind;
+    /* The question shown to the user (the stem). */
+    readonly prompt: string;
 }
 
-export type OutputId =
-    | 'output-only'
-    | 'output-plus-reasoning'
-    | 'plan-first'
-    | 'walkthrough';
-
-/* Q3 is shared: each option maps to an OUTPUT FORMAT plus a TONE. */
-export interface OutputOption {
-    readonly id: OutputId;
-    readonly label: string;
-    readonly format: string;
-    readonly tone: string;
+export interface SelectQuestion extends QuestionBase {
+    readonly kind: 'select';
+    readonly options: readonly SelectOption[];
 }
+
+export interface TextQuestion extends QuestionBase {
+    readonly kind: 'text';
+    readonly placeholder?: string;
+    /* Optional starter chips so the step is completable without a keyboard. */
+    readonly examples?: readonly string[];
+}
+
+export type Question = SelectQuestion | TextQuestion;
+
+/* A section of the assembled prompt. `body` may contain {questionId} tokens
+that are replaced with the corresponding answer when the template is assembled. */
+export interface TemplateSection {
+    readonly heading: string;
+    readonly body: string;
+}
+
+/* 'ready' roles have a full question flow and template; 'coming-soon' roles
+appear in the grid but are not yet wired -- their questions and template land in
+a later PR. */
+export type RoleStatus = 'ready' | 'coming-soon';
 
 export interface Role {
     readonly id: RoleId;
     readonly label: string;
+    /* One-line description shown on the role card. */
     readonly line: string;
-    readonly question: Question<TaskOption>;
-    readonly examples: readonly [string, string, string];
+    readonly status: RoleStatus;
+    readonly questions: readonly Question[];
+    readonly template: readonly TemplateSection[];
 }

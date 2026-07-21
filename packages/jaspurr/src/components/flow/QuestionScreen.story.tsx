@@ -1,20 +1,23 @@
 import type {Story} from '@/sandbox/types';
 import {QuestionScreen} from './QuestionScreen';
-import {ROLES} from '@/core/scaffold/roles';
-import {RoleId} from '@/core/scaffold/types';
 
 const noop = () => undefined;
-const question = ROLES[RoleId.SoftwareEngineer].question;
+const options = [
+    {id: 'screen', label: 'Design a new screen'},
+    {id: 'refresh', label: 'Refresh an existing UI'},
+    {id: 'explore', label: 'Explore a direction'},
+];
 
 export const story: Story = {
     name: 'QuestionScreen',
     layer: 'components',
     render: () => (
         <QuestionScreen
-            stem={question.stem}
-            options={question.options}
-            questionNumber={1}
-            selectedId="refactor"
+            stem="What do you need?"
+            options={options}
+            questionNumber={3}
+            total={3}
+            selectedId="refresh"
             onSelect={noop}
             onBack={noop}
         />

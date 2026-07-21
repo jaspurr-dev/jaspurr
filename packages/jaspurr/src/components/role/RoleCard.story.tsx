@@ -9,8 +9,9 @@ export const story: Story = {
     layer: 'components',
     render: () => (
         <Row gap="3" align="stretch" style={{maxWidth: 520}}>
-            <RoleCard role={ROLES[RoleId.SoftwareEngineer]} />
-            <RoleCard role={ROLES[RoleId.SecurityEngineer]} selected />
+            <RoleCard role={ROLES[RoleId.VisualDesigner]} />
+            <RoleCard role={ROLES[RoleId.FrontendEngineer]} selected />
+            <RoleCard role={ROLES[RoleId.GameDesigner]} selected />
         </Row>
     ),
 };

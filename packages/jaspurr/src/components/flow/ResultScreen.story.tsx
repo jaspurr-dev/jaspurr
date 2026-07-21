@@ -1,17 +1,9 @@
 import type {Story} from '@/sandbox/types';
 import {ResultScreen} from './ResultScreen';
-import {assembleTemplate, type Selection} from '@/core/scaffold/assemble';
-import {RoleId} from '@/core/scaffold/types';
+import {assembleTemplate} from '@/core/scaffold/assemble';
+import {EXAMPLE_SELECTION} from '@/core/scaffold/roles';
 
-const softwareExample: Selection = {
-    roleId: RoleId.SoftwareEngineer,
-    taskId: 'refactor',
-    environmentId: 'mature',
-    outputId: 'output-only',
-    topic: 'Refactor a 2,000-line React component into hooks',
-};
-
-const template = assembleTemplate(softwareExample);
+const template = assembleTemplate(EXAMPLE_SELECTION);
 const noop = () => undefined;
 
 export const story: Story = {

@@ -89,7 +89,7 @@ export function LibraryView({items, onDelete}: LibraryViewProps) {
                                 item.selection
                             );
                             const title =
-                                sanitize(item.selection.topic) || 'Untitled';
+                                sanitize(item.selection.roleId) || 'Untitled';
                             return (
                                 <li key={item.id} className={style.row}>
                                     <span className={style.iconTile}>

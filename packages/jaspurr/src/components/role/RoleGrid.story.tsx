@@ -5,5 +5,5 @@ import {RoleId} from '@/core/scaffold/types';
 export const story: Story = {
     name: 'RoleGrid',
     layer: 'components',
-    render: () => <RoleGrid selectedId={RoleId.SoftwareEngineer} />,
+    render: () => <RoleGrid selectedId={RoleId.FrontendEngineer} />,
 };

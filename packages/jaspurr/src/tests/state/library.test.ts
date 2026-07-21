@@ -4,32 +4,35 @@ import {
     removeTemplate,
     clearTemplates,
     libraryToMarkdown,
+    templateTitle,
     isValidSelection,
     isSavedTemplate,
     type SavedTemplate,
 } from '@/state/library';
 import type {Selection} from '@/core/scaffold/assemble';
 import {RoleId} from '@/core/scaffold/types';
+import {EXAMPLE_COMPANY_ID, EXAMPLE_SELECTION} from '@/core/scaffold/roles';
 
-const refactor: Selection = {
-    roleId: RoleId.SoftwareEngineer,
-    taskId: 'refactor',
-    environmentId: 'mature',
-    outputId: 'output-only',
-    topic: 'Refactor a 2,000-line React component into hooks',
+const refresh = EXAMPLE_SELECTION;
+
+/* A distinct saved template: same role, different answers. */
+const screen: Selection = {
+    ...EXAMPLE_SELECTION,
+    answers: {...EXAMPLE_SELECTION.answers, context: 'new', task: 'screen'},
 };
 
-/* Same answers, different free-text line -- a distinct saved template. */
-const debug: Selection = {
-    ...refactor,
-    topic: 'Track down a memory leak in the worker pool',
-};
+const a: SavedTemplate = {id: 'id-a', selection: refresh};
+const b: SavedTemplate = {id: 'id-b', selection: screen};
+/* Same answers as `a`, different id -- what a second Save would produce. */
+const aAgain: SavedTemplate = {id: 'id-a2', selection: refresh};
 
-const a: SavedTemplate = {id: 'id-a', selection: refactor};
-const b: SavedTemplate = {id: 'id-b', selection: debug};
-/* Same answers as `a`, different id -- what a second Save of the same flow
-would produce. */
-const aAgain: SavedTemplate = {id: 'id-a2', selection: refactor};
+describe('templateTitle', () => {
+    it('combines the role label with the text answer', () => {
+        expect(templateTitle(refresh)).toBe(
+            `Visual designer: ${EXAMPLE_COMPANY_ID}`
+        );
+    });
+});
 
 describe('addTemplate', () => {
     it('appends a new template to an empty library', () => {
@@ -82,10 +85,9 @@ describe('libraryToMarkdown', () => {
 
     it('renders a heading, a fenced block, and the topic per entry', () => {
         const md = libraryToMarkdown([a]);
-        expect(md).toContain('## Software engineer: ' + refactor.topic);
+        expect(md).toContain(`## Visual designer: ${EXAMPLE_COMPANY_ID}`);
         expect(md).toContain('```');
         expect(md).toContain('ROLE');
-        expect(md).toContain(refactor.topic);
     });
 
     it('separates multiple entries with a blank line', () => {
@@ -99,14 +101,17 @@ describe('libraryToMarkdown', () => {
         // SavedTemplate holds only the selection; the rendered prompt is
         // produced here, so this must equal a fresh assembly of the same answers.
         const md = libraryToMarkdown([a]);
-        expect(md).toContain('TONE');
-        expect(md).toContain('OUTPUT FORMAT');
+        expect(md).toContain('CONSTRAINTS');
+        expect(md).toContain('OUTPUT');
     });
 
     it('opens a longer fence when the assembled body contains backticks', () => {
         const withBackticks: SavedTemplate = {
             id: 'id-bt',
-            selection: {...refactor, topic: 'Use ``` in a code block'},
+            selection: {
+                roleId: RoleId.VisualDesigner,
+                answers: {...refresh.answers, company: 'the ``` studio'},
+            },
         };
         const md = libraryToMarkdown([withBackticks]);
         // The body has a 3-backtick run, so the fence must be at least 4.
@@ -115,29 +120,48 @@ describe('libraryToMarkdown', () => {
 });
 
 describe('isValidSelection', () => {
-    it('accepts a selection whose every id resolves', () => {
-        expect(isValidSelection(refactor)).toBe(true);
+    it('accepts a selection that answers every question with a valid value', () => {
+        expect(isValidSelection(refresh)).toBe(true);
     });
 
     it('rejects an unknown role', () => {
-        expect(isValidSelection({...refactor, roleId: 'wizard'})).toBe(false);
+        expect(isValidSelection({roleId: 'wizard', answers: {}})).toBe(false);
     });
 
-    it('rejects a taskId that is not one of the role options', () => {
-        // 'refactor' is a software-engineer task, not a data-analyst one.
-        const wrongTask = {...refactor, roleId: RoleId.DataAnalyst};
-        expect(isValidSelection(wrongTask)).toBe(false);
+    it('rejects a coming-soon role with no questions', () => {
+        expect(
+            isValidSelection({roleId: RoleId.FrontendEngineer, answers: {}})
+        ).toBe(false);
     });
 
-    it('rejects unknown environment or output ids', () => {
-        expect(isValidSelection({...refactor, environmentId: 'x'})).toBe(false);
-        expect(isValidSelection({...refactor, outputId: 'x'})).toBe(false);
+    it('rejects a select answer that is not one of the options', () => {
+        expect(
+            isValidSelection({
+                roleId: RoleId.VisualDesigner,
+                answers: {...refresh.answers, task: 'nope'},
+            })
+        ).toBe(false);
     });
 
-    it('rejects a non-string topic and non-object values', () => {
-        expect(isValidSelection({...refactor, topic: 42})).toBe(false);
+    it('rejects a missing or blank text answer', () => {
+        expect(
+            isValidSelection({
+                roleId: RoleId.VisualDesigner,
+                answers: {context: 'new', task: 'screen'},
+            })
+        ).toBe(false);
+        expect(
+            isValidSelection({
+                roleId: RoleId.VisualDesigner,
+                answers: {...refresh.answers, company: '   '},
+            })
+        ).toBe(false);
+    });
+
+    it('rejects non-object values and a missing answers map', () => {
         expect(isValidSelection(null)).toBe(false);
         expect(isValidSelection('nope')).toBe(false);
+        expect(isValidSelection({roleId: RoleId.VisualDesigner})).toBe(false);
     });
 });
 
@@ -146,9 +170,8 @@ describe('isSavedTemplate', () => {
         expect(isSavedTemplate(a)).toBe(true);
     });
 
-    it('rejects a bare Selection with no id wrapper (the old shape)', () => {
-        // This is exactly what PR 11 persisted; it must be dropped on load.
-        expect(isSavedTemplate(refactor)).toBe(false);
+    it('rejects a bare Selection with no id wrapper', () => {
+        expect(isSavedTemplate(refresh)).toBe(false);
     });
 
     it('rejects an entry whose selection is invalid', () => {
