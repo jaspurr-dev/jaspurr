@@ -211,10 +211,129 @@ const gameDesigner = {
     id: RoleId.GameDesigner,
     label: 'Game designer',
     line: 'Expert designer of skill-based, systems-driven play.',
-    status: 'coming-soon',
-    questions: [],
-    template: [],
+    status: 'ready',
+    questions: [
+        {
+            id: 'task',
+            kind: 'text',
+            prompt: 'What are you designing?',
+            placeholder: 'e.g. A roguelike deckbuilder with a time-loop twist',
+        },
+        {
+            id: 'company',
+            kind: 'text',
+            prompt: 'Which game or studio are you inspired by?',
+            placeholder: 'e.g. a studio or game you admire',
+        },
+        {
+            id: 'targeting',
+            kind: 'text',
+            prompt: 'What genre/platform/price point are you targeting?',
+            placeholder: 'e.g. Roguelike deckbuilder, PC, $20',
+        },
+        {
+            id: 'timeline',
+            kind: 'select',
+            prompt: "What's your ship timeline?",
+            options: [
+                {
+                    id: 'under-3',
+                    label: 'Under 3 months',
+                    value: 'an aggressive ship timeline of under 3 months',
+                },
+                {
+                    id: '3-6',
+                    label: '3-6 months',
+                    value: 'a ship timeline of 3 to 6 months',
+                },
+                {
+                    id: '6-12',
+                    label: '6-12 months',
+                    value: 'a ship timeline of 6 to 12 months',
+                },
+                {
+                    id: '12-plus',
+                    label: '12+ months',
+                    value: 'a longer ship timeline of 12+ months',
+                },
+            ],
+        },
+        {
+            id: 'team',
+            kind: 'select',
+            prompt: 'How big is the team?',
+            options: [
+                {id: 'solo', label: 'Solo', value: 'a solo developer'},
+                {
+                    id: 'small',
+                    label: '2-5',
+                    value: 'a small team of 2 to 5',
+                },
+                {
+                    id: 'mid',
+                    label: '6-15',
+                    value: 'a mid-sized team of 6 to 15',
+                },
+                {id: 'large', label: '16+', value: 'a larger team of 16+'},
+            ],
+        },
+        {
+            id: 'output',
+            kind: 'select',
+            prompt: 'What should I hand back?',
+            options: [
+                {
+                    id: 'research',
+                    label: 'Research',
+                    value: 'Lead with competitive analysis and market research to shape the design.',
+                },
+                {
+                    id: 'pillars',
+                    label: 'Design pillars',
+                    value: 'Output the core design pillars that anchor the game.',
+                },
+                {
+                    id: 'chapter',
+                    label: 'Book chapter',
+                    value: 'Output a design-book chapter: a deep, structured written treatment of the design.',
+                },
+                {
+                    id: 'breakdown',
+                    label: '30s breakdown',
+                    value: 'Output a system-level breakdown of 30 seconds of core gameplay for a new title.',
+                },
+            ],
+        },
+    ],
+    template: [
+        {
+            heading: 'ROLE',
+            body: 'You are an ex-{company} expert game designer. You value skill-based, mechanic-driven, and systems-led design. You are tactical, encyclopedic about games, and genuinely enthusiastic.',
+        },
+        {heading: 'TASK', body: '{task}'},
+        {
+            heading: 'TARGET',
+            body: 'The user wants to target {targeting}. They are {team} working to {timeline}.',
+        },
+        {
+            heading: 'CONSTRAINTS',
+            body: 'Ask whether to use competitive analysis to shape the design or to work purely from offline knowledge.\n\nAsk whether the user has specific comps or game experiences in mind -- note that this is completely optional.',
+        },
+        {heading: 'OUTPUT', body: '{output}'},
+    ],
 } as const satisfies Role;
+
+export const EXAMPLE_GAME_SELECTION: Selection = {
+    roleId: RoleId.GameDesigner,
+    answers: {
+        task: 'A roguelike deckbuilder with a time-loop twist',
+        company: 'Foobar',
+        targeting: 'Roguelike deckbuilder, PC, $20',
+        timeline: '6-12',
+        team: 'small',
+        output: 'breakdown',
+    },
+};
 
 const pmBusiness = {
     id: RoleId.PmBusiness,

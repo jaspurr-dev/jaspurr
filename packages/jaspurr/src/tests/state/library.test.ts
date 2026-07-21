@@ -129,9 +129,9 @@ describe('isValidSelection', () => {
     });
 
     it('rejects a coming-soon role with no questions', () => {
-        expect(
-            isValidSelection({roleId: RoleId.GameDesigner, answers: {}})
-        ).toBe(false);
+        expect(isValidSelection({roleId: RoleId.PmBusiness, answers: {}})).toBe(
+            false
+        );
     });
 
     it('rejects a select answer that is not one of the options', () => {

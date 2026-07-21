@@ -50,10 +50,39 @@ describe('flow machine', () => {
         const store = createStore();
         store.set(flowAtom, {
             type: 'pickRole',
-            roleId: RoleId.GameDesigner,
+            roleId: RoleId.PmBusiness,
         });
         expect(store.get(stepAtom)).toBe('role');
         expect(store.get(roleIdAtom)).toBeNull();
+    });
+
+    it('walks the game role: three text steps, then three selects', () => {
+        const store = createStore();
+        store.set(flowAtom, {type: 'pickRole', roleId: RoleId.GameDesigner});
+        expect(store.get(positionAtom)).toEqual({number: 1, total: 6});
+        // Three consecutive text steps each need an explicit next.
+        expect(store.get(currentQuestionAtom)?.kind).toBe('text');
+        store.set(flowAtom, {
+            type: 'setText',
+            value: 'A roguelike deckbuilder',
+        });
+        store.set(flowAtom, {type: 'next'});
+        store.set(flowAtom, {type: 'setText', value: 'Foobar'});
+        store.set(flowAtom, {type: 'next'});
+        store.set(flowAtom, {type: 'setText', value: 'Roguelike, PC, $20'});
+        store.set(flowAtom, {type: 'next'});
+        expect(store.get(positionAtom).number).toBe(4);
+        expect(store.get(currentQuestionAtom)?.kind).toBe('select');
+        store.set(flowAtom, {type: 'answer', value: '6-12'});
+        store.set(flowAtom, {type: 'answer', value: 'small'});
+        store.set(flowAtom, {type: 'answer', value: 'breakdown'});
+        expect(store.get(stepAtom)).toBe('result');
+        expect(store.get(assembledAtom)?.chips).toEqual([
+            'Game designer',
+            '6-12 months',
+            '2-5',
+            '30s breakdown',
+        ]);
     });
 
     it('walks the frontend role: select, text, then two selects', () => {
