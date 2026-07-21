@@ -9,9 +9,9 @@ export const story: Story = {
     render: () => (
         <TextScreen
             stem="Whose design bar are you aiming for?"
-            placeholder="e.g. Airbnb, Linear, Stripe"
-            examples={['Airbnb', 'Linear', 'Stripe']}
-            value="Linear"
+            placeholder="e.g. a product whose design you admire"
+            examples={['Foobar', 'Barfoo', 'Foobarfoo']}
+            value="Foobar"
             questionNumber={1}
             total={3}
             submitLabel="Next"

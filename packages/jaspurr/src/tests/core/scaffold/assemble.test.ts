@@ -6,11 +6,9 @@ import {
     type Selection,
 } from '@/core/scaffold/assemble';
 import {RoleId} from '@/core/scaffold/types';
+import {EXAMPLE_COMPANY_ID, EXAMPLE_SELECTION} from '@/core/scaffold/roles';
 
-const designer: Selection = {
-    roleId: RoleId.VisualDesigner,
-    answers: {company: 'Linear', context: 'existing', task: 'refresh'},
-};
+const designer = EXAMPLE_SELECTION;
 
 function bodyOf(selection: Selection, heading: string): string {
     return assemble(selection).find((s) => s.heading === heading)?.body ?? '';
@@ -18,8 +16,10 @@ function bodyOf(selection: Selection, heading: string): string {
 
 describe('assemble', () => {
     it('fills a text answer into every {placeholder} that names it', () => {
-        expect(bodyOf(designer, 'ROLE')).toContain('ex-Linear');
-        expect(bodyOf(designer, 'CONSTRAINTS')).toContain('ex-Linear designer');
+        expect(bodyOf(designer, 'ROLE')).toContain(`ex-${EXAMPLE_COMPANY_ID}`);
+        expect(bodyOf(designer, 'CONSTRAINTS')).toContain(
+            `ex-${EXAMPLE_COMPANY_ID} designer`
+        );
     });
 
     it('substitutes a select answer with the chosen option value', () => {

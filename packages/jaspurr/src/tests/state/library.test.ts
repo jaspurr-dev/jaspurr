@@ -11,16 +11,14 @@ import {
 } from '@/state/library';
 import type {Selection} from '@/core/scaffold/assemble';
 import {RoleId} from '@/core/scaffold/types';
+import {EXAMPLE_COMPANY_ID, EXAMPLE_SELECTION} from '@/core/scaffold/roles';
 
-const refresh: Selection = {
-    roleId: RoleId.VisualDesigner,
-    answers: {company: 'Linear', context: 'existing', task: 'refresh'},
-};
+const refresh = EXAMPLE_SELECTION;
 
 /* A distinct saved template: same role, different answers. */
 const screen: Selection = {
-    roleId: RoleId.VisualDesigner,
-    answers: {company: 'Airbnb', context: 'new', task: 'screen'},
+    ...EXAMPLE_SELECTION,
+    answers: {...EXAMPLE_SELECTION.answers, context: 'new', task: 'screen'},
 };
 
 const a: SavedTemplate = {id: 'id-a', selection: refresh};
@@ -30,7 +28,9 @@ const aAgain: SavedTemplate = {id: 'id-a2', selection: refresh};
 
 describe('templateTitle', () => {
     it('combines the role label with the text answer', () => {
-        expect(templateTitle(refresh)).toBe('Visual designer: Linear');
+        expect(templateTitle(refresh)).toBe(
+            `Visual designer: ${EXAMPLE_COMPANY_ID}`
+        );
     });
 });
 
@@ -85,7 +85,7 @@ describe('libraryToMarkdown', () => {
 
     it('renders a heading, a fenced block, and the topic per entry', () => {
         const md = libraryToMarkdown([a]);
-        expect(md).toContain('## Visual designer: Linear');
+        expect(md).toContain(`## Visual designer: ${EXAMPLE_COMPANY_ID}`);
         expect(md).toContain('```');
         expect(md).toContain('ROLE');
     });

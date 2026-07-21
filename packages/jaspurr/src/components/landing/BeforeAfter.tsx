@@ -1,21 +1,15 @@
 import {useState} from 'react';
-import {assembleTemplate, type Selection} from '@/core/scaffold/assemble';
-import {RoleId} from '@/core/scaffold/types';
+import {assembleTemplate} from '@/core/scaffold/assemble';
+import {EXAMPLE_SELECTION} from '@/core/scaffold/roles';
 import {TemplateExhibit} from '@components/exhibit/TemplateExhibit';
 import {SegmentedToggle} from '@components/flow/SegmentedToggle';
 import style from './BeforeAfter.module.css';
 
 type View = 'before' | 'after';
 
-/* One concrete request, shown both ways. The weak prompt is just the topic line
-a user would type; the Jaspurr version is what assemble() builds around it. */
-const EXAMPLE: Selection = {
-    roleId: RoleId.VisualDesigner,
-    answers: {company: 'Linear', context: 'existing', task: 'refresh'},
-};
-
-const {sections} = assembleTemplate(EXAMPLE);
-const WEAK_PROMPT = 'Redesign our settings page to look more like Linear.';
+const {sections} = assembleTemplate(EXAMPLE_SELECTION);
+const WEAK_PROMPT =
+    'Redesign our settings page to feel more modern and premium.';
 
 const SEGMENTS: readonly {value: View; label: string}[] = [
     {value: 'before', label: 'Weak prompt'},

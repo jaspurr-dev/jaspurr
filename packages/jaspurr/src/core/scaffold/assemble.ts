@@ -22,11 +22,12 @@ export interface AssembledTemplate {
     readonly chips: readonly string[];
 }
 
-/* The template substitutes an answer by its display value: a select answer maps
-to the chosen option's `value` sentence; a text answer is the raw text (it gets
-sanitized with the rest of the body). An unanswered or unknown token is left in
-place so a half-built selection never silently drops content. */
-function substitute(
+/* Turn one {id} placeholder into the text that replaces it. A select answer
+becomes the chosen option's `value` sentence; a text answer is the raw text the
+user typed (sanitized later, with the rest of the body). If the answer is
+missing, or a select answer names no known option, the original `{id}` token is
+returned unchanged so a half-built selection never silently drops content. */
+function parseQuestion(
     question: Question | undefined,
     answer: string | undefined,
     token: string
@@ -39,10 +40,14 @@ function substitute(
     return answer;
 }
 
-function fill(body: string, role: Role, answers: Selection['answers']): string {
+function parseBody(
+    body: string,
+    role: Role,
+    answers: Selection['answers']
+): string {
     return body.replace(/\{([\w-]+)\}/g, (token, id: string) => {
         const question = role.questions.find((q) => q.id === id);
-        return substitute(question, answers[id], token);
+        return parseQuestion(question, answers[id], token);
     });
 }
 
@@ -53,7 +58,7 @@ export function assemble(selection: Selection): Assembled {
     }
     return role.template.map((section) => ({
         heading: section.heading,
-        body: sanitize(fill(section.body, role, selection.answers)),
+        body: sanitize(parseBody(section.body, role, selection.answers)),
     }));
 }
 

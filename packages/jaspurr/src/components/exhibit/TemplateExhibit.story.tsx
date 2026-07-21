@@ -1,18 +1,9 @@
 import type {Story} from '@/sandbox/types';
 import {TemplateExhibit} from './TemplateExhibit';
-import {assembleTemplate, type Selection} from '@/core/scaffold/assemble';
-import {RoleId} from '@/core/scaffold/types';
+import {assembleTemplate} from '@/core/scaffold/assemble';
+import {EXAMPLE_SELECTION} from '@/core/scaffold/roles';
 
-const softwareExample: Selection = {
-    roleId: RoleId.VisualDesigner,
-    answers: {
-        company: 'Foobar',
-        context: 'existing',
-        task: 'refresh',
-    },
-};
-
-const template = assembleTemplate(softwareExample);
+const template = assembleTemplate(EXAMPLE_SELECTION);
 
 export const story: Story = {
     name: 'TemplateExhibit',

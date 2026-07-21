@@ -1,4 +1,5 @@
 import {RoleId, type Role} from './types';
+import type {Selection} from './assemble';
 
 /* --- Visual designer: the first fully-wired role -------------------------- */
 
@@ -12,8 +13,7 @@ const visualDesigner = {
             id: 'company',
             kind: 'text',
             prompt: 'Whose design bar are you aiming for?',
-            placeholder: 'e.g. Airbnb, Linear, Stripe',
-            examples: ['Airbnb', 'Linear', 'Stripe'],
+            placeholder: 'e.g. a product whose design you admire',
         },
         {
             id: 'context',
@@ -69,6 +69,20 @@ const visualDesigner = {
         {heading: 'OUTPUT', body: 'Plan first, then output the design mockup.'},
     ],
 } as const satisfies Role;
+
+export const EXAMPLE_COMPANY_ID = 'Foobar';
+/* One fully-answered visual-designer selection, kept beside the role it draws
+from. Stories, exhibits, and tests import this instead of re-declaring the same
+answers, so a change to the role's questions has a single place to update. The
+company is a neutral placeholder rather than a real brand. */
+export const EXAMPLE_SELECTION: Selection = {
+    roleId: RoleId.VisualDesigner,
+    answers: {
+        company: EXAMPLE_COMPANY_ID,
+        context: 'existing',
+        task: 'refresh',
+    },
+};
 
 /* --- Coming soon: identities only; questions + templates land per-role ---- */
 
