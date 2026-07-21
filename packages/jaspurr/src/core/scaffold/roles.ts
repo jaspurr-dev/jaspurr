@@ -90,10 +90,122 @@ const frontendEngineer = {
     id: RoleId.FrontendEngineer,
     label: 'Frontend engineer',
     line: 'Staff engineer who turns designs into clean, tested components.',
-    status: 'coming-soon',
-    questions: [],
-    template: [],
+    status: 'ready',
+    questions: [
+        {
+            id: 'taskType',
+            kind: 'select',
+            prompt: 'What kind of work is this?',
+            options: [
+                {id: 'feature', label: 'Feature', value: 'Feature'},
+                {id: 'refactor', label: 'Refactor', value: 'Refactor'},
+                {id: 'fix', label: 'Fix', value: 'Fix'},
+                {id: 'docs', label: 'Docs', value: 'Docs'},
+                {id: 'chore', label: 'Chore', value: 'Chore'},
+            ],
+        },
+        {
+            id: 'task',
+            kind: 'text',
+            prompt: 'What needs doing?',
+            placeholder: 'e.g. Add a settings screen with a dark-mode toggle',
+        },
+        {
+            id: 'stack',
+            kind: 'select',
+            prompt: 'What stack are you on?',
+            options: [
+                {
+                    id: 'spa',
+                    label: 'Standard SPA',
+                    value: 'React, React Router, TypeScript, Vite, and Vitest',
+                },
+                {
+                    id: 'nextjs',
+                    label: 'Next.js',
+                    value: 'Next.js with React, TypeScript, and the app router',
+                },
+                {
+                    id: 'vanilla',
+                    label: 'Vanilla JS',
+                    value: 'vanilla JavaScript with no framework',
+                },
+            ],
+        },
+        {
+            id: 'output',
+            kind: 'select',
+            prompt: 'What should I hand back?',
+            options: [
+                {
+                    id: 'code',
+                    label: 'Code',
+                    value: 'Output the code with a brief explanation of what changed.',
+                },
+                {
+                    id: 'plan',
+                    label: 'Plan only',
+                    value: 'Output a structured implementation plan only -- the files to touch, the approach, and the trade-offs. No code yet.',
+                },
+                {
+                    id: 'diff',
+                    label: 'Inline diff',
+                    value: 'Output an inline code diff with a brief explanation of what changed.',
+                },
+            ],
+        },
+    ],
+    template: [
+        {
+            heading: 'ROLE',
+            body: 'You are a staff frontend engineer. You turn raw designs into a structured plan of idiomatic app architecture, pure logic, tests, and components that compose screens.',
+        },
+        {heading: 'TASK', body: '[{taskType}] {task}'},
+        {
+            heading: 'CONSTRAINTS',
+            body: 'You think in reusable atoms, building a toolbox of components rather than one-off markup. You keep strict boundaries between React components, CSS, and logic so each stays cleanly isolated and easy to refactor or replace.',
+        },
+        {
+            heading: 'PROJECT STRUCTURE',
+            body: 'You follow an idiomatic project structure with a clear separation between root-level configuration, scripts, components, logic, tests, and app styling.',
+        },
+        {
+            heading: 'CSS',
+            body: 'You use modern CSS with explicit variables and base-level semantic and design tokens, and you stay consistent (pick rem or px and keep to it). You build base components (button, container, text) that compose through variants. Frameworks are fine, but weigh their fit for the project against hand-rolling or leaning on Vite CSS modules.',
+        },
+        {
+            heading: 'COMPONENTS',
+            body: 'You build React components as isolated modules with a co-located story, their own CSS, and every state previewable on its own. Components consume state wherever possible. You reach for your own components over raw HTML elements, and spread React ComponentProps (...rest) onto base wrappers (div, button, span) so callers get the native behavior for free.',
+        },
+        {
+            heading: 'LOGIC',
+            body: 'You isolate app logic and state into pure TypeScript with thorough unit tests. You pick the state approach that fits the shape of the state (Jotai or a modern alternative). Pure-function reducers keep core state decoupled from the UI and exhaustively testable.',
+        },
+        {
+            heading: 'DEPENDENCIES',
+            body: 'You build on {stack} as a baseline. You keep a lean dependency tree and weigh the cost against the benefit before reaching for a new dependency.',
+        },
+        {
+            heading: 'VALIDATION',
+            body: 'You keep a single script that runs locally and in CI to confirm the project is healthy after a change: prettier for formatting, the TypeScript compiler against tsconfig.app.json, eslint on strict settings, and vitest for the full suite.',
+        },
+        {heading: 'OUTPUT', body: '{output}'},
+        {heading: 'TONE', body: 'Terse. Idiomatic. Consistent.'},
+    ],
 } as const satisfies Role;
+
+/* The canonical frontend-engineer example, co-located like EXAMPLE_SELECTION
+above. Task type is a select (drives the [Feature] prefix), the task itself is
+free text, and stack + output are selects. */
+export const EXAMPLE_FRONTEND_SELECTION: Selection = {
+    roleId: RoleId.FrontendEngineer,
+    answers: {
+        taskType: 'feature',
+        task: 'Add a settings screen with a dark-mode toggle',
+        stack: 'spa',
+        output: 'diff',
+    },
+};
 
 const gameDesigner = {
     id: RoleId.GameDesigner,
