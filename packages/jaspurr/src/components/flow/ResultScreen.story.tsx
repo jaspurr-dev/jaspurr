@@ -3,15 +3,12 @@ import {ResultScreen} from './ResultScreen';
 import {assembleTemplate, type Selection} from '@/core/scaffold/assemble';
 import {RoleId} from '@/core/scaffold/types';
 
-const softwareExample: Selection = {
-    roleId: RoleId.SoftwareEngineer,
-    taskId: 'refactor',
-    environmentId: 'mature',
-    outputId: 'output-only',
-    topic: 'Refactor a 2,000-line React component into hooks',
+const example: Selection = {
+    roleId: RoleId.VisualDesigner,
+    answers: {company: 'Linear', context: 'existing', task: 'refresh'},
 };
 
-const template = assembleTemplate(softwareExample);
+const template = assembleTemplate(example);
 const noop = () => undefined;
 
 export const story: Story = {

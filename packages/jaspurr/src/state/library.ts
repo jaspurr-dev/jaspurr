@@ -2,7 +2,6 @@ import {atom} from 'jotai';
 import {atomWithStorage, createJSONStorage} from 'jotai/utils';
 import {assemble, toText, type Selection} from '@/core/scaffold/assemble';
 import {getRole} from '@/core/scaffold/roles';
-import {ENVIRONMENT_QUESTION, OUTPUT_QUESTION} from '@/core/scaffold/questions';
 import type {RoleId} from '@/core/scaffold/types';
 import {sanitize} from '@/core/sanitize';
 
@@ -17,31 +16,24 @@ export interface SavedTemplate {
     readonly selection: Selection;
 }
 
-/* --- Validation: what came out of localStorage is untyped ---------------- */
-
-function hasOption(
-    options: readonly {readonly id: string}[],
-    id: unknown
-): boolean {
-    return typeof id === 'string' && options.some((o) => o.id === id);
-}
-
-/* A persisted selection is only trustworthy if every id still resolves against
-the current domain data. Task options are role-specific, so the taskId is
-checked against the selected role's own options. */
+/* A persisted selection is only trustworthy if it names a ready role and
+answers every one of that role's questions with a value that still resolves:
+a real option id for a select, a non-empty string for a text question. */
 export function isValidSelection(value: unknown): value is Selection {
     if (typeof value !== 'object' || value === null) return false;
     const s = value as Record<string, unknown>;
-    if (typeof s.topic !== 'string' || typeof s.roleId !== 'string') {
-        return false;
-    }
+    if (typeof s.roleId !== 'string') return false;
     const role = getRole(s.roleId as RoleId);
-    return (
-        role !== undefined &&
-        hasOption(role.question.options, s.taskId) &&
-        hasOption(ENVIRONMENT_QUESTION.options, s.environmentId) &&
-        hasOption(OUTPUT_QUESTION.options, s.outputId)
-    );
+    if (!role || role.questions.length === 0) return false;
+    if (typeof s.answers !== 'object' || s.answers === null) return false;
+    const answers = s.answers as Record<string, unknown>;
+    return role.questions.every((q) => {
+        const answer = answers[q.id];
+        if (typeof answer !== 'string') return false;
+        return q.kind === 'select'
+            ? q.options.some((o) => o.id === answer)
+            : answer.trim().length > 0;
+    });
 }
 
 /* A stored entry is a stable id over a still-valid selection. This is the guard
@@ -129,18 +121,23 @@ function fence(body: string): string {
     return `${ticks}\n${body}\n${ticks}`;
 }
 
-/* The whole library as one markdown document: each saved template as a level-2
-heading (role, plus its one-line topic) over the assembled prompt in a fenced
-block. Assembled here, on read, so it always reflects the current templates.
-Entries are guaranteed valid by libraryStorage, so assemble() never throws. */
+/* The user's own text answer, if the role has one, makes the most recognizable
+title; fall back to the role label alone. */
+export function templateTitle(selection: Selection): string {
+    const role = getRole(selection.roleId);
+    if (!role) return 'Template';
+    const textQuestion = role.questions.find((q) => q.kind === 'text');
+    const text = textQuestion
+        ? sanitize(selection.answers[textQuestion.id] ?? '')
+        : '';
+    return text ? `${role.label}: ${text}` : role.label;
+}
+
 export function libraryToMarkdown(library: readonly SavedTemplate[]): string {
     return library
         .map(({selection}) => {
-            const role = getRole(selection.roleId);
-            const label = role ? role.label : 'Template';
-            const topic = sanitize(selection.topic);
-            const heading = topic ? `${label}: ${topic}` : label;
-            return `## ${heading}\n\n${fence(toText(assemble(selection)))}`;
+            const body = fence(toText(assemble(selection)));
+            return `## ${templateTitle(selection)}\n\n${body}`;
         })
         .join('\n\n');
 }

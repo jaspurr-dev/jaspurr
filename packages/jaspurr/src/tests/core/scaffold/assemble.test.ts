@@ -5,122 +5,81 @@ import {
     toText,
     type Selection,
 } from '@/core/scaffold/assemble';
-import {RoleId, type OutputId} from '@/core/scaffold/types';
+import {RoleId} from '@/core/scaffold/types';
 
-const softwareExample: Selection = {
-    roleId: RoleId.SoftwareEngineer,
-    taskId: 'refactor',
-    environmentId: 'mature',
-    outputId: 'output-only',
-    topic: 'Refactor a 2,000-line React component into hooks',
+const designer: Selection = {
+    roleId: RoleId.VisualDesigner,
+    answers: {company: 'Linear', context: 'existing', task: 'refresh'},
 };
 
+function bodyOf(selection: Selection, heading: string): string {
+    return assemble(selection).find((s) => s.heading === heading)?.body ?? '';
+}
+
 describe('assemble', () => {
-    it('produces the six structured sections in order', () => {
-        const sections = assemble(softwareExample);
-        expect(sections.map((s) => s.heading)).toEqual([
-            'ROLE',
-            'CONTEXT',
-            'TASK',
-            'CONSTRAINTS',
-            'OUTPUT FORMAT',
-            'TONE',
-        ]);
+    it('fills a text answer into every {placeholder} that names it', () => {
+        expect(bodyOf(designer, 'ROLE')).toContain('ex-Linear');
+        expect(bodyOf(designer, 'CONSTRAINTS')).toContain('ex-Linear designer');
     });
 
-    it('routes the free-text line into the TASK section', () => {
-        const [, , task] = assemble(softwareExample);
-        expect(task.body).toBe(softwareExample.topic);
-    });
-
-    it('resolves options by id, not position', () => {
-        const constraints = assemble(softwareExample)[3];
-        expect(constraints.body).toContain(
-            'Behaviour must not change. If it must, stop and tell me first.'
+    it('substitutes a select answer with the chosen option value', () => {
+        expect(bodyOf(designer, 'CONTEXT')).toBe(
+            'This is an existing product with an established design language to work within.'
         );
-        expect(constraints.body).toContain(
-            'Match the existing patterns and keep the test suite green.'
+        expect(bodyOf(designer, 'TASK')).toBe(
+            'Refresh and modernize an existing interface.'
         );
     });
 
-    it('rejects another role task id at compile time', () => {
-        // @ts-expect-error 'spec' is a Technical-PM task, not a Software one.
-        const bad: Selection = {
-            ...softwareExample,
-            taskId: 'spec',
+    it('leaves a placeholder in place when its answer is missing', () => {
+        const partial: Selection = {
+            roleId: RoleId.VisualDesigner,
+            answers: {context: 'new', task: 'screen'},
         };
-        expect(() => assemble(bad)).toThrow();
+        expect(bodyOf(partial, 'ROLE')).toContain('{company}');
     });
 
-    it('throws when stored answers reference an option that is gone', () => {
-        // Simulates stale localStorage, e.g. an option id removed in a later
-        // content edit; the cast stands in for corrupted persisted data.
-        const stale: Selection = {
-            ...softwareExample,
-            outputId: 'gone' as OutputId,
-        };
-        expect(() => assemble(stale)).toThrow();
+    it('throws on an unknown role', () => {
+        expect(() =>
+            assemble({roleId: 'wizard' as RoleId, answers: {}})
+        ).toThrow();
     });
 });
 
 describe('toText', () => {
-    it('renders the stored answers into a sanitized prompt', () => {
-        expect(toText(assemble(softwareExample))).toMatchInlineSnapshot(`
-          "ROLE
-          Senior software engineer. You write code other people have to maintain.
-
-          CONTEXT
-          The codebase is mature and covered by a solid test suite.
-
-          TASK
-          Refactor a 2,000-line React component into hooks
-
-          CONSTRAINTS
-          - Behaviour must not change. If it must, stop and tell me first.
-          - Match the existing patterns and keep the test suite green.
-
-          OUTPUT FORMAT
-          Return only the output. No preamble, no explanation.
-
-          TONE
-          Terse. No filler."
-        `);
-    });
-
     it('re-renders from answers every call, so content edits propagate', () => {
         // Nothing is cached: the text is derived from the Selection each time,
         // which is why saving answers (not text) lets wording fixes reach
         // already-saved templates.
-        const once = toText(assemble(softwareExample));
-        const twice = toText(assemble(softwareExample));
-        expect(once).toBe(twice);
+        expect(toText(assemble(designer))).toBe(toText(assemble(designer)));
     });
 
-    it('strips non-ASCII from the free-text line', () => {
+    it('joins the sections heading-over-body with blank lines between', () => {
+        const text = toText(assemble(designer));
+        expect(text).toContain('CONTEXT\nThis is an existing product');
+        expect(text).toContain('\n\nTASK\n');
+    });
+
+    it('strips non-ASCII from a text answer', () => {
         const text = toText(
-            assemble({...softwareExample, topic: 'drop this: \u202E\u{1F600}'})
+            assemble({
+                roleId: RoleId.VisualDesigner,
+                answers: {...designer.answers, company: 'Acme\u202e\u{1F600}'},
+            })
         );
-        expect(text).toContain('TASK\ndrop this:');
-        expect(text).not.toContain('\u202E');
+        expect(text).toContain('ex-Acme');
+        expect(text).not.toContain('\u202e');
     });
 });
 
 describe('assembleTemplate', () => {
-    it('bundles the sections with a chip summary of the chosen answers', () => {
-        const {sections, chips} = assembleTemplate(softwareExample);
-        expect(sections.map((s) => s.heading)).toEqual([
-            'ROLE',
-            'CONTEXT',
-            'TASK',
-            'CONSTRAINTS',
-            'OUTPUT FORMAT',
-            'TONE',
-        ]);
+    it('summarizes the role and the chosen select answers as chips', () => {
+        const {chips} = assembleTemplate(designer);
+        // The company is a text answer shown in the body, not repeated as a chip.
         expect(chips).toEqual([
-            'Software engineer',
-            'Refactor existing code',
-            'Mature and well-tested',
-            'Just the output',
+            'Visual designer',
+            'Existing project',
+            'Refresh an existing UI',
         ]);
     });
 });

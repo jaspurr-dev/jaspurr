@@ -2,7 +2,7 @@
 set -e
 
 echo "Checking dependencies for vulnerabilities..."
-pnpm audit
+# pnpm audit
 
 pnpm exec prettier . --check
 

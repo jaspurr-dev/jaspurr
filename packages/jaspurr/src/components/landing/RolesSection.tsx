@@ -7,7 +7,7 @@ import style from './RolesSection.module.css';
 
 /* The grid opens on Software engineer so the selected state is visible at a
 glance; this is a still of the flow's first step, not the step itself. */
-const SELECTED_ID = RoleId.SoftwareEngineer;
+const SELECTED_ID = RoleId.VisualDesigner;
 
 /* Static showcase of the eight roles. Display only -- the single way in is the
 CTA, so the cards do not link or respond to taps. */
@@ -16,11 +16,11 @@ export function RolesSection() {
         <section id="roles" className={style.section}>
             <div className={style.intro}>
                 <h2 className={style.heading}>
-                    Eight roles. Each one asks different questions.
+                    Four roles. Each one asks different questions.
                 </h2>
                 <p className={style.subhead}>
-                    An SDE and a designer do not need the same brief. Jaspurr
-                    knows the difference.
+                    A designer and an engineer do not need the same brief.
+                    Jaspurr knows the difference.
                 </p>
             </div>
 

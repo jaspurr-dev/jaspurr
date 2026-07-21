@@ -10,15 +10,12 @@ type View = 'before' | 'after';
 /* One concrete request, shown both ways. The weak prompt is just the topic line
 a user would type; the Jaspurr version is what assemble() builds around it. */
 const EXAMPLE: Selection = {
-    roleId: RoleId.SoftwareEngineer,
-    taskId: 'refactor',
-    environmentId: 'mature',
-    outputId: 'output-only',
-    topic: 'Refactor a 2,000-line React component into hooks',
+    roleId: RoleId.VisualDesigner,
+    answers: {company: 'Linear', context: 'existing', task: 'refresh'},
 };
 
 const {sections} = assembleTemplate(EXAMPLE);
-const WEAK_PROMPT = 'Refactor this 2,000-line React component into hooks.';
+const WEAK_PROMPT = 'Redesign our settings page to look more like Linear.';
 
 const SEGMENTS: readonly {value: View; label: string}[] = [
     {value: 'before', label: 'Weak prompt'},

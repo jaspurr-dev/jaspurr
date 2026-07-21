@@ -1,37 +1,26 @@
 import {describe, expect, it} from 'vitest';
 import {ROLES, ROLE_LIST, getRole} from '@/core/scaffold/roles';
-import {ENVIRONMENT_QUESTION, OUTPUT_QUESTION} from '@/core/scaffold/questions';
-import {ROLE_IDS, type Role} from '@/core/scaffold/types';
+import {ROLE_IDS, RoleId, type Role} from '@/core/scaffold/types';
 import {NOT_ALLOWED} from '@/core/sanitize';
 
 // A fresh, non-global copy so repeated .test()/.toMatch() calls stay stateless.
 const disallowed = new RegExp(NOT_ALLOWED.source);
 
 function roleStrings(role: Role): string[] {
-    return [
-        role.label,
-        role.line,
-        role.question.stem,
-        ...role.question.options.flatMap((o) => [o.label, o.constraint]),
-        ...role.examples,
-    ];
+    const questionStrings = role.questions.flatMap((q) => [
+        q.prompt,
+        ...(q.kind === 'select'
+            ? q.options.flatMap((o) => [o.label, o.value])
+            : (q.examples ?? [])),
+    ]);
+    const templateStrings = role.template.flatMap((s) => [s.heading, s.body]);
+    return [role.label, role.line, ...questionStrings, ...templateStrings];
 }
 
-const sharedStrings: string[] = [
-    ENVIRONMENT_QUESTION.stem,
-    ...ENVIRONMENT_QUESTION.options.flatMap((o) => [
-        o.label,
-        o.context,
-        o.constraint,
-    ]),
-    OUTPUT_QUESTION.stem,
-    ...OUTPUT_QUESTION.options.flatMap((o) => [o.label, o.format, o.tone]),
-];
-
 describe('scaffold roles', () => {
-    it('exposes all eight roles', () => {
-        expect(ROLE_IDS).toHaveLength(8);
-        expect(ROLE_LIST).toHaveLength(8);
+    it('exposes all 4 roles', () => {
+        expect(ROLE_IDS).toHaveLength(4);
+        expect(ROLE_LIST).toHaveLength(4);
     });
 
     it('keys every role by its own id', () => {
@@ -41,30 +30,36 @@ describe('scaffold roles', () => {
         }
     });
 
-    it('gives every role a Q1 with exactly four options', () => {
-        for (const role of ROLE_LIST) {
-            expect(role.question.options).toHaveLength(4);
+    it('gives the ready role a question flow and a template', () => {
+        const designer = ROLES[RoleId.VisualDesigner];
+        expect(designer.status).toBe('ready');
+        expect(designer.questions.length).toBeGreaterThan(0);
+        expect(designer.template.length).toBeGreaterThan(0);
+    });
+
+    it('leaves coming-soon roles without questions or a template', () => {
+        const comingSoon = ROLE_LIST.filter((r) => r.status === 'coming-soon');
+        expect(comingSoon.length).toBeGreaterThan(0);
+        for (const role of comingSoon) {
+            expect(role.questions).toHaveLength(0);
+            expect(role.template).toHaveLength(0);
         }
     });
 
-    it('gives every role three example chips', () => {
+    it('gives every select question at least two options', () => {
         for (const role of ROLE_LIST) {
-            expect(role.examples).toHaveLength(3);
+            for (const question of role.questions) {
+                if (question.kind === 'select') {
+                    expect(question.options.length).toBeGreaterThanOrEqual(2);
+                }
+            }
         }
-    });
-});
-
-describe('scaffold shared questions', () => {
-    it('offers four environment options and four output options', () => {
-        expect(ENVIRONMENT_QUESTION.options).toHaveLength(4);
-        expect(OUTPUT_QUESTION.options).toHaveLength(4);
     });
 });
 
 describe('scaffold content', () => {
     it('stays inside the ASCII allowlist', () => {
-        const all = [...ROLE_LIST.flatMap(roleStrings), ...sharedStrings];
-        for (const value of all) {
+        for (const value of ROLE_LIST.flatMap(roleStrings)) {
             expect(value).not.toMatch(disallowed);
         }
     });

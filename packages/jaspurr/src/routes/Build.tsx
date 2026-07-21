@@ -1,32 +1,36 @@
 import type {ReactNode} from 'react';
 import {useAtomValue, useSetAtom} from 'jotai';
 import {
+    answersAtom,
     assembledAtom,
-    draftAtom,
+    currentQuestionAtom,
     flowAtom,
+    positionAtom,
+    roleIdAtom,
     selectionAtom,
     stepAtom,
 } from '@/state/flow';
 import {saveTemplateAtom} from '@/state/library';
-import {getRole} from '@/core/scaffold/roles';
-import {ENVIRONMENT_QUESTION, OUTPUT_QUESTION} from '@/core/scaffold/questions';
 import {RoleGrid} from '@components/role/RoleGrid';
 import {QuestionScreen} from '@components/flow/QuestionScreen';
-import {TopicScreen} from '@/components/flow/TopicScreen';
-import {ResultScreen} from '@/components/flow/ResultScreen';
+import {TextScreen} from '@components/flow/TextScreen';
+import {ResultScreen} from '@components/flow/ResultScreen';
 import {Text} from '@/primitives';
 import style from './Build.module.css';
 
-/* The tool flow to the final assembled result. */
+/* The tool flow: pick a role, walk that role's own questions, then the result.
+Each role supplies its own question list, so the middle steps are driven by the
+current question's kind rather than a fixed sequence. */
 export function RouteBuild() {
     const step = useAtomValue(stepAtom);
-    const draft = useAtomValue(draftAtom);
-    const dispatch = useSetAtom(flowAtom);
+    const roleId = useAtomValue(roleIdAtom);
+    const question = useAtomValue(currentQuestionAtom);
+    const position = useAtomValue(positionAtom);
+    const answers = useAtomValue(answersAtom);
     const assembled = useAtomValue(assembledAtom);
     const selection = useAtomValue(selectionAtom);
+    const dispatch = useSetAtom(flowAtom);
     const save = useSetAtom(saveTemplateAtom);
-
-    const role = draft.roleId ? getRole(draft.roleId) : undefined;
 
     const content = ((): ReactNode => {
         switch (step) {
@@ -37,23 +41,47 @@ export function RouteBuild() {
                             Pick your role
                         </Text>
                         <RoleGrid
-                            selectedId={draft.roleId}
-                            onSelect={(roleId) => {
-                                dispatch({type: 'pickRole', roleId});
+                            selectedId={roleId}
+                            onSelect={(picked) => {
+                                dispatch({type: 'pickRole', roleId: picked});
                             }}
                         />
                     </div>
                 );
-            case 'task': {
-                if (!role) return null;
+            case 'question': {
+                if (!question) return null;
+                if (question.kind === 'select') {
+                    return (
+                        <QuestionScreen
+                            stem={question.prompt}
+                            options={question.options}
+                            questionNumber={position.number}
+                            total={position.total}
+                            selectedId={answers[question.id] ?? null}
+                            onSelect={(value) => {
+                                dispatch({type: 'answer', value});
+                            }}
+                            onBack={() => {
+                                dispatch({type: 'back'});
+                            }}
+                        />
+                    );
+                }
+                const isLast = position.number === position.total;
                 return (
-                    <QuestionScreen
-                        stem={role.question.stem}
-                        options={role.question.options}
-                        questionNumber={1}
-                        selectedId={draft.taskId}
-                        onSelect={(taskId) => {
-                            dispatch({type: 'pickTask', taskId});
+                    <TextScreen
+                        stem={question.prompt}
+                        placeholder={question.placeholder}
+                        examples={question.examples}
+                        value={answers[question.id] ?? ''}
+                        questionNumber={position.number}
+                        total={position.total}
+                        submitLabel={isLast ? 'Build my template' : 'Next'}
+                        onChange={(value) => {
+                            dispatch({type: 'setText', value});
+                        }}
+                        onSubmit={() => {
+                            dispatch({type: 'next'});
                         }}
                         onBack={() => {
                             dispatch({type: 'back'});
@@ -61,54 +89,6 @@ export function RouteBuild() {
                     />
                 );
             }
-            case 'environment':
-                return (
-                    <QuestionScreen
-                        stem={ENVIRONMENT_QUESTION.stem}
-                        options={ENVIRONMENT_QUESTION.options}
-                        questionNumber={2}
-                        selectedId={draft.environmentId}
-                        onSelect={(environmentId) => {
-                            dispatch({type: 'pickEnvironment', environmentId});
-                        }}
-                        onBack={() => {
-                            dispatch({type: 'back'});
-                        }}
-                    />
-                );
-            case 'output':
-                return (
-                    <QuestionScreen
-                        stem={OUTPUT_QUESTION.stem}
-                        options={OUTPUT_QUESTION.options}
-                        questionNumber={3}
-                        selectedId={draft.outputId}
-                        onSelect={(outputId) => {
-                            dispatch({type: 'pickOutput', outputId});
-                        }}
-                        onBack={() => {
-                            dispatch({type: 'back'});
-                        }}
-                    />
-                );
-            case 'topic':
-                if (!role) return null;
-                return (
-                    <TopicScreen
-                        examples={role.examples}
-                        topic={draft.topic}
-                        questionNumber={4}
-                        onTopic={(topic) => {
-                            dispatch({type: 'setTopic', topic});
-                        }}
-                        onSubmit={() => {
-                            dispatch({type: 'finish'});
-                        }}
-                        onBack={() => {
-                            dispatch({type: 'back'});
-                        }}
-                    />
-                );
             case 'result':
                 if (!assembled || !selection) return null;
                 return (

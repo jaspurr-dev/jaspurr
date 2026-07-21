@@ -1,41 +1,49 @@
 import {sanitize} from '@/core/sanitize';
-import {ENVIRONMENT_QUESTION, OUTPUT_QUESTION} from './questions';
-import {ROLES, getRole} from './roles';
-import type {EnvironmentId, OutputId, RoleId} from './types';
+import {getRole} from './roles';
+import type {Question, Role, RoleId} from './types';
 
-/* The task options are role-specific, so the set of valid task ids depends on
-the role. Resolve one role's task-id union straight from the role data. */
-type TaskId<R extends RoleId> =
-    (typeof ROLES)[R]['question']['options'][number]['id'];
-
-export type Selection = {
-    [R in RoleId]: {
-        readonly roleId: R;
-        readonly taskId: TaskId<R>;
-        readonly environmentId: EnvironmentId;
-        readonly outputId: OutputId;
-        readonly topic: string;
-    };
-}[RoleId];
+/* The user's answers to a role's questions, keyed by question id. For a select
+question the value is the chosen option's id; for a text question it is the raw
+text the user typed. */
+export interface Selection {
+    readonly roleId: RoleId;
+    readonly answers: Readonly<Record<string, string>>;
+}
 
 export interface Section {
     readonly heading: string;
     readonly body: string;
 }
 
-/* ROLE, CONTEXT, TASK, CONSTRAINTS, OUTPUT FORMAT, TONE. */
-export type Assembled = readonly [
-    Section,
-    Section,
-    Section,
-    Section,
-    Section,
-    Section,
-];
+export type Assembled = readonly Section[];
 
 export interface AssembledTemplate {
     readonly sections: Assembled;
     readonly chips: readonly string[];
+}
+
+/* The template substitutes an answer by its display value: a select answer maps
+to the chosen option's `value` sentence; a text answer is the raw text (it gets
+sanitized with the rest of the body). An unanswered or unknown token is left in
+place so a half-built selection never silently drops content. */
+function substitute(
+    question: Question | undefined,
+    answer: string | undefined,
+    token: string
+): string {
+    if (answer === undefined) return token;
+    if (question?.kind === 'select') {
+        const option = question.options.find((o) => o.id === answer);
+        return option ? option.value : token;
+    }
+    return answer;
+}
+
+function fill(body: string, role: Role, answers: Selection['answers']): string {
+    return body.replace(/\{([\w-]+)\}/g, (token, id: string) => {
+        const question = role.questions.find((q) => q.id === id);
+        return substitute(question, answers[id], token);
+    });
 }
 
 export function assemble(selection: Selection): Assembled {
@@ -43,51 +51,26 @@ export function assemble(selection: Selection): Assembled {
     if (!role) {
         throw new Error(`Unknown role: ${selection.roleId}`);
     }
-
-    const task = role.question.options.find((o) => o.id === selection.taskId);
-    const environment = ENVIRONMENT_QUESTION.options.find(
-        (o) => o.id === selection.environmentId
-    );
-    const output = OUTPUT_QUESTION.options.find(
-        (o) => o.id === selection.outputId
-    );
-    if (!task || !environment || !output) {
-        throw new Error('Selection references an option that does not exist.');
-    }
-
-    return [
-        {heading: 'ROLE', body: role.line},
-        {heading: 'CONTEXT', body: environment.context},
-        {heading: 'TASK', body: sanitize(selection.topic)},
-        {
-            heading: 'CONSTRAINTS',
-            body: `- ${task.constraint}\n- ${environment.constraint}`,
-        },
-        {heading: 'OUTPUT FORMAT', body: output.format},
-        {heading: 'TONE', body: output.tone},
-    ];
+    return role.template.map((section) => ({
+        heading: section.heading,
+        body: sanitize(fill(section.body, role, selection.answers)),
+    }));
 }
 
+/* The chip summary: the role label plus, for each select answer, the chosen
+option's label. Text answers appear in the body (e.g. the TASK section), so they
+are not repeated as chips. */
 export function assembleTemplate(selection: Selection): AssembledTemplate {
     const sections = assemble(selection);
-
-    // assemble() has already validated the selection; re-resolve the chosen
-    // options purely to read their labels for the summary chips.
     const role = getRole(selection.roleId);
-    const task = role?.question.options.find((o) => o.id === selection.taskId);
-    const environment = ENVIRONMENT_QUESTION.options.find(
-        (o) => o.id === selection.environmentId
-    );
-    const output = OUTPUT_QUESTION.options.find(
-        (o) => o.id === selection.outputId
-    );
-    const chips = [
-        role?.label,
-        task?.label,
-        environment?.label,
-        output?.label,
-    ].filter((label): label is string => label !== undefined);
 
+    const answerChips = (role?.questions ?? [])
+        .filter((q) => q.kind === 'select')
+        .map((q) => q.options.find((o) => o.id === selection.answers[q.id]))
+        .map((option) => option?.label)
+        .filter((label): label is string => label !== undefined);
+
+    const chips = role ? [role.label, ...answerChips] : answerChips;
     return {sections, chips};
 }
 

@@ -18,16 +18,21 @@ export function RoleCard({
     className,
     ...rest
 }: RoleCardProps) {
+    const comingSoon = role.status === 'coming-soon';
     return (
         <button
             type="button"
             className={cx(style.card, className)}
             aria-pressed={selected}
+            disabled={comingSoon}
             {...rest}>
             <span className={style.iconTile}>
                 <Icon name={ROLE_ICON[role.id]} size={20} />
             </span>
-            <span className={style.name}>{role.label}</span>
+            <span className={style.name}>
+                {role.label}
+                {comingSoon && <span className={style.soon}>Soon</span>}
+            </span>
             <span className={style.line}>{role.line}</span>
         </button>
     );
