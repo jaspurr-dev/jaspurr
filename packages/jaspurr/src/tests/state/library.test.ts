@@ -128,7 +128,7 @@ describe('isValidSelection', () => {
         expect(isValidSelection({roleId: 'wizard', answers: {}})).toBe(false);
     });
 
-    it('rejects a coming-soon role with no questions', () => {
+    it('rejects a ready role with no questions', () => {
         expect(isValidSelection({roleId: RoleId.PmBusiness, answers: {}})).toBe(
             false
         );

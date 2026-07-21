@@ -46,12 +46,9 @@ describe('flow machine', () => {
         expect(store.get(stepAtom)).toBe('result');
     });
 
-    it('ignores a tap on a coming-soon role', () => {
+    it('ignores a tap on a role with no question flow', () => {
         const store = createStore();
-        store.set(flowAtom, {
-            type: 'pickRole',
-            roleId: RoleId.PmBusiness,
-        });
+        store.set(flowAtom, {type: 'pickRole', roleId: 'nope' as RoleId});
         expect(store.get(stepAtom)).toBe('role');
         expect(store.get(roleIdAtom)).toBeNull();
     });

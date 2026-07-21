@@ -37,12 +37,16 @@ describe('scaffold roles', () => {
         expect(designer.template.length).toBeGreaterThan(0);
     });
 
-    it('leaves coming-soon roles without questions or a template', () => {
-        const comingSoon = ROLE_LIST.filter((r) => r.status === 'coming-soon');
-        expect(comingSoon.length).toBeGreaterThan(0);
-        for (const role of comingSoon) {
-            expect(role.questions).toHaveLength(0);
-            expect(role.template).toHaveLength(0);
+    it('keeps each role consistent with its status', () => {
+        // ready role => flow + template; coming-soon => neither. Holds either way.
+        for (const role of ROLE_LIST) {
+            if (role.status === 'ready') {
+                expect(role.questions.length).toBeGreaterThan(0);
+                expect(role.template.length).toBeGreaterThan(0);
+            } else {
+                expect(role.questions).toHaveLength(0);
+                expect(role.template).toHaveLength(0);
+            }
         }
     });
 

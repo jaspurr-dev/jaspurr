@@ -11,6 +11,7 @@ import {
     EXAMPLE_SELECTION,
     EXAMPLE_FRONTEND_SELECTION,
     EXAMPLE_GAME_SELECTION,
+    EXAMPLE_PM_SELECTION,
 } from '@/core/scaffold/roles';
 
 const designer = EXAMPLE_SELECTION;
@@ -137,6 +138,26 @@ describe('frontend engineer', () => {
                 '6-12 months',
                 '2-5',
                 '30s breakdown',
+            ]);
+        });
+    });
+
+    describe('pm business', () => {
+        const pm = EXAMPLE_PM_SELECTION;
+
+        it('frames the lens around the chosen KPI', () => {
+            expect(bodyOf(pm, 'LENS')).toContain('its impact on revenue');
+        });
+
+        it('resolves the output selection', () => {
+            expect(bodyOf(pm, 'OUTPUT')).toContain('competitive analysis');
+        });
+
+        it('chips the KPI and output but not the free-text task', () => {
+            expect(assembleTemplate(pm).chips).toEqual([
+                'PM (business)',
+                'Revenue',
+                '2026 analysis',
             ]);
         });
     });
