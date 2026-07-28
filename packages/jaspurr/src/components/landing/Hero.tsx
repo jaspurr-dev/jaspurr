@@ -11,8 +11,9 @@ export function Hero() {
                 Your AI isn&apos;t the problem. Your prompt is.
             </h1>
             <p className={style.subhead}>
-                Answer a few questions about your work. Jaspurr turns them into
-                a structured prompt that gets a usable answer on the first try.
+                Answer some questions that should take less than a minute and
+                get a finished prompt, tailored to best practices for your
+                domain.
             </p>
             <BuildCta />
             <p className={style.trust}>

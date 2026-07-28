@@ -48,12 +48,18 @@ export function BeforeAfter() {
                         <pre className={style.weakBody}>{WEAK_PROMPT}</pre>
                         <p className={style.weakNote}>
                             No role, no context, no format. The model fills the
-                            gaps by guessing.
+                            gaps by guessing & skewing toward the generic, model
+                            default present in the data.
                         </p>
                     </div>
                 </div>
                 <div className={style.panel} data-view="after">
                     <span className={style.panelLabel}>With Jaspurr</span>
+                    <p className={style.weakNote}>
+                        Here, Jaspurr establishes a clear design identity,
+                        sequential steps the model should take before acting and
+                        hard constraints on the design aesthetic & standards.
+                    </p>
                     <TemplateExhibit sections={sections} />
                 </div>
             </div>
