@@ -78,7 +78,7 @@ describe('flow machine', () => {
             'Game designer',
             '6-12 months',
             '2-5',
-            '30s breakdown',
+            '30s gameplay breakdown',
         ]);
     });
 

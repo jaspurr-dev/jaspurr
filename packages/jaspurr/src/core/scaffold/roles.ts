@@ -285,22 +285,17 @@ const gameDesigner = {
                 {
                     id: 'research',
                     label: 'Research',
-                    value: 'Lead with competitive analysis and market research to shape the design.',
-                },
-                {
-                    id: 'pillars',
-                    label: 'Design pillars',
-                    value: 'Output the core design pillars that anchor the game.',
-                },
-                {
-                    id: 'chapter',
-                    label: 'Book chapter',
-                    value: 'Output a design-book chapter: a deep, structured written treatment of the design.',
+                    value: 'Lead with competitive analysis and market research to highlight the most viable game options.',
                 },
                 {
                     id: 'breakdown',
-                    label: '30s breakdown',
+                    label: '30s gameplay breakdown',
                     value: 'Output a system-level breakdown of 30 seconds of core gameplay for a new title.',
+                },
+                {
+                    id: 'pillars',
+                    label: 'Design document',
+                    value: 'Output a living design document, anchored around core design pillars that shape the mechanics.',
                 },
             ],
         },
