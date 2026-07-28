@@ -107,7 +107,7 @@ const frontendEngineer = {
         {
             id: 'task',
             kind: 'text',
-            prompt: 'What needs doing?',
+            prompt: 'What are you implementing?',
             placeholder: 'e.g. Add a settings screen with a dark-mode toggle',
         },
         {
