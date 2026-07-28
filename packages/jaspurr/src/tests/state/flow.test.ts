@@ -9,6 +9,7 @@ import {
     currentQuestionAtom,
     selectionAtom,
     assembledAtom,
+    restartFlowAtom,
 } from '@/state/flow';
 import {RoleId} from '@/core/scaffold/types';
 
@@ -177,5 +178,36 @@ describe('flow machine', () => {
         const store = createStore();
         store.set(flowAtom, {type: 'back'});
         expect(store.get(stepAtom)).toBe('role');
+    });
+
+    /* What the entry-point CTAs call. A finished draft is the case that matters:
+    the flow outlives the route, so without this the CTA would land the visitor
+    back on their old result instead of the role picker. */
+    it('restartFlowAtom drops a finished draft back to the role picker', () => {
+        const store = createStore();
+        complete(store);
+        expect(store.get(stepAtom)).toBe('result');
+        store.set(restartFlowAtom);
+        expect(store.get(stepAtom)).toBe('role');
+        expect(store.get(roleIdAtom)).toBeNull();
+        expect(store.get(answersAtom)).toEqual({});
+    });
+
+    it('restartFlowAtom drops a half-finished draft too', () => {
+        const store = createStore();
+        store.set(flowAtom, {type: 'pickRole', roleId: RoleId.VisualDesigner});
+        store.set(flowAtom, {type: 'setText', value: EXAMPLE_COMPANY_ID});
+        store.set(flowAtom, {type: 'next'});
+        expect(store.get(positionAtom).number).toBe(2);
+        store.set(restartFlowAtom);
+        expect(store.get(stepAtom)).toBe('role');
+        expect(store.get(answersAtom)).toEqual({});
+    });
+
+    it('restarting from the role picker leaves it there', () => {
+        const store = createStore();
+        store.set(restartFlowAtom);
+        expect(store.get(stepAtom)).toBe('role');
+        expect(store.get(roleIdAtom)).toBeNull();
     });
 });

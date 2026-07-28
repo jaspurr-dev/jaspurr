@@ -1,4 +1,4 @@
-import {Link} from 'react-router';
+import {StartBuildLink} from '@components/navigation/StartBuildLink';
 import style from './BuildCta.module.css';
 
 interface BuildCtaProps {
@@ -6,9 +6,5 @@ interface BuildCtaProps {
 }
 
 export function BuildCta({label = 'Build your template'}: BuildCtaProps) {
-    return (
-        <Link to="/build" className={style.cta}>
-            {label}
-        </Link>
-    );
+    return <StartBuildLink className={style.cta}>{label}</StartBuildLink>;
 }

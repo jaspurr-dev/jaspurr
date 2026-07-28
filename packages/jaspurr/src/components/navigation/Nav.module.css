@@ -17,6 +17,13 @@
         color: var(--text-strong);
     }
 
+    .logo {
+        flex: none;
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+    }
+
     .wordmark {
         font-weight: var(--font-weight-medium);
         color: var(--text-strong);

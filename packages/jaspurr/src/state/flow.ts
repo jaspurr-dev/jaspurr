@@ -118,6 +118,13 @@ function toSelection(state: FlowState): Selection | null {
 
 export const flowAtom = atomWithReducer(INITIAL_FLOW, flowReducer);
 
+/* Start a new template. The flow lives above the router, so it survives leaving
+/build; the entry-point CTAs use this to drop the previous draft rather than
+drop the user back into it. The saved library is untouched. */
+export const restartFlowAtom = atom(null, (_get, set) => {
+    set(flowAtom, {type: 'reset'});
+});
+
 export const stepAtom = atom((get) => get(flowAtom).step);
 export const roleIdAtom = atom((get) => get(flowAtom).roleId);
 export const answersAtom = atom((get) => get(flowAtom).answers);
