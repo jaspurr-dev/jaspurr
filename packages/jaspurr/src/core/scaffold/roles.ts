@@ -12,7 +12,7 @@ const visualDesigner = {
         {
             id: 'company',
             kind: 'text',
-            prompt: 'Whose design bar are you aiming for?',
+            prompt: 'Whose design style are you aiming for?',
             placeholder: 'e.g. a product whose design you admire',
         },
         {
