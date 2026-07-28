@@ -15,13 +15,13 @@ export function RolesSection() {
     return (
         <section id="roles" className={style.section}>
             <div className={style.intro}>
-                <h2 className={style.heading}>
-                    Four roles. Each one asks different questions.
-                </h2>
+                <h2 className={style.heading}>Distinct roles.</h2>
                 <p className={style.subhead}>
-                    A designer and an engineer do not need the same brief.
-                    Jaspurr knows the difference.
+                    A designer and an engineer need completely different best
+                    practices held in context. So does an iOS Engineer vs.
+                    someone writing in Rust.
                 </p>
+                <p>New roles added regularly!</p>
             </div>
 
             <ul className={style.grid}>

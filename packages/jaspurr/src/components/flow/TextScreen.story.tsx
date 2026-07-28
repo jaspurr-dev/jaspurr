@@ -8,7 +8,7 @@ export const story: Story = {
     layer: 'components',
     render: () => (
         <TextScreen
-            stem="Whose design bar are you aiming for?"
+            stem="Whose design style are you aiming for?"
             placeholder="e.g. a product whose design you admire"
             examples={['Foobar', 'Barfoo', 'Foobarfoo']}
             value="Foobar"

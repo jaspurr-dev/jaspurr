@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Link} from 'react-router';
+import {StartBuildLink} from '@components/navigation/StartBuildLink';
 import {assembleTemplate, toText} from '@/core/scaffold/assemble';
 import {libraryToMarkdown, type SavedTemplate} from '@/state/library';
 import {sanitize} from '@/core/sanitize';
@@ -65,9 +65,9 @@ export function LibraryView({items, onDelete}: LibraryViewProps) {
                         Nothing saved yet. Build a template and hit Save to keep
                         it here.
                     </Text>
-                    <Link to="/build" className={style.cta}>
+                    <StartBuildLink className={style.cta}>
                         Build a template
-                    </Link>
+                    </StartBuildLink>
                 </div>
             ) : (
                 <>
