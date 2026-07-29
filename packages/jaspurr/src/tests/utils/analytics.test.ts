@@ -1,5 +1,5 @@
 import {afterEach, describe, expect, it, vi} from 'vitest';
-import {templateCopied, type Globals} from '@/util/analytics';
+import {trackTemplateCopied, type Globals} from '@/util/analytics';
 
 const globals: Globals = globalThis;
 
@@ -17,14 +17,14 @@ describe('templateCopied', () => {
     it('is a silent no-op when the tracker never loaded', () => {
         // The ad-blocked path, and the one the test runner itself takes.
         expect(() => {
-            templateCopied();
+            trackTemplateCopied();
         }).not.toThrow();
     });
 
     it('reports the copy exactly once on a normal route', () => {
         const spy = vi.fn();
         bindGlobals(spy);
-        templateCopied();
+        trackTemplateCopied();
         expect(spy).toHaveBeenCalledExactlyOnceWith('copy-template');
     });
 
@@ -33,9 +33,9 @@ describe('templateCopied', () => {
     it('drops events fired from the sandbox and design-token routes', () => {
         const spy = vi.fn();
         bindGlobals(spy, '/sandbox');
-        templateCopied();
+        trackTemplateCopied();
         bindGlobals(spy, '/designtokens');
-        templateCopied();
+        trackTemplateCopied();
         expect(spy).not.toHaveBeenCalled();
     });
 
@@ -44,7 +44,7 @@ describe('templateCopied', () => {
             throw new Error('blocked mid-initialisation');
         });
         expect(() => {
-            templateCopied();
+            trackTemplateCopied();
         }).not.toThrow();
     });
 });

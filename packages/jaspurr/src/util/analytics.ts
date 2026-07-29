@@ -35,6 +35,6 @@ function send(event: string): void {
     }
 }
 
-export function templateCopied(): void {
+export function trackTemplateCopied(): void {
     send('copy-template');
 }

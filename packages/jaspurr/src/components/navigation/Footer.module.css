@@ -1,0 +1,9 @@
+@layer components {
+    .footer {
+        padding: var(--space-4);
+        border-top: var(--border-width) solid var(--border);
+        color: var(--text-muted);
+        font-size: var(--font-size-300);
+        text-align: center;
+    }
+}

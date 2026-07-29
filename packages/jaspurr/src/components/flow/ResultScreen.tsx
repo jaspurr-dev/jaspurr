@@ -5,6 +5,7 @@ import {TemplateExhibit} from '@components/exhibit/TemplateExhibit';
 import {AnswerChips} from '@components/exhibit/AnswerChips';
 import {cx} from '@/util/cx';
 import style from './ResultScreen.module.css';
+import {trackTemplateCopied} from '@/util/analytics';
 
 interface ResultScreenProps {
     sections: Assembled;
@@ -49,9 +50,13 @@ export function ResultScreen({
     const onCopy = () => {
         // Ignore a rejected clipboard write (denied permission); the button
         // simply won't show "Copied!" rather than throwing.
-        void navigator.clipboard
-            .writeText(toText(sections))
-            .then(flagCopied, () => undefined);
+        void navigator.clipboard.writeText(toText(sections)).then(
+            () => {
+                flagCopied();
+                trackTemplateCopied();
+            },
+            () => undefined
+        );
     };
 
     const onSaveClick = () => {
