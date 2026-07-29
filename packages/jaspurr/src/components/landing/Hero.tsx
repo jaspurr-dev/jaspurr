@@ -17,7 +17,7 @@ export function Hero() {
             </p>
             <BuildCta />
             <p className={style.trust}>
-                Free, no sign-up, and nothing leaves your browser.
+                Free, no sign-up, and runs in your browser.
             </p>
         </section>
     );

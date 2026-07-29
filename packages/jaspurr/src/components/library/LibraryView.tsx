@@ -53,10 +53,7 @@ export function LibraryView({items, onDelete}: LibraryViewProps) {
                 <Text as="h1" className={style.title}>
                     Your library
                 </Text>
-                <Text className={style.note}>
-                    Saved in this browser only. No account, and nothing leaves
-                    your device.
-                </Text>
+                <Text className={style.note}>Saved in this browser only.</Text>
             </Stack>
 
             {items.length === 0 ? (

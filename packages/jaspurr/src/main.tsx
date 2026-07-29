@@ -20,6 +20,7 @@ import {
 } from '@/routes';
 import {getTemplate, type TemplateId} from '@/core/templates';
 import {TemplateURLPrefix} from './util/template';
+import {Privacy} from './routes/Privacy';
 
 export function templateLoader({params}: LoaderFunctionArgs) {
     const template = getTemplate(params.templateId as TemplateId);
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
             {index: true, Component: RouteHome},
             {path: 'build', Component: RouteBuild},
             {path: 'library', Component: RouteLibrary},
+            {path: 'privacy', Component: Privacy},
             {path: 'sandbox', Component: RouteSandbox},
             {path: 'designtokens', Component: RouteDesignTokens},
             {
