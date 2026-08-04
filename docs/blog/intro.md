@@ -5,14 +5,16 @@ on my desktop dev machine. Starting a new chat/session was pretty much a reflex 
 to take the results of that conversation and plug it into a new chat.
 
 I quickly learned that if you point a model or coding agent toward a task, it fills in the constraints/best practices with
-skewing toward the average and guessing to fill in the gaps. This is sometimes totally fine and even what you want -- exploring
-new concepts, a large number of combinations, market research - you want a larger possibility space for the model to explore and present its recommendations.
+skewing toward the average and guessing to fill in the gaps. This is sometimes totally fine and even what you want. It lets you explore
+new concepts, a large number of combinations, or do effective market research. It's an ideal state when you want a larger possibility space for the model to explore and present its recommendations.
 
-But for a lot of implementation-based tasks (software architecture, feature coding, visual design), I found this got me pretty generic, inconsistent, and unshippable results. Especially anything to do with code artifacts - there's a tremendous amount of combinations of LLM-generated code in a statically-typed language that will technically "compile". Go to TypeScript or Python and you start finding errors at runtime not compile-time and the LLM will hand you references to hard-coded properties on plain objects instead of clean TypeScript interfaces.
+But for a lot of implementation-based tasks (software architecture, feature coding, visual design), I found this approach got me pretty generic, inconsistent, and unshippable results. Especially anything to do with code artifacts. There's a tremendous amount of combinations of LLM-generated code in a statically-typed language that will technically "compile". Go to TypeScript or Python and you start finding errors at runtime not compile-time and the LLM will hand you references to hard-coded properties on plain objects instead of clean TypeScript interfaces.
 
-The other thing I noticed was - give an LLM a clear identity/role from the start (you are a Staff Frontend Software Engineer, or Distinguished Rust Engineer instead of no identity) and the results from the first chat improved a lot. Because that direction was in the context window, subsequent responses/turns got more consistent and had more opinionated, idiomatic suggestions instead of skewing toward a generic software engineer, who would be prone to letting anti-patterns, tech debt, and architecture concerns slip in because they weren't part of the prompt or the context.
+**The other big takeaway I noticed was what happened when you defined the chat/session with a clear identity.** Give an LLM a clear, unambigous identity/role to adopt from the start (you are a Staff Frontend Software Engineer, or Distinguished Rust Engineer instead of no identity) and the results from the first chat and subsequent turns improved a lot.
 
-In classic engineer fashion, I took these pain points and built a tool.
+Another benefit: because that direction was in the context window, following responses/turns started to sound more cohesive and would voice more opinionated, idiomatic suggestions instead of skewing toward the average. I saw this yielded a decrease in the amount of anti-patterns, tech debt, and architecture concerns because the identity acted as a guardrail of sorts. Not perfect, or deterministic but good enough to filter out bad code.
+
+**In classic engineer fashion, I took these pain points and built a tool.**
 
 # Jaspurr
 
@@ -33,34 +35,34 @@ I authored 19 pull requests before touching a single line of product code. Five 
 anything a person could use or see in a browser. Then the whole product came together in about four working days,
 and three new roles shipped in a single day.
 
-I would like to claim I planned that curve. I did not. But I have a decent
-theory about why it happened.
+**I would like to claim I planned that curve. I did not. But I have a decent
+theory about why it happened.**
 
-## Foundations are context, not ceremony
+## I built foundations deliberately and by hand
 
 Starting the project and knowing it was going to be TypeScript, I was pretty particular about the project foundations. I didn't
 want to deal with npm/yarn version mismatches locally and on CI so devcontainers. I wanted a sane CI pipeline that ran locally as well as blocking PRs from main to have a deterministic layer around any change. Tests had to exist. I wanted CSS to be consistent instead of a bunch of brittle values scattered everywhere.
 
-I knew it was unavoidable to have **some** external dependencies but I wanted a lean dependency tree - for security reasons and to have a much easier codebase to reason about that doesn't have multi-level transitive dependencies that affect functionality.
+I knew it was unavoidable to have **some** external dependencies but I wanted a lean dependency tree for security reasons and to have a much easier codebase to reason about that doesn't have multi-level transitive dependencies that affect functionality.
 
 TypeScript's kind of unique environment forces you to opt into all of these checks (via `tsc` or `eslint`) and do your own research to configure them with strict settings. I spent the time reading docs and configuring with very strict settings.
 
-For awhile, it felt like I was building tooling but not an actual tool. Then the wins started to accumulate:
+**For awhile, it felt like I was building tooling but not an actual tool. Then the wins started to accumulate:**
 
 ### Pure Functions
 
 **I had a clear separation of pure functions / state / UI so React components
 and the underlying UI are just downstream consumers of pure, TypeScript logic that is unit-tested.** My first version of the UI came together really fast and with no errors because all of the data it consumed had been tested and was stable.
 
-State followed a similar pattern - I spent a lot of time researching state libraries and eventually settled on Jotai since the graph-like structure mapped well to the way data flowed through the application. The flow through the app is modeled as a Jotai reducer:
+State followed a similar pattern, I spent a lot of time researching state libraries and eventually settled on Jotai since the graph-like structure mapped well to the way data flowed through the application. The flow through the app is modeled as a Jotai reducer:
 `(state, action) => state`. No DOM, no mocks, no render. Keeping that state logic out of the UI was huge and paid dividends later when features started landing more frequently with AI.
 
 ### Design Tokens
 
 **I spent time building a design token CSS layer.** After PR #30 there was no
-open question about what "the border colour" is. There is a token. A generated
+open question about what "the border color" is. There is a token. A generated
 component either uses it or fails review in an obvious way. This ended up being huge for self-documenting patterns in the codebase
-that agents automatically pick up instead of force-feeding via markdown.
+that agents automatically pick up instead of force-feeding via markdown in the repo.
 
 ### TypeScript data as code
 
@@ -83,7 +85,7 @@ to zero.
 
 ## The part where I do lean on the model
 
-I used Claude the whole way, and Claude Code once there was a repo worth pointing it at.
+**I used Claude the whole way, and Claude Code once there was a repo worth pointing it at.**
 
 The thing I would emphasize is that the amount of rope I gave it went _up_ as
 the scaffolding went in, and that was not a coincidence.
@@ -97,20 +99,17 @@ PRs by hand, set up CI and permissions by hand, and read every diff.
 
 ### Agentic coding wins
 
-When I did start handing over real feature work, I ran Claude Code read-only first —
-especially for refactors — so the output was a proposal I reviewed rather than a
-change I discovered later. When something was wrong I fixed it by hand instead
-of re-rolling the prompt until it looked fine.
+**When I did start handing over real feature work, I ran Claude Code read-only first, especially for refactors.** The model's output was a proposal I reviewed rather than a change I discovered later. When something was wrong at this stage, I resisted the urge to reach for the easy solution of having Claude fix it and resolved it by hand instead of re-rolling until it looked fine or seemed to work.
 
 That habit is the real win, and it is worth stating: **compiling
 is not the bar.** Code from a frontier model that typechecks and passes tests can
 still be duplicative, sloppy, or subtly not how this codebase does things. I
 pushed back on all three, constantly. The failure mode with a good model is not
-that it writes broken code — it rarely does. It is that it writes plausible code
-that quietly drags your codebase toward the average of every codebase, which includes
-anti-patterns, bad practices, and incorrect architecture.
+that it writes broken code, it rarely does. It is that it writes plausible code
+that quietly **drags your codebase toward the average of every codebase it's been trained on, which includes
+anti-patterns, bad practices, and incorrect architecture.**
 
-Today Claude Code is fully unlocked in this repo and can open its own PRs. That
+**Today, Claude Code is fully unlocked in this repo and can open its own PRs.** That
 is not because I got more relaxed. It is because there is now enough structure
 that "wrong" shows up as a failed check or an obviously code smell drift, rather
 than as something I have to notice by reading carefully at midnight.
@@ -119,12 +118,8 @@ than as something I have to notice by reading carefully at midnight.
 
 **Here is the part I did not plan.**
 
-To build the UI, I was writing long prompts to explore visual directions —
-establish a design identity, work within an existing language, give me a few
-options before committing. To build components, I was writing long prompts about
-project structure, CSS conventions, when to reach for a dependency, what
-validation to run. I learned CSS tricks I did not know from the first, and got
-faster at the second.
+To build the UI, I was writing long prompts to explore visual directions,
+establish a design identity, and trying to stay consistent with an existing language/set of CSS standards. This instinct toward consistency (similar to coding side) led to me continuing to refine and reuse prompt templates in raw Markdown that yielded the highest-fidelity results.
 
 **Those prompts are now the product.** The Visual Designer role and the Frontend
 Engineer role are cleaned-up, parameterized versions of the raw markdown prompts I had
@@ -143,4 +138,5 @@ That works, up to the point where the missing information is something structura
 
 Jaspurr is super early but I'm really excited to have other developers and technical folks working in AI try it out. If there's roles or actions you think should exist, let me know!
 
-Code: <https://github.com/jaspurr-dev/jaspurr> · Product: <https://jaspurr.dev>
+Code: <https://github.com/jaspurr-dev/jaspurr>
+Product: <https://jaspurr.dev>
