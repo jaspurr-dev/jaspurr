@@ -114,6 +114,20 @@ describe('sanitize test suite', () => {
             expect(sanitized).toBe('caf');
         });
 
+        it('disallows hidden bidirectional overrides', () => {
+            // A right-to-left override reorders what a reader sees without
+            // changing the characters, so a line like this one can render as
+            // something other than what it instructs. It goes with the rest of
+            // the non-ASCII, which is the point of the allowlist.
+            const input = 'Always check [SECU\u202ERITY.md] before shipping.';
+            const expected = 'Always check [SECURITY.md] before shipping.';
+            expect(input).not.toBe(expected);
+
+            const sanitized = sanitize(input);
+            expect(sanitized).toBe(expected);
+            expect(sanitized.length).toBe(input.length - 1);
+        });
+
         it('disallows emoji', () => {
             const input = 'a😀b';
             const len = input.length;
