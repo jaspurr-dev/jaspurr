@@ -10,3 +10,5 @@ Early development. Star the repo to follow our progress!
 ## License
 
 Apache 2.0. See [LICENSE](LICENSE).
+
+<!-- placeholder change: verifying Claude Code on the web repo setup and GitHub permissions -->
