@@ -141,6 +141,10 @@ Run from `packages/jaspurr`:
 | `pnpm build`  | Run `check`, then build to `dist/`                            |
 | `pnpm branch` | Create a conventionally-named branch and push it              |
 
+`pnpm check` is the gate the pre-commit hook and CI both run. The devcontainer
+points git at the repo's hooks automatically; outside it, run
+`git config core.hooksPath .githooks` once.
+
 ### Routes
 
 Alongside the app routes (`/`, `/build`, `/library`, `/privacy`) there are two
@@ -171,19 +175,18 @@ verified without rendering anything.
 
 ## Contributing
 
-Contributions are welcome — the fastest way to help is a new role.
+Jaspurr is early, and its shape is still moving week to week. **Code
+contributions are closed for now** while the project matures — please don't
+spend your time on a pull request yet. We'll update this section when that
+changes.
 
-1. Branch with a conventional prefix (`feat`, `fix`, `docs`, `refactor`, `test`,
-   `ci`, `chore`), e.g. `feat/add-data-scientist-role`. `pnpm branch` does this
-   for you.
-2. Make your change. A role is a single entry in
-   [`src/core/scaffold/roles.ts`](packages/jaspurr/src/core/scaffold/roles.ts):
-   its questions and its template sections.
-3. Run `pnpm check` before you push — the pre-commit hook and CI both run it,
-   and it must pass clean.
+Feedback and suggestions are very welcome in the meantime:
 
-Working in the devcontainer wires up the git hooks path automatically; if you're
-not, run `git config core.hooksPath .githooks` once.
+- **Open an issue** for a bug, a rough edge, or a role you wish existed.
+- **Tell us where a prompt fell short.** If the assembled template missed
+  something obvious for your domain, that's the most useful signal we can get —
+  paste what you got and what you expected.
+- **Star the repo** to follow along.
 
 ## License
 
