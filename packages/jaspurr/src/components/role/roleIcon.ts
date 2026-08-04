@@ -6,6 +6,7 @@ cards and the library list so the two stay in lockstep. */
 export const ROLE_ICON: Record<RoleId, IconName> = {
     [RoleId.VisualDesigner]: 'brush',
     [RoleId.FrontendEngineer]: 'code',
+    [RoleId.SoftwareEngineer]: 'braces',
     [RoleId.GameDesigner]: 'play',
     [RoleId.PmBusiness]: 'target',
 };

@@ -31,7 +31,10 @@ export function RoleCard({
             </span>
             <span className={style.name}>
                 {role.label}
-                {comingSoon && <span className={style.soon}>Soon</span>}
+                {comingSoon && <span className={style.badge}>Soon</span>}
+                {role.badge === 'new' && (
+                    <span className={cx(style.badge, style.new)}>New</span>
+                )}
             </span>
             <span className={style.line}>{role.line}</span>
         </button>

@@ -10,8 +10,12 @@ import {
     type SavedTemplate,
 } from '@/state/library';
 import type {Selection} from '@/core/scaffold/assemble';
-import {RoleId} from '@/core/scaffold/types';
-import {EXAMPLE_COMPANY_ID, EXAMPLE_SELECTION} from '@/core/scaffold/roles';
+import {RoleId, toOtherAnswer} from '@/core/scaffold/types';
+import {
+    EXAMPLE_COMPANY_ID,
+    EXAMPLE_SELECTION,
+    EXAMPLE_SOFTWARE_SELECTION,
+} from '@/core/scaffold/roles';
 
 const refresh = EXAMPLE_SELECTION;
 
@@ -30,6 +34,17 @@ describe('templateTitle', () => {
     it('combines the role label with the text answer', () => {
         expect(templateTitle(refresh)).toBe(
             `Visual designer: ${EXAMPLE_COMPANY_ID}`
+        );
+    });
+
+    /* A title has to survive a list row and a markdown `##` heading, neither of
+    which can hold the newlines a multi-line answer arrives with. */
+    it('collapses a multi-line answer onto one line', () => {
+        const title = templateTitle(EXAMPLE_SOFTWARE_SELECTION);
+        expect(title).not.toContain('\n');
+        expect(title).toBe(
+            'Software engineer: Roll a 2GB log file up by hour. ' +
+                'It has to stream -- the file will not fit in memory.'
         );
     });
 });
@@ -132,6 +147,32 @@ describe('isValidSelection', () => {
         expect(isValidSelection({roleId: RoleId.PmBusiness, answers: {}})).toBe(
             false
         );
+    });
+
+    /* Without this the language a user typed themselves would fail the guard on
+    load and their saved template would be dropped on the next visit. */
+    it('accepts text behind a select that offers an Other choice', () => {
+        expect(
+            isValidSelection({
+                ...EXAMPLE_SOFTWARE_SELECTION,
+                answers: {
+                    ...EXAMPLE_SOFTWARE_SELECTION.answers,
+                    language: toOtherAnswer('Go'),
+                },
+            })
+        ).toBe(true);
+    });
+
+    it('rejects blank text behind an Other choice', () => {
+        expect(
+            isValidSelection({
+                ...EXAMPLE_SOFTWARE_SELECTION,
+                answers: {
+                    ...EXAMPLE_SOFTWARE_SELECTION.answers,
+                    language: toOtherAnswer('   '),
+                },
+            })
+        ).toBe(false);
     });
 
     it('rejects a select answer that is not one of the options', () => {

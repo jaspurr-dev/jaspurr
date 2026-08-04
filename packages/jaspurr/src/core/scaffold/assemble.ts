@@ -1,6 +1,7 @@
 import {sanitize} from '@/core/sanitize';
 import {getRole} from './roles';
-import type {Question, Role, RoleId} from './types';
+import {fromOtherAnswer} from './types';
+import type {Question, Role, RoleId, SelectQuestion} from './types';
 
 /* The user's answers to a role's questions, keyed by question id. For a select
 question the value is the chosen option's id; for a text question it is the raw
@@ -23,8 +24,9 @@ export interface AssembledTemplate {
 }
 
 /* Turn one {id} placeholder into the text that replaces it. A select answer
-becomes the chosen option's `value` sentence; a text answer is the raw text the
-user typed (sanitized later, with the rest of the body). If the answer is
+becomes the chosen option's `value` sentence -- or, on a question with an
+"Other" choice, the text the user typed instead; a text answer is the raw text
+the user typed (sanitized later, with the rest of the body). If the answer is
 missing, or a select answer names no known option, the original `{id}` token is
 returned unchanged so a half-built selection never silently drops content. */
 function parseQuestion(
@@ -34,10 +36,19 @@ function parseQuestion(
 ): string {
     if (answer === undefined) return token;
     if (question?.kind === 'select') {
+        const other = otherTextOf(question, answer);
+        if (other !== null) return other;
         const option = question.options.find((o) => o.id === answer);
         return option ? option.value : token;
     }
     return answer;
+}
+
+/* The typed text when this answer is an "Other" one on a question that offers
+it, else null. Guarding on the question keeps a stale answer from injecting raw
+text into a select that has no escape hatch. */
+function otherTextOf(question: SelectQuestion, answer: string): string | null {
+    return question.other ? fromOtherAnswer(answer) : null;
 }
 
 function parseBody(
@@ -62,6 +73,21 @@ export function assemble(selection: Selection): Assembled {
     }));
 }
 
+/* One chip per answered select: the chosen option's label, or the user's own
+words for an "Other" answer -- which is the only thing that names it. */
+function chipFor(
+    question: SelectQuestion,
+    answer: string | undefined
+): string | undefined {
+    if (answer === undefined) return undefined;
+    const other = otherTextOf(question, answer);
+    if (other !== null) {
+        const text = sanitize(other);
+        return text.length > 0 ? text : undefined;
+    }
+    return question.options.find((o) => o.id === answer)?.label;
+}
+
 /* The chip summary: the role label plus, for each select answer, the chosen
 option's label. Text answers appear in the body (e.g. the TASK section), so they
 are not repeated as chips. */
@@ -71,8 +97,7 @@ export function assembleTemplate(selection: Selection): AssembledTemplate {
 
     const answerChips = (role?.questions ?? [])
         .filter((q) => q.kind === 'select')
-        .map((q) => q.options.find((o) => o.id === selection.answers[q.id]))
-        .map((option) => option?.label)
+        .map((q) => chipFor(q, selection.answers[q.id]))
         .filter((label): label is string => label !== undefined);
 
     const chips = role ? [role.label, ...answerChips] : answerChips;

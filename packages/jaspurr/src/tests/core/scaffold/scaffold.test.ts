@@ -1,26 +1,42 @@
 import {describe, expect, it} from 'vitest';
 import {ROLES, ROLE_LIST, getRole} from '@/core/scaffold/roles';
-import {ROLE_IDS, RoleId, type Role} from '@/core/scaffold/types';
+import {
+    ROLE_IDS,
+    RoleId,
+    type Question,
+    type Role,
+} from '@/core/scaffold/types';
 import {NOT_ALLOWED} from '@/core/sanitize';
 
 // A fresh, non-global copy so repeated .test()/.toMatch() calls stay stateless.
 const disallowed = new RegExp(NOT_ALLOWED.source);
 
+/* Every string a question puts in front of the user or into the template. */
+function questionStrings(question: Question): string[] {
+    if (question.kind === 'select') {
+        return [
+            ...question.options.flatMap((o) => [o.label, o.value]),
+            ...(question.other
+                ? [question.other.label, question.other.placeholder ?? '']
+                : []),
+        ];
+    }
+    return [question.placeholder ?? '', ...(question.examples ?? [])];
+}
+
 function roleStrings(role: Role): string[] {
-    const questionStrings = role.questions.flatMap((q) => [
+    const questions = role.questions.flatMap((q) => [
         q.prompt,
-        ...(q.kind === 'select'
-            ? q.options.flatMap((o) => [o.label, o.value])
-            : (q.examples ?? [])),
+        ...questionStrings(q),
     ]);
     const templateStrings = role.template.flatMap((s) => [s.heading, s.body]);
-    return [role.label, role.line, ...questionStrings, ...templateStrings];
+    return [role.label, role.line, ...questions, ...templateStrings];
 }
 
 describe('scaffold roles', () => {
-    it('exposes all 4 roles', () => {
-        expect(ROLE_IDS).toHaveLength(4);
-        expect(ROLE_LIST).toHaveLength(4);
+    it('exposes all 5 roles', () => {
+        expect(ROLE_IDS).toHaveLength(5);
+        expect(ROLE_LIST).toHaveLength(5);
     });
 
     it('keys every role by its own id', () => {
@@ -48,6 +64,17 @@ describe('scaffold roles', () => {
                 expect(role.template).toHaveLength(0);
             }
         }
+    });
+
+    it('asks the software engineer two questions: a long task, a language', () => {
+        const role = ROLES[RoleId.SoftwareEngineer];
+        const [task, language] = role.questions;
+        expect(role.questions).toHaveLength(2);
+        expect(role.badge).toBe('new');
+        // The task box takes more than a line, and the language list has an
+        // escape hatch, so the role is not limited to the four listed.
+        expect(task.multiline).toBe(true);
+        expect(language.other.label).toBe('Other');
     });
 
     it('gives every select question at least two options', () => {

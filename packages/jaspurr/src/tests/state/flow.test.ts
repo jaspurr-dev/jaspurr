@@ -11,7 +11,7 @@ import {
     assembledAtom,
     restartFlowAtom,
 } from '@/state/flow';
-import {RoleId} from '@/core/scaffold/types';
+import {RoleId, toOtherAnswer} from '@/core/scaffold/types';
 
 import {EXAMPLE_COMPANY_ID} from '@/core/scaffold/roles';
 
@@ -105,6 +105,27 @@ describe('flow machine', () => {
             'Feature',
             'Standard SPA',
             'Inline diff',
+        ]);
+    });
+
+    it('walks the software role: a multi-line task, then the language', () => {
+        const store = createStore();
+        store.set(flowAtom, {
+            type: 'pickRole',
+            roleId: RoleId.SoftwareEngineer,
+        });
+        expect(store.get(positionAtom)).toEqual({number: 1, total: 2});
+        store.set(flowAtom, {
+            type: 'setText',
+            value: 'Roll a log file up by hour.\nIt has to stream.',
+        });
+        store.set(flowAtom, {type: 'next'});
+        // An "Other" language answers the select with the user's own text.
+        store.set(flowAtom, {type: 'answer', value: toOtherAnswer('Go')});
+        expect(store.get(stepAtom)).toBe('result');
+        expect(store.get(assembledAtom)?.chips).toEqual([
+            'Software engineer',
+            'Go',
         ]);
     });
 

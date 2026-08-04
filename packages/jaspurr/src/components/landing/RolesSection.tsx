@@ -5,12 +5,12 @@ import {Icon} from '@components/icons/Icon';
 import {cx} from '@/util/cx';
 import style from './RolesSection.module.css';
 
-/* The grid opens on Software engineer so the selected state is visible at a
+/* The grid opens on Visual designer so the selected state is visible at a
 glance; this is a still of the flow's first step, not the step itself. */
 const SELECTED_ID = RoleId.VisualDesigner;
 
-/* Static showcase of the eight roles. Display only -- the single way in is the
-CTA, so the cards do not link or respond to taps. */
+/* Static showcase of the roles. Display only -- the single way in is the CTA,
+so the cards do not link or respond to taps. */
 export function RolesSection() {
     return (
         <section id="roles" className={style.section}>
@@ -35,7 +35,12 @@ export function RolesSection() {
                         <span className={style.iconTile}>
                             <Icon name={ROLE_ICON[role.id]} size={20} />
                         </span>
-                        <span className={style.name}>{role.label}</span>
+                        <span className={style.name}>
+                            {role.label}
+                            {role.badge === 'new' && (
+                                <span className={style.badge}>New</span>
+                            )}
+                        </span>
                     </li>
                 ))}
             </ul>

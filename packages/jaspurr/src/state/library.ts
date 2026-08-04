@@ -2,6 +2,7 @@ import {atom} from 'jotai';
 import {atomWithStorage, createJSONStorage} from 'jotai/utils';
 import {assemble, toText, type Selection} from '@/core/scaffold/assemble';
 import {getRole} from '@/core/scaffold/roles';
+import {fromOtherAnswer} from '@/core/scaffold/types';
 import type {RoleId} from '@/core/scaffold/types';
 import {sanitize} from '@/core/sanitize';
 
@@ -17,8 +18,9 @@ export interface SavedTemplate {
 }
 
 /* A persisted selection is only trustworthy if it names a ready role and
-answers every one of that role's questions with a value that still resolves:
-a real option id for a select, a non-empty string for a text question. */
+answers every one of that role's questions with a value that still resolves: a
+real option id for a select (or non-empty text behind its "Other" choice), a
+non-empty string for a text question. */
 export function isValidSelection(value: unknown): value is Selection {
     if (typeof value !== 'object' || value === null) return false;
     const s = value as Record<string, unknown>;
@@ -30,9 +32,11 @@ export function isValidSelection(value: unknown): value is Selection {
     return role.questions.every((q) => {
         const answer = answers[q.id];
         if (typeof answer !== 'string') return false;
-        return q.kind === 'select'
+        if (q.kind !== 'select') return answer.trim().length > 0;
+        const other = q.other ? fromOtherAnswer(answer) : null;
+        return other === null
             ? q.options.some((o) => o.id === answer)
-            : answer.trim().length > 0;
+            : other.trim().length > 0;
     });
 }
 
@@ -122,14 +126,14 @@ function fence(body: string): string {
 }
 
 /* The user's own text answer, if the role has one, makes the most recognizable
-title; fall back to the role label alone. */
+title; fall back to the role label alone. A multi-line answer collapses to one
+line -- it has to sit in a list row and inside a markdown `##` heading. */
 export function templateTitle(selection: Selection): string {
     const role = getRole(selection.roleId);
     if (!role) return 'Template';
     const textQuestion = role.questions.find((q) => q.kind === 'text');
-    const text = textQuestion
-        ? sanitize(selection.answers[textQuestion.id] ?? '')
-        : '';
+    const answer = textQuestion ? selection.answers[textQuestion.id] : '';
+    const text = sanitize(answer ?? '').replace(/\s+/g, ' ');
     return text ? `${role.label}: ${text}` : role.label;
 }
 

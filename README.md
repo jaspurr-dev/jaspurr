@@ -56,12 +56,13 @@ improvement the next time you open it.
 
 ## Roles
 
-| Role                  | What it's for                                                  |
-| --------------------- | -------------------------------------------------------------- |
-| **Visual designer**   | Eye-catching, intuitive design from an ex-big-tech eye         |
-| **Frontend engineer** | Staff engineer who turns designs into clean, tested components |
-| **Game designer**     | Expert designer of skill-based, systems-driven play            |
-| **PM (business)**     | Type-A technical PM optimizing for speed and business impact   |
+| Role                  | What it's for                                                    |
+| --------------------- | ---------------------------------------------------------------- |
+| **Visual designer**   | Eye-catching, intuitive design from an ex-big-tech eye           |
+| **Frontend engineer** | Staff engineer who turns designs into clean, tested components   |
+| **Software engineer** | Staff+ generalist: idiomatic code, lean deps, sharp architecture |
+| **Game designer**     | Expert designer of skill-based, systems-driven play              |
+| **PM (business)**     | Type-A technical PM optimizing for speed and business impact     |
 
 New roles are added regularly.
 

@@ -11,7 +11,7 @@ export const story: Story = {
         <Row gap="3" align="stretch" style={{maxWidth: 520}}>
             <RoleCard role={ROLES[RoleId.VisualDesigner]} />
             <RoleCard role={ROLES[RoleId.FrontendEngineer]} selected />
-            <RoleCard role={ROLES[RoleId.GameDesigner]} selected />
+            <RoleCard role={ROLES[RoleId.SoftwareEngineer]} />
         </Row>
     ),
 };

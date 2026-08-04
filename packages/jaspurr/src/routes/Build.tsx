@@ -53,8 +53,12 @@ export function RouteBuild() {
                 if (question.kind === 'select') {
                     return (
                         <QuestionScreen
+                            // Keyed so the "Other" field does not carry its
+                            // draft over into the next select question.
+                            key={question.id}
                             stem={question.prompt}
                             options={question.options}
+                            other={question.other}
                             questionNumber={position.number}
                             total={position.total}
                             selectedId={answers[question.id] ?? null}
@@ -73,6 +77,7 @@ export function RouteBuild() {
                         stem={question.prompt}
                         placeholder={question.placeholder}
                         examples={question.examples}
+                        multiline={question.multiline}
                         value={answers[question.id] ?? ''}
                         questionNumber={position.number}
                         total={position.total}
