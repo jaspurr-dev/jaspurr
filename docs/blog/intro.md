@@ -1,18 +1,20 @@
 # The pain point
 
-Like many of you, I started working with AI in chat. Sometimes, I'd be on my phone using the mobile app or other times
+Like many of you, I started working with AI in chat.
+
+Sometimes, I'd be on my phone using the mobile app or other times
 on my desktop dev machine. Starting a new chat/session was pretty much a reflex as the context window filled up or I wanted
 to take the results of that conversation and plug it into a new chat.
 
-I quickly learned that if you point a model or coding agent toward a task, it fills in the constraints/best practices with
-skewing toward the average and guessing to fill in the gaps. This is sometimes totally fine and even what you want. It lets you explore
+**I quickly learned that if you point a model or coding agent toward a task, it fills in the constraints/best practices with
+skewing toward the average and guessing to fill in the gaps.** This is sometimes totally fine and even what you want. It lets you explore
 new concepts, a large number of combinations, or do effective market research. It's an ideal state when you want a larger possibility space for the model to explore and present its recommendations.
 
-But for a lot of implementation-based tasks (software architecture, feature coding, visual design), I found this approach got me pretty generic, inconsistent, and unshippable results. Especially anything to do with code artifacts. There's a tremendous amount of combinations of LLM-generated code in a statically-typed language that will technically "compile". Go to TypeScript or Python and you start finding errors at runtime not compile-time and the LLM will hand you references to hard-coded properties on plain objects instead of clean TypeScript interfaces.
+**But for a lot of implementation-based tasks (software architecture, feature coding, visual design), I found this approach got me pretty generic, inconsistent, and unshippable results.** Especially anything to do with code artifacts. There's a tremendous amount of combinations of LLM-generated code in a statically-typed language that will technically "compile". Go to TypeScript or Python and you start finding errors at runtime not compile-time and the LLM will hand you references to hard-coded properties on plain objects instead of clean TypeScript interfaces.
 
 **The other big takeaway I noticed was what happened when you defined the chat/session with a clear identity.** Give an LLM a clear, unambigous identity/role to adopt from the start (you are a Staff Frontend Software Engineer, or Distinguished Rust Engineer instead of no identity) and the results from the first chat and subsequent turns improved a lot.
 
-Another benefit: because that direction was in the context window, following responses/turns started to sound more cohesive and would voice more opinionated, idiomatic suggestions instead of skewing toward the average. I saw this yielded a decrease in the amount of anti-patterns, tech debt, and architecture concerns because the identity acted as a guardrail of sorts. Not perfect, or deterministic but good enough to filter out bad code.
+**Another benefit: because that direction was in the context window, following responses/turns started to sound more cohesive and would voice more opinionated, idiomatic suggestions instead of skewing toward the average.** I saw this yielded a decrease in the amount of anti-patterns, tech debt, and architecture concerns because the identity acted as a guardrail of sorts. Not perfect, or deterministic but good enough to filter out bad code.
 
 **In classic engineer fashion, I took these pain points and built a tool.**
 
