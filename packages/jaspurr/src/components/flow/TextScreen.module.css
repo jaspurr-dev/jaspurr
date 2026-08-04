@@ -39,6 +39,22 @@
         font: inherit;
     }
 
+    /* The multi-line box. Taller than the single-line field, and taller again
+    on a phone, where a long answer is hardest to type into a short box. */
+    .textarea {
+        height: auto;
+        min-height: calc(var(--sz-primary-action-sm) * 3);
+        padding-block: var(--space-3);
+        line-height: var(--leading-500);
+        resize: vertical;
+    }
+
+    @media (max-width: 640px) {
+        .textarea {
+            min-height: calc(var(--sz-primary-action-sm) * 4);
+        }
+    }
+
     .input::placeholder {
         color: var(--text-muted);
     }

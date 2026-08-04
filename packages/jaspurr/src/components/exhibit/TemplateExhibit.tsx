@@ -7,7 +7,8 @@ interface TemplateExhibitProps {
 }
 
 /* The assembled prompt shown in monospace. The TASK section -- the only part
-that comes from the user's free-text line -- is highlighted and tagged. */
+that comes from the user's own free text, one line or many -- is highlighted
+and tagged. */
 export function TemplateExhibit({sections}: TemplateExhibitProps) {
     return (
         <div className={style.exhibit}>
@@ -22,7 +23,7 @@ export function TemplateExhibit({sections}: TemplateExhibitProps) {
                                 {section.heading}
                             </span>
                             {isTask && (
-                                <span className={style.tag}>your one line</span>
+                                <span className={style.tag}>your words</span>
                             )}
                         </div>
                         <pre className={style.body}>{section.body}</pre>

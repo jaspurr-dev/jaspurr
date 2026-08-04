@@ -5,13 +5,14 @@ import {
     toText,
     type Selection,
 } from '@/core/scaffold/assemble';
-import {RoleId} from '@/core/scaffold/types';
+import {RoleId, toOtherAnswer} from '@/core/scaffold/types';
 import {
     EXAMPLE_COMPANY_ID,
     EXAMPLE_SELECTION,
     EXAMPLE_FRONTEND_SELECTION,
     EXAMPLE_GAME_SELECTION,
     EXAMPLE_PM_SELECTION,
+    EXAMPLE_SOFTWARE_SELECTION,
 } from '@/core/scaffold/roles';
 
 const designer = EXAMPLE_SELECTION;
@@ -160,5 +161,57 @@ describe('frontend engineer', () => {
                 '2026 analysis',
             ]);
         });
+    });
+});
+
+describe('software engineer', () => {
+    const engineer = EXAMPLE_SOFTWARE_SELECTION;
+
+    /* Same role, but a language that is not one of the four listed. */
+    const inGo: Selection = {
+        roleId: RoleId.SoftwareEngineer,
+        answers: {...engineer.answers, language: toOtherAnswer('Go')},
+    };
+
+    it('keeps a multi-line task answer intact in the TASK body', () => {
+        expect(bodyOf(engineer, 'TASK')).toBe(engineer.answers.task);
+    });
+
+    it('substitutes a listed language with its own name', () => {
+        expect(bodyOf(engineer, 'LANGUAGE')).toContain('You write Rust.');
+    });
+
+    it('substitutes an Other language with what the user typed', () => {
+        expect(bodyOf(inGo, 'LANGUAGE')).toContain('You write Go.');
+    });
+
+    it('leaves the token in place when a select has no Other choice', () => {
+        // The frontend stack question takes option ids only, so an encoded
+        // answer there resolves to nothing rather than injecting raw text.
+        const stack: Selection = {
+            roleId: RoleId.FrontendEngineer,
+            answers: {
+                ...EXAMPLE_FRONTEND_SELECTION.answers,
+                stack: toOtherAnswer('Svelte'),
+            },
+        };
+        expect(bodyOf(stack, 'DEPENDENCIES')).toContain('{stack}');
+    });
+
+    it('chips the language -- the typed one by name -- but not the task', () => {
+        expect(assembleTemplate(engineer).chips).toEqual([
+            'Software engineer',
+            'Rust',
+        ]);
+        expect(assembleTemplate(inGo).chips).toEqual([
+            'Software engineer',
+            'Go',
+        ]);
+    });
+
+    it('spells out the context handoff and its verbose form', () => {
+        const text = toText(assemble(engineer));
+        expect(text).toContain('CONTEXT HANDOFF');
+        expect(text).toContain('"context verbose"');
     });
 });

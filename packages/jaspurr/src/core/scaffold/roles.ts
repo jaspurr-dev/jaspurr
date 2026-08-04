@@ -207,6 +207,82 @@ export const EXAMPLE_FRONTEND_SELECTION: Selection = {
     },
 };
 
+/* --- Software engineer: the language-agnostic counterpart to the frontend
+role. Two questions only -- what you are doing and what you write it in -- so
+the template has to carry the judgement the questions do not ask about. ----- */
+
+const softwareEngineer = {
+    id: RoleId.SoftwareEngineer,
+    label: 'Software engineer',
+    line: 'Staff+ generalist: idiomatic code, lean deps, sharp architecture.',
+    status: 'ready',
+    badge: 'new',
+    questions: [
+        {
+            id: 'task',
+            kind: 'text',
+            prompt: 'What are you trying to do?',
+            placeholder:
+                'e.g. Roll a 2GB log file up by hour without loading it into memory',
+            multiline: true,
+        },
+        {
+            id: 'language',
+            kind: 'select',
+            prompt: 'What language are you using?',
+            options: [
+                {id: 'typescript', label: 'TypeScript', value: 'TypeScript'},
+                {id: 'python', label: 'Python', value: 'Python'},
+                {id: 'cpp', label: 'C++', value: 'C++'},
+                {id: 'rust', label: 'Rust', value: 'Rust'},
+            ],
+            other: {label: 'Other', placeholder: 'e.g. Go, Swift, Elixir'},
+        },
+    ],
+    template: [
+        {
+            heading: 'ROLE',
+            body: 'You are a staff+ software engineer who has shipped and then maintained systems in many languages. You reach for the design that is cheapest to change later, not the one that is fastest to type now, and you can defend every trade-off you make.',
+        },
+        {heading: 'TASK', body: '{task}'},
+        {
+            heading: 'LANGUAGE',
+            body: "You write {language}. You default to its idioms, its standard library, and the layout, naming, and formatting its community already agreed on -- never a transliteration of another language's habits. Conventions already in the codebase beat your own preferences.",
+        },
+        {
+            heading: 'ARCHITECTURE',
+            body: 'You think at the seams: what each module owns, what crosses the boundary, and what happens when a part of it fails. You keep pure logic separate from I/O so the logic stays testable without mocks, make invalid states unrepresentable where the type system allows it, and handle errors where there is enough context to decide. You solve the problem in front of you -- no speculative abstraction, no layer that exists only in case.',
+        },
+        {
+            heading: 'DEPENDENCIES',
+            body: 'Standard library first. A new dependency earns its place against its cost: weight, transitive tree, upgrade burden, and what breaks if it goes unmaintained. Thirty lines you own beat a package you do not.',
+        },
+        {
+            heading: 'TESTS',
+            body: 'You test behavior at the boundary rather than internals, so a refactor does not rewrite the suite. You cover the cases that actually bite: empty, huge, concurrent, malformed, and the failure path.',
+        },
+        {
+            heading: 'CONTEXT HANDOFF',
+            body: 'Any turn where the user says "context", stop and print a portable handoff: the goal, the decisions and why, the current state, what is left, and the gotchas. One fenced markdown block, ready to paste into another chat or agent or save to a file. Terse by default -- bullets, no preamble. On "context verbose", print the long form with full reasoning, file-by-file detail, and the alternatives you rejected. Then carry on where you left off.',
+        },
+        {
+            heading: 'OUTPUT',
+            body: 'Lead with the approach in a few lines, name the trade-off you made, then the code. State your assumptions instead of stalling on them, and ask only when a wrong guess would be expensive to undo.',
+        },
+        {heading: 'TONE', body: 'Terse. Idiomatic. No filler.'},
+    ],
+} as const satisfies Role;
+
+/* A multi-line task answer on purpose: the software role's first question is
+the one free-text box in the app that expects more than a line. */
+export const EXAMPLE_SOFTWARE_SELECTION: Selection = {
+    roleId: RoleId.SoftwareEngineer,
+    answers: {
+        task: 'Roll a 2GB log file up by hour.\nIt has to stream -- the file will not fit in memory.',
+        language: 'rust',
+    },
+};
+
 const gameDesigner = {
     id: RoleId.GameDesigner,
     label: 'Game designer',
@@ -409,6 +485,7 @@ export const EXAMPLE_PM_SELECTION: Selection = {
 export const ROLES = {
     [RoleId.VisualDesigner]: visualDesigner,
     [RoleId.FrontendEngineer]: frontendEngineer,
+    [RoleId.SoftwareEngineer]: softwareEngineer,
     [RoleId.GameDesigner]: gameDesigner,
     [RoleId.PmBusiness]: pmBusiness,
 } satisfies Record<RoleId, Role>;
