@@ -21,9 +21,9 @@ new concepts, a large number of combinations, or do effective market research. I
 # Jaspurr
 
 Jaspurr is a small web app: you pick a role, answer a few questions (depending on the role), and get a structured prompt to paste
-into whatever model you use. First commit **2026-06-03**, **~85 PRs**, **one person**.
+into whatever model you use. First commit **2026-06-03**, **~90 PRs**, **one person**.
 
-Here is the rough shape of those **~85 PRs**, which turned out to be the most interesting thing about the project:
+Here is the rough shape of those **~90 PRs**, which turned out to be the most interesting thing about the project:
 
 | PRs    | When      | What landed                                                                                                              |
 | ------ | --------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -42,7 +42,7 @@ theory about why it happened.**
 
 ## I built foundations deliberately and by hand
 
-Starting the project and knowing it was going to be TypeScript, I was pretty particular about the project foundations. I didn't
+**Starting the project and knowing it was going to be TypeScript, I was pretty particular about the project foundations.** I didn't
 want to deal with npm/yarn version mismatches locally and on CI so devcontainers. I wanted a sane CI pipeline that ran locally as well as blocking PRs from main to have a deterministic layer around any change. Tests had to exist. I wanted CSS to be consistent instead of a bunch of brittle values scattered everywhere.
 
 I knew it was unavoidable to have **some** external dependencies but I wanted a lean dependency tree for security reasons and to have a much easier codebase to reason about that doesn't have multi-level transitive dependencies that affect functionality.
@@ -68,7 +68,7 @@ that agents automatically pick up instead of force-feeding via markdown in the r
 
 ### TypeScript data as code
 
-**I knew early that I wanted the roles themselves to be data as code.** I didn't want a run-time fetch externally so the content would be bundled into the application. JSON/YAML means you have to parse, validate and map via Zod or something else. TypeScript `satisfies` + `tsc` gives us these checks for free at compile-time, not run-time.
+**I also knew early that I wanted the roles themselves to be data as code.** I didn't want a run-time fetch externally so the content would be bundled into the application. JSON/YAML means you have to parse, validate and map via Zod or something else. TypeScript `satisfies` + `tsc` gives us these checks for free at compile-time, not run-time.
 
 The roles themselves (Software Engineer, Designer,etc.) are plain data,
 written as `as const satisfies Role`. A select question missing its options, a
@@ -78,21 +78,21 @@ section missing a heading, a status outside `'ready' | 'coming-soon'` results in
 
 **A gate makes "looks right" and "is right" the same check.** `pnpm check` runs
 lint, typecheck and tests. It runs on a pre-commit hook and again in CI on every
-PR. This matters more than it sounds like it does, and I will come back to it.
+PR. This matters more than it sounds like, and I'll circle back to it later.
 
-None of that is particularly novel. It is the boring list. The point is the ordering: all of
+None of the early-project steps are particularly novel. It is the boring list of things we know we _should_ do before writing code. The point is the ordering discipline: all of
 it existed _before_ there was a product to build, which meant that when I did
 start building the product, the number of open questions per feature was close
 to zero.
 
 ## The part where I do lean on the model
 
-**I used Claude the whole way, and Claude Code once there was a repo worth pointing it at.**
+**I used Claude the whole project, and Claude Code once there was a repo mature enough to point at.**
 
-The thing I would emphasize is that the amount of rope I gave it went _up_ as
+The thing I would emphasize is that the amount of rope I gave Claude went _up_ as
 the scaffolding went in, and that was not a coincidence.
 
-Early on it was a pair programmer and a second opinion, not an author. Gut
+Early on Claude was a pair programmer and a second opinion, not an author. Gut
 checks on what idiomatic TypeScript looks like for a given shape. A second read
 on a dependency choice, never the deciding one. I'd still go and look at docs externally
 to validate and question the findings. Bash plumbing for the check and
@@ -103,17 +103,20 @@ PRs by hand, set up CI and permissions by hand, and read every diff.
 
 **When I did start handing over real feature work, I ran Claude Code read-only first, especially for refactors.** The model's output was a proposal I reviewed rather than a change I discovered later. When something was wrong at this stage, I resisted the urge to reach for the easy solution of having Claude fix it and resolved it by hand instead of re-rolling until it looked fine or seemed to work.
 
-That habit is the real win, and it is worth stating: **compiling
-is not the bar.** Code from a frontier model that typechecks and passes tests can
+That discipline habit is the real win: **compiling
+is not the bar, writing maintainable, well-tested, and scoped code is.**
+
+Code from a frontier model that typechecks and passes tests can
 still be duplicative, sloppy, or subtly not how this codebase does things. I
-pushed back on all three, constantly. The failure mode with a good model is not
-that it writes broken code, it rarely does. It is that it writes plausible code
-that quietly **drags your codebase toward the average of every codebase it's been trained on, which includes
-anti-patterns, bad practices, and incorrect architecture.**
+pushed back on all three, constantly.
+
+The failure mode with a good / bleeding-edge model is not
+that it writes broken code, it rarely does (especially on the upper-tier reasoning models). It is that it writes plausible code, almost too perfect, and
+that quietly **drags your codebase toward the average of every codebase it's been trained on.** When you dig deeper, you start seeing PRs which includes all of the fun anti-patterns, bad practices, and misapplied fancy architecture or unnecessary syntactic sugar present in the data.
 
 **Today, Claude Code is fully unlocked in this repo and can open its own PRs.** That
-is not because I got more relaxed. It is because there is now enough structure
-that "wrong" shows up as a failed check or an obviously code smell drift, rather
+is not because I got more relaxed. It is because there is now enough structure baked into the repo itself
+that "wrong" shows up as a failed check on the local/CI pipeline or an obvious drift from the idiomatic code shape, rather
 than as something I have to notice by reading carefully at midnight.
 
 ## The tool kind of built itself
@@ -128,8 +131,7 @@ Engineer role are cleaned-up, parameterized versions of the raw markdown prompts
 already been pasting into Claude to build Jaspurr itself. The questions each
 role asks are the questions I kept having to answer by hand.
 
-Which is a small thing, but it is the most honest signal I have that the idea is
-not made up: **the tool's first real user was the project that made it.**
+It's a small detail but it is the most pure signal I have that Jaspurr has validity: **the tool's first real user was the project that made it.**
 
 ## Going forward
 
