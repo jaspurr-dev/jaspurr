@@ -83,7 +83,9 @@ describe('scaffold roles', () => {
         const [customer, priority] = role.questions;
         expect(role.questions).toHaveLength(2);
         expect(role.badge).toBe('new');
+        // Who they are plus what hurts, in one box, so it gets a tall one.
         expect(customer.kind).toBe('text');
+        expect(customer.multiline).toBe(true);
         // A deal can turn on something none of the four options name.
         expect(priority.other.label).toBe('Other');
     });
