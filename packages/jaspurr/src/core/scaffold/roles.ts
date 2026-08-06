@@ -216,7 +216,6 @@ const softwareEngineer = {
     label: 'Software engineer',
     line: 'Staff+ generalist: idiomatic code, lean deps, sharp architecture.',
     status: 'ready',
-    badge: 'new',
     questions: [
         {
             id: 'task',
@@ -482,12 +481,120 @@ export const EXAMPLE_PM_SELECTION: Selection = {
     },
 };
 
+/* --- Sales engineer: the one customer-facing role. Three questions -- who is
+buying, what actually decides the deal, and what to hand back. Everything else
+that shapes a recommendation (the product line and its pricing, the incumbent,
+who signs) belongs to a conversation the user has not had yet, so the template
+makes the model ask for it rather than the flow guessing at it up front. ---- */
+
+const salesEngineer = {
+    id: RoleId.SalesEngineer,
+    label: 'Sales engineer',
+    line: 'Consultative pre-sales eye that fits the product to the customer.',
+    status: 'ready',
+    badge: 'new',
+    questions: [
+        {
+            id: 'customer',
+            kind: 'text',
+            prompt: 'Who is the customer and what do they need?',
+            placeholder:
+                'e.g. A 200-person fintech drowning in manual KYC reviews',
+        },
+        {
+            id: 'priority',
+            kind: 'select',
+            prompt: 'What will decide this deal for them?',
+            options: [
+                {
+                    id: 'cost',
+                    label: 'Cost',
+                    value: 'Cost decides it: they need the lowest total cost of ownership that still clears the bar.',
+                },
+                {
+                    id: 'speed',
+                    label: 'Time to value',
+                    value: 'Time to value decides it: they need something live and paying off quickly, even if it is not the endgame.',
+                },
+                {
+                    id: 'scale',
+                    label: 'Scale',
+                    value: 'Scale decides it: the solution has to hold up at their volume and stay predictable as they grow.',
+                },
+                {
+                    id: 'compliance',
+                    label: 'Security/compliance',
+                    value: 'Security and compliance decide it: the solution has to survive their review before anything else counts.',
+                },
+            ],
+            other: {
+                label: 'Other',
+                placeholder: 'e.g. has to integrate with their ERP',
+            },
+        },
+        {
+            id: 'output',
+            kind: 'select',
+            prompt: 'What should I hand back?',
+            options: [
+                {
+                    id: 'recommendation',
+                    label: 'Recommendation',
+                    value: 'Output one recommended solution: what to propose, how it is configured, why it beats the alternatives for this customer, and what it costs them.',
+                },
+                {
+                    id: 'comparison',
+                    label: 'Options compared',
+                    value: 'Output the viable options side by side, scored against what this customer actually cares about, ending on one clear recommendation.',
+                },
+                {
+                    id: 'proposal',
+                    label: 'Customer-ready proposal',
+                    value: 'Output a customer-ready proposal: the recommendation in their language, the business case behind it, and the objections to expect with an answer to each.',
+                },
+            ],
+        },
+    ],
+    template: [
+        {
+            heading: 'ROLE',
+            body: 'You are a senior sales engineer. You sit between the customer and the product line, and you are the one person in the room who will call a deal a bad fit. You win by recommending what actually solves the problem, because a customer sold the wrong thing churns and takes the reference with them.',
+        },
+        {heading: 'CUSTOMER', body: '{customer}'},
+        {heading: 'DECISION DRIVER', body: '{priority}'},
+        {
+            heading: 'DISCOVERY',
+            body: 'Before recommending anything, ask what you do not know -- no more than three questions at a time, and only the ones whose answer would change the recommendation. What breaks today and what that costs them. Who signs and who can block. What they already run that this has to live beside. The deadline, and what happens if it slips.\n\nSeparate what they ask for from what they need: a stated want is the customer guessing at a solution, and the requirement underneath it is often met by something cheaper or already in their stack. Play back what you heard in one line and let them correct you before you build on it.',
+        },
+        {
+            heading: 'FIT',
+            body: 'You recommend the smallest configuration that clears the bar, and you name what it does not cover. Where the fit is genuinely poor, say so and say what would fix it -- a different tier, a partner, an integration, or walking away. Every claim is one you could defend in a technical review: no capability you have not confirmed, no number you cannot source.',
+        },
+        {
+            heading: 'CONSTRAINTS',
+            body: 'Ask the user for the product line to recommend from -- the tiers, the limits, and the pricing -- and work strictly inside it. Until you have it, say plainly that you are reasoning from a generic catalog, and ask for the real one before the recommendation is treated as final.\n\nAsk what the customer runs today and whether an evaluation is already underway: the recommendation has to beat what is on the table, not a blank slate.',
+        },
+        {heading: 'OUTPUT', body: '{output}'},
+        {heading: 'TONE', body: 'Consultative. Specific. No hype.'},
+    ],
+} as const satisfies Role;
+
+export const EXAMPLE_SALES_SELECTION: Selection = {
+    roleId: RoleId.SalesEngineer,
+    answers: {
+        customer: 'A 200-person fintech drowning in manual KYC reviews',
+        priority: 'compliance',
+        output: 'comparison',
+    },
+};
+
 export const ROLES = {
     [RoleId.VisualDesigner]: visualDesigner,
     [RoleId.FrontendEngineer]: frontendEngineer,
     [RoleId.SoftwareEngineer]: softwareEngineer,
     [RoleId.GameDesigner]: gameDesigner,
     [RoleId.PmBusiness]: pmBusiness,
+    [RoleId.SalesEngineer]: salesEngineer,
 } satisfies Record<RoleId, Role>;
 
 export const ROLE_LIST: readonly Role[] = Object.values(ROLES);
