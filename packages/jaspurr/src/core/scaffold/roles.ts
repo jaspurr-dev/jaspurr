@@ -272,8 +272,8 @@ const softwareEngineer = {
     ],
 } as const satisfies Role;
 
-/* A multi-line task answer on purpose: the software role's first question is
-the one free-text box in the app that expects more than a line. */
+/* A multi-line task answer on purpose: this is one of the free-text boxes in
+the app that expects more than a line. */
 export const EXAMPLE_SOFTWARE_SELECTION: Selection = {
     roleId: RoleId.SoftwareEngineer,
     answers: {
@@ -503,6 +503,9 @@ const salesEngineer = {
             prompt: 'Who is the customer and what do they need?',
             placeholder:
                 'e.g. A 200-person fintech drowning in manual KYC reviews',
+            /* Two things in one box -- who they are and what hurts -- and the
+            answer is the only account context the model gets. It runs long. */
+            multiline: true,
         },
         {
             id: 'priority',
