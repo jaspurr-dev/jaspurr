@@ -9,4 +9,5 @@ export const ROLE_ICON: Record<RoleId, IconName> = {
     [RoleId.SoftwareEngineer]: 'braces',
     [RoleId.GameDesigner]: 'play',
     [RoleId.PmBusiness]: 'target',
+    [RoleId.SalesEngineer]: 'users',
 };

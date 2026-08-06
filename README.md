@@ -63,6 +63,7 @@ improvement the next time you open it.
 | **Software engineer** | Staff+ generalist: idiomatic code, lean deps, sharp architecture |
 | **Game designer**     | Expert designer of skill-based, systems-driven play              |
 | **PM (business)**     | Type-A technical PM optimizing for speed and business impact     |
+| **Sales engineer**    | Consultative pre-sales eye that fits the product to the customer |
 
 New roles are added regularly.
 

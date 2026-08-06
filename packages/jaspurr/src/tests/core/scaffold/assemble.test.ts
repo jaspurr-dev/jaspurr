@@ -12,6 +12,7 @@ import {
     EXAMPLE_FRONTEND_SELECTION,
     EXAMPLE_GAME_SELECTION,
     EXAMPLE_PM_SELECTION,
+    EXAMPLE_SALES_SELECTION,
     EXAMPLE_SOFTWARE_SELECTION,
 } from '@/core/scaffold/roles';
 
@@ -213,5 +214,67 @@ describe('software engineer', () => {
         const text = toText(assemble(engineer));
         expect(text).toContain('CONTEXT HANDOFF');
         expect(text).toContain('"context verbose"');
+    });
+});
+
+describe('sales engineer', () => {
+    const sales = EXAMPLE_SALES_SELECTION;
+
+    /* Same customer, but a driver none of the four options name. */
+    const withErp: Selection = {
+        roleId: RoleId.SalesEngineer,
+        answers: {...sales.answers, priority: toOtherAnswer('their ERP')},
+    };
+
+    it('fills the free-text customer into the CUSTOMER body', () => {
+        expect(bodyOf(sales, 'CUSTOMER')).toBe(sales.answers.customer);
+    });
+
+    it('resolves the decision driver into its own section', () => {
+        expect(bodyOf(sales, 'DECISION DRIVER')).toContain(
+            'Security and compliance decide it'
+        );
+    });
+
+    it('substitutes an Other driver with what the user typed', () => {
+        expect(bodyOf(withErp, 'DECISION DRIVER')).toBe('their ERP');
+    });
+
+    it('asks about needs before recommending, and caps the questions', () => {
+        const text = toText(assemble(sales));
+        expect(bodyOf(sales, 'DISCOVERY')).toContain(
+            'no more than three questions at a time'
+        );
+        // The wants-vs-needs split is the whole point of the role.
+        expect(text).toContain(
+            'Separate what they ask for from what they need'
+        );
+    });
+
+    it('recommends inside the seller catalog rather than inventing one', () => {
+        expect(bodyOf(sales, 'CONSTRAINTS')).toContain(
+            'the product line to recommend from'
+        );
+    });
+
+    /* The flow asks for no deliverable, so the shape is fixed here: one
+    recommendation, with the other formats offered afterwards rather than
+    chosen before the user has seen anything. */
+    it('lands on one recommendation and offers the rest as a follow-up', () => {
+        const output = bodyOf(sales, 'OUTPUT');
+        expect(output).toContain('Lead with one recommendation');
+        expect(output).toContain('Offer it once and wait');
+        expect(output).not.toContain('{output}');
+    });
+
+    it('chips the driver -- the typed one by name -- but not the customer', () => {
+        expect(assembleTemplate(sales).chips).toEqual([
+            'Sales engineer',
+            'Security/compliance',
+        ]);
+        expect(assembleTemplate(withErp).chips).toEqual([
+            'Sales engineer',
+            'their ERP',
+        ]);
     });
 });

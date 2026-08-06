@@ -4,6 +4,7 @@ export const RoleId = {
     SoftwareEngineer: 'software-engineer',
     GameDesigner: 'game-designer',
     PmBusiness: 'pm-business',
+    SalesEngineer: 'sales-engineer',
 } as const;
 export type RoleId = (typeof RoleId)[keyof typeof RoleId];
 export const ROLE_IDS = Object.values(RoleId);

@@ -34,9 +34,9 @@ function roleStrings(role: Role): string[] {
 }
 
 describe('scaffold roles', () => {
-    it('exposes all 5 roles', () => {
-        expect(ROLE_IDS).toHaveLength(5);
-        expect(ROLE_LIST).toHaveLength(5);
+    it('exposes all 6 roles', () => {
+        expect(ROLE_IDS).toHaveLength(6);
+        expect(ROLE_LIST).toHaveLength(6);
     });
 
     it('keys every role by its own id', () => {
@@ -70,11 +70,28 @@ describe('scaffold roles', () => {
         const role = ROLES[RoleId.SoftwareEngineer];
         const [task, language] = role.questions;
         expect(role.questions).toHaveLength(2);
-        expect(role.badge).toBe('new');
         // The task box takes more than a line, and the language list has an
         // escape hatch, so the role is not limited to the four listed.
         expect(task.multiline).toBe(true);
         expect(language.other.label).toBe('Other');
+    });
+
+    it('asks the sales engineer two questions: the customer, the driver', () => {
+        // Anything else the recommendation needs -- the catalog, the incumbent,
+        // the shape of the deliverable -- the template has the model ask for.
+        const role = ROLES[RoleId.SalesEngineer];
+        const [customer, priority] = role.questions;
+        expect(role.questions).toHaveLength(2);
+        expect(role.badge).toBe('new');
+        expect(customer.kind).toBe('text');
+        // A deal can turn on something none of the four options name.
+        expect(priority.other.label).toBe('Other');
+    });
+
+    /* Only the newest role wears it, so the grid never shows two. */
+    it('badges exactly one role as new', () => {
+        const badged = ROLE_LIST.filter((role) => role.badge === 'new');
+        expect(badged).toHaveLength(1);
     });
 
     it('gives every select question at least two options', () => {
