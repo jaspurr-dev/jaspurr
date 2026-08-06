@@ -255,19 +255,26 @@ describe('sales engineer', () => {
         expect(bodyOf(sales, 'CONSTRAINTS')).toContain(
             'the product line to recommend from'
         );
-        expect(bodyOf(sales, 'OUTPUT')).toContain('one clear recommendation');
     });
 
-    it('chips the two selects -- the typed driver by name -- not the customer', () => {
+    /* The flow asks for no deliverable, so the shape is fixed here: one
+    recommendation, with the other formats offered afterwards rather than
+    chosen before the user has seen anything. */
+    it('lands on one recommendation and offers the rest as a follow-up', () => {
+        const output = bodyOf(sales, 'OUTPUT');
+        expect(output).toContain('Lead with one recommendation');
+        expect(output).toContain('Offer it once and wait');
+        expect(output).not.toContain('{output}');
+    });
+
+    it('chips the driver -- the typed one by name -- but not the customer', () => {
         expect(assembleTemplate(sales).chips).toEqual([
             'Sales engineer',
             'Security/compliance',
-            'Options compared',
         ]);
         expect(assembleTemplate(withErp).chips).toEqual([
             'Sales engineer',
             'their ERP',
-            'Options compared',
         ]);
     });
 });

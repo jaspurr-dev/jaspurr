@@ -129,27 +129,25 @@ describe('flow machine', () => {
         ]);
     });
 
-    it('walks the sales role: the customer, then two selects', () => {
+    it('walks the sales role: the customer, then the decision driver', () => {
         const store = createStore();
         store.set(flowAtom, {type: 'pickRole', roleId: RoleId.SalesEngineer});
-        expect(store.get(positionAtom)).toEqual({number: 1, total: 3});
+        expect(store.get(positionAtom)).toEqual({number: 1, total: 2});
         store.set(flowAtom, {
             type: 'setText',
             value: 'A 200-person fintech drowning in manual KYC reviews',
         });
         store.set(flowAtom, {type: 'next'});
-        // An "Other" driver answers the select with the user's own text.
+        // An "Other" driver answers the select with the user's own text, and
+        // the last select ends the flow -- there is no format question after it.
         store.set(flowAtom, {
             type: 'answer',
             value: toOtherAnswer('their ERP'),
         });
-        expect(store.get(positionAtom).number).toBe(3);
-        store.set(flowAtom, {type: 'answer', value: 'comparison'});
         expect(store.get(stepAtom)).toBe('result');
         expect(store.get(assembledAtom)?.chips).toEqual([
             'Sales engineer',
             'their ERP',
-            'Options compared',
         ]);
     });
 

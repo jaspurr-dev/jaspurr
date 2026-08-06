@@ -481,11 +481,14 @@ export const EXAMPLE_PM_SELECTION: Selection = {
     },
 };
 
-/* --- Sales engineer: the one customer-facing role. Three questions -- who is
-buying, what actually decides the deal, and what to hand back. Everything else
-that shapes a recommendation (the product line and its pricing, the incumbent,
-who signs) belongs to a conversation the user has not had yet, so the template
-makes the model ask for it rather than the flow guessing at it up front. ---- */
+/* --- Sales engineer: the one customer-facing role. Two questions -- who is
+buying and what actually decides the deal. Everything else that shapes a
+recommendation (the product line and its pricing, the incumbent, who signs)
+belongs to a conversation the user has not had yet, so the template makes the
+model ask for it rather than the flow guessing at it up front. No format
+question either: picking a deliverable before you know what the answer is is a
+decision nobody can make yet, so OUTPUT fixes the shape and lets the model
+offer the alternatives once it has something to show. ---------------------- */
 
 const salesEngineer = {
     id: RoleId.SalesEngineer,
@@ -532,28 +535,6 @@ const salesEngineer = {
                 placeholder: 'e.g. has to integrate with their ERP',
             },
         },
-        {
-            id: 'output',
-            kind: 'select',
-            prompt: 'What should I hand back?',
-            options: [
-                {
-                    id: 'recommendation',
-                    label: 'Recommendation',
-                    value: 'Output one recommended solution: what to propose, how it is configured, why it beats the alternatives for this customer, and what it costs them.',
-                },
-                {
-                    id: 'comparison',
-                    label: 'Options compared',
-                    value: 'Output the viable options side by side, scored against what this customer actually cares about, ending on one clear recommendation.',
-                },
-                {
-                    id: 'proposal',
-                    label: 'Customer-ready proposal',
-                    value: 'Output a customer-ready proposal: the recommendation in their language, the business case behind it, and the objections to expect with an answer to each.',
-                },
-            ],
-        },
     ],
     template: [
         {
@@ -574,7 +555,10 @@ const salesEngineer = {
             heading: 'CONSTRAINTS',
             body: 'Ask the user for the product line to recommend from -- the tiers, the limits, and the pricing -- and work strictly inside it. Until you have it, say plainly that you are reasoning from a generic catalog, and ask for the real one before the recommendation is treated as final.\n\nAsk what the customer runs today and whether an evaluation is already underway: the recommendation has to beat what is on the table, not a blank slate.',
         },
-        {heading: 'OUTPUT', body: '{output}'},
+        {
+            heading: 'OUTPUT',
+            body: 'Lead with one recommendation and commit to it: what to propose, how it is configured, why it beats the alternatives for this customer, and what it costs them. Carry the runners-up only as far as it takes to defend the pick.\n\nThen offer, in one line, to reshape it for whatever comes next -- the options side by side, a customer-ready proposal with the business case and the objections to expect, or a technical deep dive on the fit. Offer it once and wait; do not write all of them.',
+        },
         {heading: 'TONE', body: 'Consultative. Specific. No hype.'},
     ],
 } as const satisfies Role;
@@ -584,7 +568,6 @@ export const EXAMPLE_SALES_SELECTION: Selection = {
     answers: {
         customer: 'A 200-person fintech drowning in manual KYC reviews',
         priority: 'compliance',
-        output: 'comparison',
     },
 };
 

@@ -76,17 +76,16 @@ describe('scaffold roles', () => {
         expect(language.other.label).toBe('Other');
     });
 
-    it('asks the sales engineer three questions and no more', () => {
-        // The customer, what decides the deal, and the deliverable. Anything
-        // else the recommendation needs, the template has the model ask for.
+    it('asks the sales engineer two questions: the customer, the driver', () => {
+        // Anything else the recommendation needs -- the catalog, the incumbent,
+        // the shape of the deliverable -- the template has the model ask for.
         const role = ROLES[RoleId.SalesEngineer];
-        const [customer, priority, output] = role.questions;
-        expect(role.questions).toHaveLength(3);
+        const [customer, priority] = role.questions;
+        expect(role.questions).toHaveLength(2);
         expect(role.badge).toBe('new');
         expect(customer.kind).toBe('text');
         // A deal can turn on something none of the four options name.
         expect(priority.other.label).toBe('Other');
-        expect(output.kind).toBe('select');
     });
 
     /* Only the newest role wears it, so the grid never shows two. */
